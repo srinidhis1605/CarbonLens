@@ -17,6 +17,7 @@ if (fs.existsSync(envPath)) {
     });
 }
 
+
 // Also try dotenv as backup
 require('dotenv').config({ path: envPath });
 
@@ -42,6 +43,16 @@ db.connect((err) => {
     }
     console.log('Successfully connected to MySQL Database!');
 });
+
+// Make db available to routes
+app.use((req, res, next) => {
+    req.db = db;
+    next();
+});
+
+// Import the auth routes
+const authRoutes = require('./routes/auth')(db); 
+app.use('/auth', authRoutes);
 
 // Simple test route
 app.get('/', (req, res) => {
