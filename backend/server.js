@@ -5,6 +5,8 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
+const analysisRoutes = require('./routes/analysis');
+
 
 
 // Read .env file manually
@@ -33,6 +35,7 @@ app.use(cors({ // Allow frontend to talk to backend
 
 app.use(express.json()); // Allow the server to read JSON data
 app.use(cookieParser());
+app.use('/analysis', analysisRoutes);
 
 // Set up the Database Connection
 const db = mysql.createConnection({

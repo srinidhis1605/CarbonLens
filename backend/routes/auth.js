@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // We use a function that takes 'db' as an argument
 module.exports = (db) => {
@@ -57,12 +58,14 @@ module.exports = (db) => {
                 );
 
                 // Send refresh token as HTTP-only cookie
-                res.cookie('refreshToken', refreshToken, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
-                    maxAge: 7 * 24 * 60 * 60 * 1000
-                });
+                res.cookie('accessToken', accessToken, {
+                        httpOnly: true,
+                        // This automatically switches based on your environment!
+                        secure: process.env.NODE_ENV === 'production', 
+                        // This allows it to work across subdomains if needed later
+                        sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+                        maxAge: 15 * 60 * 1000 
+                    });
 
                 res.json({ accessToken });
             } else {
