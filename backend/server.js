@@ -4,6 +4,8 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const cookieParser = require('cookie-parser');
+
 
 // Read .env file manually
 const envPath = path.join(__dirname, '.env');
@@ -23,9 +25,14 @@ require('dotenv').config({ path: envPath });
 
 const app = express();
 
-// Middleware: These functions run before your routes to handle data
-app.use(cors()); // Allow frontend to talk to backend
+// Middleware: These functions run before your routes to handle data 
+app.use(cors({ // Allow frontend to talk to backend
+    origin: 'http://localhost:5173', // Update this to your React port
+    credentials: true // Crucial for cookies to work
+}));
+
 app.use(express.json()); // Allow the server to read JSON data
+app.use(cookieParser());
 
 // Set up the Database Connection
 const db = mysql.createConnection({

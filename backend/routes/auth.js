@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // We use a function that takes 'db' as an argument
 module.exports = (db) => {
@@ -19,26 +20,92 @@ module.exports = (db) => {
             res.status(500).json({ error: "Server error." });
         }
     });
+
     router.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const sql = "SELECT * FROM users WHERE email = ?";
+        const { email, password } = req.body;
+        const sql = "SELECT * FROM users WHERE email = ?";
 
-    db.query(sql, [email], async (err, results) => {
-        if (err) return res.status(500).json({ error: "Server error" });
-        if (results.length === 0) return res.status(401).json({ error: "User not found" });
+        db.query(sql, [email], async (err, results) => {
+            if (err) return res.status(500).json({ error: "Server error" });
+            if (results.length === 0) return res.status(401).json({ error: "User not found" });
 
-        const user = results[0];
-        
-        // Compare the plain text password with the stored hash
-        const isMatch = await bcrypt.compare(password, user.password_hash);
-        
-        if (isMatch) {
-            res.status(200).json({ message: "Login successful!", user: { id: user.id, name: user.name } });
-        } else {
-            res.status(401).json({ error: "Invalid password" });
-        }
+            const user = results[0];
+            
+            // Compare the plain text password with the stored hash
+            const isMatch = await bcrypt.compare(password, user.password_hash);
+            
+            if (isMatch) {
+                const accessToken = jwt.sign(
+                    { id: user.id },
+                    process.env.JWT_SECRET,
+                    { expiresIn: '15m' }
+                );
+
+                const refreshToken = jwt.sign(
+                    { id: user.id },
+                    process.env.JWT_REFRESH_SECRET,
+                    { expiresIn: '7d' }
+                );
+
+                // Hash the refresh token before storing
+                const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+                // Store the hash
+                await db.promise().query(
+                "UPDATE users SET refresh_token_hash = ? WHERE id = ?",
+                [hashedRefreshToken, user.id]
+                );
+
+                // Send refresh token as HTTP-only cookie
+                res.cookie('refreshToken', refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    maxAge: 7 * 24 * 60 * 60 * 1000
+                });
+
+                res.json({ accessToken });
+            } else {
+                res.status(401).json({ error: "Invalid password" });
+            }
+        });
     });
-});
+
+    router.post('/refresh', async (req, res) => {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) return res.status(401).json({ error: "No refresh token" });
+
+        // Verify token against DB
+        const [users] = await db.promise().query(
+    "SELECT * FROM users WHERE id = ?",
+    [jwt.decode(refreshToken).id]
+);
+
+if (users.length === 0)
+    return res.status(403).json({ error: "Invalid refresh token" });
+
+const userRecord = users[0];
+
+const isValid = await bcrypt.compare(
+    refreshToken,
+    userRecord.refresh_token_hash
+);
+
+if (!isValid)
+    return res.status(403).json({ error: "Invalid refresh token" });
+
+        jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => {
+            if (err) return res.status(403).json({ error: "Token expired" });
+
+            const accessToken = jwt.sign(
+                { id: user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: '15m' }
+            );
+
+            res.json({ accessToken });
+        });
+    });
 
     return router;
 };

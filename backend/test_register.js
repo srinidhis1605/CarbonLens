@@ -6,7 +6,7 @@ async function testRegister() {
     try {
         const response = await axios.post(`http://localhost:${PORT}/auth/register`, {
             name: "Sri",
-            email: `sri${Date.now()}@example.com`,
+            email: 'sri@example.com',
             password: "1234"
         });
         console.log(response.data);
