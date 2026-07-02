@@ -2,6 +2,7 @@
 CREATE DATABASE IF NOT EXISTS carbonlens_db;
 USE carbonlens_db;
 
+-- 1. USERS SECURITY LEDGER
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
@@ -9,12 +10,14 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL
 );
 
+-- 2. TARGET WEBSITES INDEX
 CREATE TABLE IF NOT EXISTS websites (
     id INT AUTO_INCREMENT PRIMARY KEY,
     url VARCHAR(255) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 3. CARBON DECONSTRUCTION ANALYTICS MATRIX
 CREATE TABLE IF NOT EXISTS analysis (
     id INT AUTO_INCREMENT PRIMARY KEY,
     website_id INT,
@@ -23,6 +26,20 @@ CREATE TABLE IF NOT EXISTS analysis (
     carbon_score INT,
     co2 FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (website_id) REFERENCES websites(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    
+    -- Upgraded Option 2 Micro-Metric Analytics Tracking Columns
+    total_requests INT DEFAULT 0,
+    third_party_requests INT DEFAULT 0,
+    image_count INT DEFAULT 0,
+    image_bytes BIGINT DEFAULT 0,
+    script_count INT DEFAULT 0,
+    script_bytes BIGINT DEFAULT 0,
+    style_count INT DEFAULT 0,
+    style_bytes BIGINT DEFAULT 0,
+    font_count INT DEFAULT 0,
+    font_bytes BIGINT DEFAULT 0,
+    
+    -- Both Essential Relational Foreign Keys Preserved
+    FOREIGN KEY (website_id) REFERENCES websites(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
