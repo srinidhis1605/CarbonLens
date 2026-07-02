@@ -2,20 +2,15 @@
 const express = require('express');
 const router = express.Router();
 const { analyzeUrl } = require('../services/analysisService');
+const { normalizeAnalysisData } = require('../services/normalizationService'); // Upgraded Day 5 Utility
 const authenticateToken = require('../middleware/authMiddleware');
 const { saveAnalysisResult } = require('../services/dbService');
 
-/**
- * Sanitizes scraped values to guarantee valid numerical values
- */
 function toSafeNumber(value) {
     const parsed = Number(value);
     return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
 }
 
-/**
- * Maps numerical carbon scores directly into environmental letter grades
- */
 function calculateGrade(score) {
     if (score >= 95) return 'A+';
     if (score >= 90) return 'A';
@@ -35,59 +30,37 @@ router.post('/', authenticateToken, async (req, res) => {
     try {
         console.log('analysis route started for', url);
         
-        // ==========================================
-        // STEP 1: HARVESTING THE SOURCE
-        // ==========================================
+        // --- STEP 1: HARVEST NETWORK CHANNELS ---
         const rawData = await analyzeUrl(url);
 
-        // Sanitize raw network metrics from browser interceptors
-        const totalBytes = toSafeNumber(rawData ? rawData.totalBytes : 0);
-        const imageBytes = toSafeNumber(rawData ? rawData.imageBytes : 0);
-        const scriptBytes = toSafeNumber(rawData ? rawData.scriptBytes : 0);
-        const styleBytes = toSafeNumber(rawData ? rawData.styleBytes : 0);
-        const fontBytes = toSafeNumber(rawData ? rawData.fontBytes : 0);
-        
+        // --- STEP 2: RUN DAY 5 NORMALIZATION & GREEN GRID CHECKS ---
+        const normalized = await normalizeAnalysisData(url, rawData);
+
+        // Sanitize secondary micro-asset metrics
         const totalRequests = Math.floor(toSafeNumber(rawData ? rawData.totalRequests : 0));
         const thirdPartyRequests = Math.floor(toSafeNumber(rawData ? rawData.thirdPartyRequests : 0));
         const imageCount = Math.floor(toSafeNumber(rawData ? rawData.imageCount : 0));
+        const imageBytes = toSafeNumber(rawData ? rawData.imageBytes : 0);
         const scriptCount = Math.floor(toSafeNumber(rawData ? rawData.scriptCount : 0));
+        const scriptBytes = toSafeNumber(rawData ? rawData.scriptBytes : 0);
         const styleCount = Math.floor(toSafeNumber(rawData ? rawData.styleCount : 0));
+        const styleBytes = toSafeNumber(rawData ? rawData.styleBytes : 0);
         const fontCount = Math.floor(toSafeNumber(rawData ? rawData.fontCount : 0));
+        const fontBytes = toSafeNumber(rawData ? rawData.fontBytes : 0);
 
-        // Convert byte capacities safely to Megabytes
-        const totalWeightMB = totalBytes / (1024 * 1024);
         const imagesMB = (imageBytes / (1024 * 1024)).toFixed(2);
         const scriptsMB = (scriptBytes / (1024 * 1024)).toFixed(2);
         const stylesMB = (styleBytes / (1024 * 1024)).toFixed(2);
         const fontsMB = (fontBytes / (1024 * 1024)).toFixed(2);
-        const totalMB = totalWeightMB.toFixed(2);
 
-        // ==========================================
-        // STEP 2: EXPONENTIAL DECONSTRUCTION FORMULAS (UPGRADED LOGIC)
-        // ==========================================
-        // Core Carbon Model Formula (0.5g CO2 footprint multiplier per MB)
-        const co2 = (totalWeightMB * 0.5).toFixed(4);
+        const grade = calculateGrade(normalized.carbonScore);
 
-        // REALISTIC LOGARITHMIC CURVE SCALING (Lighthouse Inspired)
-        // Uses k = 0.15 to give a realistic, balanced grading path over massive pages
-        const scalingFactor = 0.15;
-        let score = Math.round(100 * Math.exp(-scalingFactor * totalWeightMB));
-        
-        // Fail-safe boundary constraints
-        if (score < 0) score = 0;
-        if (score > 100) score = 100;
-
-        const grade = calculateGrade(score);
-
-        // Boundary Defense: Prevent inputs from exceeding MySQL column widths
-        let safePageWeight = Math.min(99999.99, Math.max(0, totalWeightMB));
-        let safeCo2 = Math.min(99999.99, Math.max(0, parseFloat(co2) || 0));
-
-        // Pack the entire 15-column dataset structure required by your dbService layout
-        const metrics = {
-            pageWeightMB: safePageWeight,
-            carbonScore: score,
-            co2EstimateGrams: safeCo2,
+        // Package fully aligned data tracking payload for the DB
+        const dbMetrics = {
+            pageWeightMB: normalized.pageWeightMB,
+            carbonScore: normalized.carbonScore,
+            co2EstimateGrams: normalized.co2EstimateGrams,
+            isGreenHost: normalized.isGreenHost,
             rawScrapedData: {
                 totalRequests,
                 thirdPartyRequests,
@@ -102,18 +75,16 @@ router.post('/', authenticateToken, async (req, res) => {
             }
         };
 
-        // Fire transaction save request through DB ledger script
+        // Persist records down to DB analysis tables
         let persistenceStatus = 'STORED';
         try {
-            await saveAnalysisResult(userId, url, metrics);
+            await saveAnalysisResult(userId, url, dbMetrics);
         } catch (dbError) {
             persistenceStatus = 'PERSISTENCE_SKIPPED';
             console.error('Analysis persistence warning:', dbError.message);
         }
 
-        // ==========================================
-        // STEP 3: THE CINEMATIC TWO-PHASE OUTPUT RESPONSE
-        // ==========================================
+        // --- STEP 3: OUTPUT PACKAGING ---
         res.json({
             SESSION_STATUS: "TARGET_DECONSTRUCTED_COMPLETED",
             TARGET_HOST: url.replace('https://', '').replace('http://', '').split('/')[0],
@@ -140,12 +111,13 @@ router.post('/', authenticateToken, async (req, res) => {
             PHASE_2_ENVIRONMENTAL_RECONSTRUCTION: {
                 STATUS: "CALCULATION_MATRIX_ENGAGED",
                 ANALYSIS_LOG: "Compiled raw payload signatures through the carbon intensity grid variables.",
-                TOTAL_TRANSMITTED_WEIGHT: `${totalMB} MB`,
+                TOTAL_TRANSMITTED_WEIGHT: `${normalized.pageWeightMB.toFixed(2)} MB`,
+                HOSTING_INFRASTRUCTURE: normalized.isGreenHost ? "RENEWABLE_ENERGY_GRID (GREEN_HOST)" : "TRADITIONAL_CARBON_GRID (GREY_HOST)",
                 RECONSTRUCTED_METRICS: {
-                    CARBON_EFFICIENCY_SCORE: `${score}/100`,
+                    CARBON_EFFICIENCY_SCORE: `${normalized.carbonScore}/100`,
                     SUSTAINABILITY_GRADE: grade,
-                    CO2_EMISSION_PER_VISIT: `${co2} grams`,
-                    ESTIMATED_ANNUAL_CARBON_LOAD: (co2 * 10000 * 12 / 1000).toFixed(2) + " kg (Based on 10k monthly baseline sessions)"
+                    CO2_EMISSION_PER_VISIT: `${normalized.co2EstimateGrams.toFixed(4)} grams`,
+                    ESTIMATED_ANNUAL_CARBON_LOAD: (normalized.co2EstimateGrams * 10000 * 12 / 1000).toFixed(2) + " kg (Based on 10k monthly baseline sessions)"
                 }
             },
 

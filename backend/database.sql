@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS analysis (
     page_size FLOAT,
     carbon_score INT,
     co2 FLOAT,
+    is_green_host TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     -- Upgraded Option 2 Micro-Metric Analytics Tracking Columns
@@ -38,6 +39,8 @@ CREATE TABLE IF NOT EXISTS analysis (
     style_bytes BIGINT DEFAULT 0,
     font_count INT DEFAULT 0,
     font_bytes BIGINT DEFAULT 0,
+
+    is_green_host TINYINT(1) DEFAULT 0,
     
     -- Both Essential Relational Foreign Keys Preserved
     FOREIGN KEY (website_id) REFERENCES websites(id) ON DELETE CASCADE,
