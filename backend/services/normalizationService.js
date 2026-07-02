@@ -59,28 +59,30 @@ async function checkGreenHosting(url) {
  * Normalizes raw byte variables, builds exponential grades, and checks hosting grids
  */
 async function normalizeAnalysisData(url, rawMetrics) {
+    // 1. Convert raw bytes from Playwright into Gigabytes (GB)
     const totalBytes = Number(rawMetrics?.totalBytes) || 0;
     const totalWeightMB = totalBytes / (1024 * 1024);
+    const totalWeightGB = totalBytes / (1024 * 1024 * 1024);
 
-    // Call our cleaned check function
+    // 2. This is your Green Web API function call that you just fixed!
     const isGreenHost = await checkGreenHosting(url);
 
-    // Dynamic Carbon Emission Modifier (Day 5 Goal)
-    const co2Multiplier = isGreenHost ? 0.15 : 0.50;
-    const co2EstimateGrams = (totalWeightMB * co2Multiplier).toFixed(4);
+    // 3. DAY 8 FORMULA: Calculate total energy based on the 0.06 kWh per GB constant
+    const energyPerGB = 0.06; 
+    const energyUsedKWh = totalWeightGB * energyPerGB;
 
-    // Curve scaling
-    const scalingFactor = 0.15;
-    let carbonScore = Math.round(100 * Math.exp(-scalingFactor * totalWeightMB));
+    // 4. CHOOSE GRID INTENSITY BASED ON YOUR GREEN WEB API RESULT
+    // If the API said true, we use 312. If false, we use 442.
+    const carbonIntensity = isGreenHost ? 312 : 442;
     
-    if (carbonScore < 0) carbonScore = 0;
-    if (carbonScore > 100) carbonScore = 100;
+    // 5. Calculate final grams of CO2
+    const co2EstimateGrams = (energyUsedKWh * carbonIntensity).toFixed(4);
 
     return {
-        pageWeightMB: Math.min(99999.99, Math.max(0, totalWeightMB)),
-        carbonScore: carbonScore,
-        co2EstimateGrams: Math.min(99999.99, Math.max(0, parseFloat(co2EstimateGrams) || 0)),
-        isGreenHost: isGreenHost
+        pageWeightMB: totalWeightMB,
+        carbonScore: Math.round(100 * Math.exp(-0.15 * totalWeightMB)),
+        co2EstimateGrams: parseFloat(co2EstimateGrams) || 0,
+        isGreenHost: isGreenHost // Passed right to your DB handler!
     };
 }
 
