@@ -70,4 +70,22 @@ async function saveAnalysisResult(userId, url, metrics) {
     }
 }
 
-module.exports = { saveAnalysisResult };
+/**
+ * Patches the seo_metadata JSON column for an existing analysis record.
+ * @param {number} analysisId - The auto-increment ID of the row to update.
+ * @param {Object} seoMetadata - The structural Phase 2 object payload.
+ * @returns {Promise<Object>} MySQL execution query receipt.
+ */
+async function updateSeoMetadata(analysisId, seoMetadata) {
+    const connection = await dbPool.getConnection();
+
+    try {
+        const query = `UPDATE analysis SET seo_metadata = ? WHERE id = ?`;
+        const [result] = await connection.execute(query, [JSON.stringify(seoMetadata), analysisId]);
+        return result;
+    } finally {
+        connection.release();
+    }
+}
+
+module.exports = { saveAnalysisResult, updateSeoMetadata };

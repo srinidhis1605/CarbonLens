@@ -5,10 +5,10 @@ const xmlParser = new XMLParser({ ignoreAttributes: true });
 
 /**
  * Audits the root domain robots.txt file using the active Playwright context.
- * 
+ *
  * @param {import('playwright').Page} browserPage - The active Playwright page slot.
  * @param {string} rootOrigin - The absolute base origin path (e.g., 'https://example.com')
- * @returns {Promise<Object>} Robots parsing report block.
+ * @returns {Promise} Robots parsing report block.
  */
 async function auditRobotsTxt(browserPage, rootOrigin) {
     let fetched = false;
@@ -18,7 +18,7 @@ async function auditRobotsTxt(browserPage, rootOrigin) {
     try {
         // Playwright fetches the raw text resource directly using the active browser session context
         const response = await browserPage.request.get(`${rootOrigin}/robots.txt`, { timeout: 6000 });
-        
+
         if (response.status() === 200) {
             fetched = true;
             const content = await response.text();
@@ -41,10 +41,10 @@ async function auditRobotsTxt(browserPage, rootOrigin) {
 
 /**
  * Audits a website's sitemap file visibility using Playwright.
- * 
+ *
  * @param {import('playwright').Page} browserPage - The active Playwright page slot.
  * @param {string} sitemapUrl - Absolute URL destination target of the root sitemap.
- * @returns {Promise<Object>} Completed sitemap statistics.
+ * @returns {Promise} Completed sitemap statistics.
  */
 async function auditSitemapXml(browserPage, sitemapUrl) {
     if (!sitemapUrl) return { found: false, resolvedUrl: null };
@@ -54,7 +54,7 @@ async function auditSitemapXml(browserPage, sitemapUrl) {
 
     try {
         const response = await browserPage.request.get(sitemapUrl, { timeout: 8000 });
-        
+
         if (response.status() === 200) {
             sitemapLoaded = true;
             // Validate it actually contains parseable XML content structure if needed
@@ -70,13 +70,13 @@ async function auditSitemapXml(browserPage, sitemapUrl) {
 }
 
 /**
- * Deep-crawls a website using the active Playwright page context to discover all live internal URLs 
+ * Deep-crawls a website using the active Playwright page context to discover all live internal URLs
  * (including hidden dropdown menus, headers, and footer pages).
  */
 async function auditLivePages(browserPage, startUrl, maxPages = 150) {
     const discoveredUrls = new Set();
     const queue = [];
-    
+
     try {
         const parsedStart = new URL(startUrl);
         const targetHost = parsedStart.hostname;
@@ -89,10 +89,10 @@ async function auditLivePages(browserPage, startUrl, maxPages = 150) {
 
         while (queue.length > 0 && discoveredUrls.size < maxPages) {
             const currentUrl = queue.shift();
-            
+
             try {
                 await browserPage.goto(currentUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
-                
+
                 const pageLinks = await browserPage.evaluate(() => {
                     return Array.from(document.querySelectorAll('a'))
                         .map(a => (a.getAttribute('href') || '').trim())
@@ -109,7 +109,7 @@ async function auditLivePages(browserPage, startUrl, maxPages = 150) {
                         if (absoluteUrlObj.hostname === targetHost && !discoveredUrls.has(cleanUrl)) {
                             if (discoveredUrls.size < maxPages) {
                                 discoveredUrls.add(cleanUrl);
-                                queue.push(cleanUrl); 
+                                queue.push(cleanUrl);
                             }
                         }
                     } catch (_) {}

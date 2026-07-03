@@ -4,90 +4,80 @@ const { chromium } = require('playwright');
 const { extractMetadata } = require('./seoParser');
 const { auditRobotsTxt, auditSitemapXml, auditLivePages } = require('./crawlerService');
 
-const analyzeUrl = async (url) => {
+/**
+ * METHOD 1: Lightning Fast Performance Profile Scan
+ */
+async function analyzeUrlPerformanceOnly(url) {
     const rootOrigin = new URL(url).origin;
-
-    // 1. Launch a single, unified Playwright browser session
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
 
-    // Explicitly initialize the object structure with guaranteed baseline values
-    const metrics = {
+    let metrics = {
         totalBytes: 0,
-        imageBytes: 0,
-        scriptBytes: 0,
-        styleBytes: 0,
-        fontBytes: 0,
         totalRequests: 0,
         thirdPartyRequests: 0,
         imageCount: 0,
+        imageBytes: 0,
         scriptCount: 0,
+        scriptBytes: 0,
         styleCount: 0,
-        fontCount: 0
+        styleBytes: 0,
+        fontCount: 0,
+        fontBytes: 0
     };
 
-    let targetDomain = '';
-    try {
-        targetDomain = new URL(url).hostname.replace('www.', '');
-    } catch (e) {
-        targetDomain = url;
-    }
-
-    // Capture response streams synchronously to avoid the async promise race traps!
-    page.on('response', (response) => {
-        metrics.totalRequests++;
-
-        // NATIVE SYNC HEADER CAPTURE (This matches your original working code style, no 'await')
-        const headers = response.headers();
-        const size = parseInt(headers['content-length'], 10) || 0;
-
-        metrics.totalBytes += size;
-
-        // Trace Third Party Domain Vector
+    page.on('response', async (response) => {
         try {
-            const requestUrl = new URL(response.url());
-            if (!requestUrl.hostname.includes(targetDomain)) {
-                metrics.thirdPartyRequests++;
+            const headers = response.headers();
+            const len = headers['content-length'] ? parseInt(headers['content-length'], 10) : 0;
+            const resUrl = response.url();
+            const type = response.request().resourceType();
+
+            metrics.totalBytes += len;
+            metrics.totalRequests += 1;
+            if (!resUrl.includes(rootOrigin)) metrics.thirdPartyRequests += 1;
+
+            if (type === 'image') {
+                metrics.imageCount += 1;
+                metrics.imageBytes += len;
+            } else if (type === 'script') {
+                metrics.scriptCount += 1;
+                metrics.scriptBytes += len;
+            } else if (type === 'stylesheet') {
+                metrics.styleCount += 1;
+                metrics.styleBytes += len;
+            } else if (type === 'font') {
+                metrics.fontCount += 1;
+                metrics.fontBytes += len;
             }
-        } catch (err) {}
-
-        // Categorize asset groups based on content-type headers
-        const contentType = (headers['content-type'] || '').toLowerCase();
-
-        if (contentType.includes('image')) {
-            metrics.imageCount++;
-            metrics.imageBytes += size;
-        } else if (contentType.includes('javascript') || contentType.includes('ecmascript')) {
-            metrics.scriptCount++;
-            metrics.scriptBytes += size;
-        } else if (contentType.includes('css')) {
-            metrics.styleCount++;
-            metrics.styleBytes += size;
-        } else if (contentType.includes('font')) {
-            metrics.fontCount++;
-            metrics.fontBytes += size;
-        }
+        } catch (_) {}
     });
 
-    let seoDataPayload = {};
-    let totalLivePagesCounted = 0;
-    let robotsResult = { found: false, globalIndexingBlocked: false, extractedSitemap: null };
-    let sitemapResult = { found: false, resolvedUrl: null };
+    try {
+        await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+        return { networkMetrics: metrics };
+    } finally {
+        await browser.close();
+    }
+}
+
+/**
+ * METHOD 2: Core SEO Engine & Crawler Audits (All Phase 2 Content Isolated Here)
+ */
+async function analyzeUrlSeoSuite(url) {
+    const rootOrigin = new URL(url).origin;
+    const browser = await chromium.launch({ headless: true });
+    const page = await browser.newPage();
 
     try {
-        // A. Run the deep dropdown/link spider loop first and capture ALL discovered live page URLs
+        // A. Run the deep spider to count all live internal paths across dropdowns/footers
         const allDiscoveredUrls = await auditLivePages(page, url, 100);
 
-        // B. Run standard Phase 1 & 2 DOM audit on the homepage first
+        // B. Seed the compilation using the core page elements from the homepage
         await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+        const masterSeoResult = await extractMetadata(page);
 
-        console.log("analysisService: Page load settled. Initiating Phase 1 Metadata extraction...");
-
-        seoDataPayload = await extractMetadata(page);
-
-        console.log(`analysisService: Merging legal and social assets across all ${allDiscoveredUrls.length} discovered sub-pages...`);
-
-        // C. SITE-WIDE MERGE LOOP: revisit discovered sub-pages and merge hidden assets into homepage payload
+        // C. Site-Wide Merge Loop for deep keyword/compliance aggregation
         for (const subUrl of allDiscoveredUrls) {
             if (subUrl === url || subUrl === `${rootOrigin}/` || subUrl === rootOrigin) continue;
 
@@ -95,81 +85,51 @@ const analyzeUrl = async (url) => {
                 await page.goto(subUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
                 const subPageData = await extractMetadata(page);
 
-                // --- Merge Legal Compliance Links ---
-                if (
-                    subPageData.legalCompliance &&
-                    subPageData.legalCompliance.privacyPolicy &&
-                    subPageData.legalCompliance.privacyPolicy.present &&
-                    seoDataPayload.legalCompliance &&
-                    seoDataPayload.legalCompliance.privacyPolicy &&
-                    !seoDataPayload.legalCompliance.privacyPolicy.present
-                ) {
-                    seoDataPayload.legalCompliance.privacyPolicy = subPageData.legalCompliance.privacyPolicy;
+                if (subPageData.legalCompliance.privacyPolicy.present && !masterSeoResult.legalCompliance.privacyPolicy.present) {
+                    masterSeoResult.legalCompliance.privacyPolicy = subPageData.legalCompliance.privacyPolicy;
+                }
+                if (subPageData.legalCompliance.termsAndConditions.present && !masterSeoResult.legalCompliance.termsAndConditions.present) {
+                    masterSeoResult.legalCompliance.termsAndConditions = subPageData.legalCompliance.termsAndConditions;
+                }
+                if (subPageData.legalCompliance.disclaimer.present && !masterSeoResult.legalCompliance.disclaimer.present) {
+                    masterSeoResult.legalCompliance.disclaimer = subPageData.legalCompliance.disclaimer;
                 }
 
-                if (
-                    subPageData.legalCompliance &&
-                    subPageData.legalCompliance.termsAndConditions &&
-                    subPageData.legalCompliance.termsAndConditions.present &&
-                    seoDataPayload.legalCompliance &&
-                    seoDataPayload.legalCompliance.termsAndConditions &&
-                    !seoDataPayload.legalCompliance.termsAndConditions.present
-                ) {
-                    seoDataPayload.legalCompliance.termsAndConditions = subPageData.legalCompliance.termsAndConditions;
-                }
+                Object.keys(subPageData.socialLinks).forEach(platform => {
+                    if (subPageData.socialLinks[platform] && !masterSeoResult.socialLinks[platform]) {
+                        masterSeoResult.socialLinks[platform] = subPageData.socialLinks[platform];
+                    }
+                });
 
-                if (
-                    subPageData.legalCompliance &&
-                    subPageData.legalCompliance.disclaimer &&
-                    subPageData.legalCompliance.disclaimer.present &&
-                    seoDataPayload.legalCompliance &&
-                    seoDataPayload.legalCompliance.disclaimer &&
-                    !seoDataPayload.legalCompliance.disclaimer.present
-                ) {
-                    seoDataPayload.legalCompliance.disclaimer = subPageData.legalCompliance.disclaimer;
-                }
-
-                // --- Merge Social Links Matrix Profiles ---
-                if (subPageData.socialLinks && seoDataPayload.socialLinks) {
-                    Object.keys(subPageData.socialLinks).forEach((platform) => {
-                        if (subPageData.socialLinks[platform] && !seoDataPayload.socialLinks[platform]) {
-                            seoDataPayload.socialLinks[platform] = subPageData.socialLinks[platform];
-                        }
-                    });
-                }
-
-                // --- Merge Unique Meta Keywords ---
-                if (Array.isArray(subPageData.keywords) && subPageData.keywords.length > 0) {
-                    const existingKeywords = Array.isArray(seoDataPayload.keywords) ? seoDataPayload.keywords : [];
-                    const combinedKeywords = [...existingKeywords, ...subPageData.keywords];
-                    seoDataPayload.keywords = [...new Set(combinedKeywords)];
+                if (subPageData.keywords && subPageData.keywords.length > 0) {
+                    masterSeoResult.keywords = [...new Set([...masterSeoResult.keywords, ...subPageData.keywords])];
                 }
             } catch (err) {
-                console.warn(`analysisService: Failed site-wide data compilation at [${subUrl}]: ${err.message}`);
+                console.warn(`analysisService: SEO extraction skipped at [${subUrl}]: ${err.message}`);
             }
         }
 
-        // D. Run the Robots check using the same browser network layer
-        robotsResult = await auditRobotsTxt(page, rootOrigin);
-
-        // E. Run the Sitemap check using the discovered or fallback path
+        // D. Global Crawler Lookups (Robots and Sitemaps)
+        const robotsResult = await auditRobotsTxt(page, rootOrigin);
         const targetSitemapUrl = robotsResult.extractedSitemap || `${rootOrigin}/sitemap.xml`;
-        sitemapResult = await auditSitemapXml(page, targetSitemapUrl);
+        const sitemapResult = await auditSitemapXml(page, targetSitemapUrl);
 
-        totalLivePagesCounted = allDiscoveredUrls.length;
+        // Construct the exact isolated SEO object block layout you wanted:
+        return {
+            title: masterSeoResult.title,
+            titleLength: masterSeoResult.titleLength,
+            metaDescription: masterSeoResult.metaDescription,
+            metaDescriptionLength: masterSeoResult.metaDescriptionLength,
+            robotsDirectives: masterSeoResult.robotsDirectives,
+            canonicalUrl: masterSeoResult.canonicalUrl,
+            keywords: masterSeoResult.keywords,
+            isMobileOptimized: masterSeoResult.isMobileOptimized,
+            socialGraph: masterSeoResult.socialGraph,
+            legalCompliance: masterSeoResult.legalCompliance,
+            socialLinks: masterSeoResult.socialLinks,
 
-    } catch (error) {
-        console.error("analysisService Execution Error:", error);
-        throw new Error("Failed to load URL or process analytics metadata pipeline.");
-    } finally {
-        // Guarantee the browser shuts down under any circumstances to prevent memory bloat
-        await browser.close();
-    }
-
-    return {
-        networkMetrics: metrics,
-        seoMetrics: {
-            ...seoDataPayload,
+            // EXACTLY WHAT YOU HIGHLIGHTED:
+            semantics: masterSeoResult.semantics,
             crawlerConfigurations: {
                 robotsTxt: {
                     found: robotsResult.found,
@@ -178,11 +138,13 @@ const analyzeUrl = async (url) => {
                 sitemapXml: {
                     found: sitemapResult.found,
                     resolvedUrl: sitemapResult.resolvedUrl,
-                    totalLivePagesCounted: totalLivePagesCounted
+                    totalLivePagesCounted: allDiscoveredUrls.length
                 }
             }
-        }
-    };
-};
+        };
+    } finally {
+        await browser.close();
+    }
+}
 
-module.exports = { analyzeUrl };
+module.exports = { analyzeUrlPerformanceOnly, analyzeUrlSeoSuite };
