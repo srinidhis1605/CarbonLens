@@ -1,5 +1,6 @@
 // backend/routes/recommendations.js
 const express = require('express');
+const { Router } = require('express');
 const router = Router();
 const { OpenAI } = require('openai');
 const authenticateToken = require('../middleware/authMiddleware');
@@ -13,17 +14,18 @@ const openai = new OpenAI({
 // --- HELPER FUNCTION WITH UPDATED PROMPT RULES ---
 async function fetchAiAdvice(metrics) {
     const promptText = `
-    Analyze these web performance metrics and return exactly 3 code optimization tips to reduce carbon footprint.
+    Analyze these scraped parameters and generate a JSON array of optimizations.
     
-    Metrics:
-    - Page Size: ${metrics.pageWeightMB.toFixed(2)} MB
-    - Sustainability Score: ${metrics.carbonScore}/100
-    - CO2 Emissions: ${metrics.co2EstimateGrams} grams per visit
-    - Total Requests: ${metrics.rawScrapedData.totalRequests}
-    - Images: ${metrics.rawScrapedData.imageCount} (${(metrics.rawScrapedData.imageBytes / (1024*1024)).toFixed(2)} MB)
-    - JavaScript: ${metrics.rawScrapedData.scriptCount} (${(metrics.rawScrapedData.scriptBytes / (1024*1024)).toFixed(2)} MB)
-    - Stylesheets: ${metrics.rawScrapedData.styleCount} (${(metrics.rawScrapedData.styleBytes / (1024*1024)).toFixed(2)} MB)
+    Page Weight: ${((metrics.networkMetrics?.totalBytes || 0) / (1024*1024)).toFixed(2)} MB
+    Total Requests: ${metrics.networkMetrics?.totalRequests || 0}
     
+    SEO Check Profile:
+    - Title Present: ${metrics.seoMetrics?.visualAuditChecklist?.hasTitle || false} (Length: ${metrics.seoMetrics?.titleLength || 0} chars)
+    - Meta Description Present: ${metrics.seoMetrics?.visualAuditChecklist?.hasMetaDescription || false}
+    - Mobile Optimized: ${metrics.seoMetrics?.visualAuditChecklist?.isMobileOptimized || false}
+    
+    Provide code optimizations if any criteria flags false.
+
     STRICT DATA OUTPUT CONSTRAINTS:
     1. Your response must be a strict JSON array containing EXACTLY 3 objects.
     2. Do not include markdown wraps or backticks like \`\`\`json in your string output.

@@ -1,12 +1,12 @@
 // backend/services/dbService.js
-const dbPool = require('../db'); 
+const dbPool = require('../db');
 
 /**
  * Saves a complete 16-column carbon analysis record inside an isolated database transaction ledger.
  */
 async function saveAnalysisResult(userId, url, metrics) {
     const connection = await dbPool.getConnection();
-    
+
     try {
         await connection.beginTransaction();
 
@@ -15,9 +15,14 @@ async function saveAnalysisResult(userId, url, metrics) {
         
         // Step 2: Grab the website ID matching the targeted domain vector
         const [rows] = await connection.execute('SELECT id FROM websites WHERE url = ?', [url]);
+
+        if (!rows || !rows.length) {
+            throw new Error('Failed to resolve website ID after insert/select.');
+        }
+
         const websiteId = rows[0].id;
 
-        // Step 3: Insert into 'analysis' mapping ALL 16 metrics (including the Day 5 Green Host value)
+        // Step 3: Insert into 'analysis' mapping ALL metrics + seo_metadata
         const query = `
             INSERT INTO analysis (
                 website_id, user_id, page_size, carbon_score, co2, is_green_host,
@@ -25,8 +30,9 @@ async function saveAnalysisResult(userId, url, metrics) {
                 image_count, image_bytes,
                 script_count, script_bytes,
                 style_count, style_bytes,
-                font_count, font_bytes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                font_count, font_bytes,
+                seo_metadata
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         const values = [
@@ -45,15 +51,15 @@ async function saveAnalysisResult(userId, url, metrics) {
             metrics.rawScrapedData.styleCount,
             metrics.rawScrapedData.styleBytes,
             metrics.rawScrapedData.fontCount,
-            metrics.rawScrapedData.fontBytes
+            metrics.rawScrapedData.fontBytes,
+            metrics.seoMetadata ? JSON.stringify(metrics.seoMetadata) : null
         ];
 
-        await connection.execute(query, values);
+        const [analysisResult] = await connection.execute(query, values);
 
         // Commit the transaction to disk
         await connection.commit();
-        return { success: true, websiteId };
-
+        return { success: true, websiteId, insertId: analysisResult.insertId };
     } catch (error) {
         // Rollback changes if any single SQL query throws an exception
         await connection.rollback();

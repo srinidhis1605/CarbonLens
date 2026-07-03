@@ -46,3 +46,6 @@ CREATE TABLE IF NOT EXISTS analysis (
     FOREIGN KEY (website_id) REFERENCES websites(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+ALTER TABLE `analysis` 
+ADD COLUMN `seo_metadata` JSON DEFAULT NULL AFTER `font_bytes`;

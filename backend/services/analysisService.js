@@ -1,10 +1,12 @@
 // backend/services/analysisService.js
 const { chromium } = require('playwright');
+// Imported Phase 1 utility safely at the top
+const { extractMetadata } = require('./seoParser');
 
 const analyzeUrl = async (url) => {
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
-    
+
     // Explicitly initialize the object structure with guaranteed baseline values
     const metrics = {
         totalBytes: 0,
@@ -63,16 +65,33 @@ const analyzeUrl = async (url) => {
         }
     });
 
+    // We initialize our outer container variable as null before entering the try block
+    let seoDataPayload = null;
+
     try {
         // Use your original working networkidle condition
-        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+        await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+
+        console.log("analysisService: Page load settled. Initiating Phase 1 Metadata extraction...");
+        
+        // --- WHERE EXTRACTION TAKES PLACE ---
+        // The page is completely loaded, stable, and still open. 
+        // We pass the active, live "page" context tab directly to our utility file.
+        seoDataPayload = await extractMetadata(page);
+
     } catch (error) {
+        console.error("analysisService Execution Error:", error);
         await browser.close();
-        throw new Error("Failed to load URL");
+        throw new Error("Failed to load URL or process analytics metadata pipeline.");
     }
 
+    // Safely tear down the hidden Chromium instance to protect server memory limits
     await browser.close();
-    return metrics; // Return the full object structure cleanly
+
+    return {
+        networkMetrics: metrics,
+        seoMetrics: seoDataPayload
+    };
 };
 
 module.exports = { analyzeUrl };
