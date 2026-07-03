@@ -8,8 +8,6 @@ const cookieParser = require('cookie-parser');
 const analysisRoutes = require('./routes/analysis');
 const { router: recommendationsRouter } = require('./routes/recommendations');
 
-
-
 // Read .env file manually
 const envPath = path.join(__dirname, '.env');
 if (fs.existsSync(envPath)) {
@@ -38,7 +36,6 @@ app.use(express.json()); // Allow the server to read JSON data
 app.use(cookieParser());
 app.use('/analysis', analysisRoutes);
 app.use('/recommendations', recommendationsRouter);
-
 
 // Set up the Database Connection
 const db = mysql.createConnection({

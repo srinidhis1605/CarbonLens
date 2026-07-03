@@ -2,12 +2,17 @@
 const express = require('express');
 const router = express.Router();
 
-// IMPORT THE NEW SPLIT METHODS
+// 1. Core Service Imports
 const { analyzeUrlPerformanceOnly, analyzeUrlSeoSuite } = require('../services/analysisService');
 const { normalizeAnalysisData } = require('../services/normalizationService');
 const authenticateToken = require('../middleware/authMiddleware');
 const { saveAnalysisResult, updateSeoMetadata } = require('../services/dbService');
-const { fetchAiAdvice } = require('./recommendations');
+
+// =========================================================================
+// 🎯 LINK THE DEDICATED HYBRID RECOMMENDATION ENGINES HERE
+// =========================================================================
+const { fetchAiAdvice } = require('./recommendations'); // Phase 1 Performance
+const { fetchSeoAiAdvice } = require('./seoRecommendations'); // Phase 2 SEO
 
 function toSafeNumber(value) {
     const parsed = Number(value);
@@ -29,7 +34,13 @@ function calculateGrade(score) {
  * URL: POST /analysis
  */
 router.post('/', authenticateToken, async (req, res) => {
-    const { url, website_id } = req.body;
+    console.log('\n' + '='.repeat(80));
+    console.log('🔴 [ANALYSIS-ROUTE] POST /analysis endpoint hit');
+    console.log('   User ID:', req.user?.id);
+    console.log('   URL:', req.body?.url);
+    console.log('='.repeat(80));
+    
+    const { url } = req.body;
     if (!url) return res.status(400).json({ error: "ERR_TARGET_VECTOR_EMPTY" });
 
     const userId = req.user.id;
@@ -37,14 +48,10 @@ router.post('/', authenticateToken, async (req, res) => {
     try {
         console.log('analysis route started (Performance Only) for', url);
 
-        // --- STEP 1: HARVEST NETWORK CHANNELS (Lightning Fast Single Page Fetch) ---
         const scrapeResult = await analyzeUrlPerformanceOnly(url);
         const rawData = scrapeResult.networkMetrics || {};
-
-        // --- STEP 2: RUN NORMALIZATION & GREEN GRID CHECKS ---
         const normalized = await normalizeAnalysisData(url, rawData);
 
-        // Sanitize secondary micro-asset metrics
         const totalRequests = Math.floor(toSafeNumber(rawData.totalRequests));
         const thirdPartyRequests = Math.floor(toSafeNumber(rawData.thirdPartyRequests));
         const imageCount = Math.floor(toSafeNumber(rawData.imageCount));
@@ -63,55 +70,103 @@ router.post('/', authenticateToken, async (req, res) => {
 
         const grade = calculateGrade(normalized.carbonScore);
 
-        // Persist performance metrics down to DB analysis tables
+        // =====================================================================
+        // 🔥 LINKED: INJECT THE AUTOMATED PERFORMANCE AI PIPELINE
+        // =====================================================================
+        console.log('\n' + '='.repeat(80));
+        console.log('⏱️  [AI STAGE] Performance Analysis AI Pipeline Starting...');
+        console.log('='.repeat(80));
+        console.log(`📊 Target URL: ${url}`);
+        console.log(`📈 Metrics: ${totalRequests} requests, ${imagesMB}MB images, Score: ${normalized.carbonScore}/100`);
+        console.log('🤖 Calling AI Service for recommendations...');
+
+        // Prepare data schema format exactly how recommendations.js expects it
+        const metricsPayloadForAi = {
+    pageWeightMB: normalized.pageWeightMB,
+    carbonScore: normalized.carbonScore,
+    co2EstimateGrams: normalized.co2EstimateGrams,
+    rawScrapedData: {
+        totalRequests,
+        thirdPartyRequests,
+        imageCount,
+        imageBytes,
+        scriptCount,
+        scriptBytes,
+        styleCount,
+        styleBytes,
+        fontCount,
+        fontBytes
+    }
+};
+
+        let performanceAiAdvice = [];
+        const aiStartTime = Date.now();
+        try {
+            console.log('⏳ Waiting for AI response from Gemini API...');
+            performanceAiAdvice = await fetchAiAdvice(metricsPayloadForAi);
+            const aiElapsedTime = Date.now() - aiStartTime;
+            console.log(`✅ AI Response received successfully in ${aiElapsedTime}ms`);
+            console.log(`🎯 Generated ${performanceAiAdvice.length} optimization recommendations`);
+            performanceAiAdvice.forEach((rec, idx) => {
+                console.log(`   [${idx + 1}] ${rec.impact} - ${rec.category}: ${rec.title}`);
+            });
+            console.log('='.repeat(80) + '\n');
+        } catch (aiError) {
+            const aiElapsedTime = Date.now() - aiStartTime;
+            console.error(`❌ AI ERROR after ${aiElapsedTime}ms:`, aiError.message);
+            console.log('='.repeat(80) + '\n');
+            performanceAiAdvice = [
+                {
+                    impact: "MEDIUM",
+                    category: "Scripts",
+                    title: "Optimize Asset Bundles",
+                    description:
+                        "AI extraction encountered a temporary latency block. Compress your core resources."
+                }
+            ];
+        }
+
+        // Persist performance and initial state data to MySQL
         let persistenceStatus = 'STORED';
         let writeDbReceipt = null;
+        const dbStartTime = Date.now();
         try {
+            console.log('\n' + '='.repeat(80));
+            console.log('💾 [DATABASE] Starting analysis persistence to MySQL...');
             writeDbReceipt = await saveAnalysisResult(userId, url, {
                 pageWeightMB: normalized.pageWeightMB,
                 carbonScore: normalized.carbonScore,
                 co2EstimateGrams: normalized.co2EstimateGrams,
                 isGreenHost: normalized.isGreenHost,
-                seoMetadata: null, // Initialized to null, will be updated by /seo-audit
-                rawScrapedData: {
-                    totalRequests,
-                    thirdPartyRequests,
-                    imageCount,
-                    imageBytes,
-                    scriptCount,
-                    scriptBytes,
-                    styleCount,
-                    styleBytes,
-                    fontCount,
-                    fontBytes
-                }
+                seoMetadata: null, // Initialized to null, will be populated via /seo-audit
+                rawScrapedData: metricsPayloadForAi.rawScrapedData
             });
+            const dbElapsedTime = Date.now() - dbStartTime;
+            console.log(`✅ [DATABASE] Analysis record saved successfully in ${dbElapsedTime}ms`);
+            console.log(`   - Website ID: ${writeDbReceipt.websiteId}`);
+            console.log(`   - Analysis ID: ${writeDbReceipt.insertId}`);
+            console.log('='.repeat(80) + '\n');
         } catch (dbError) {
             persistenceStatus = 'PERSISTENCE_SKIPPED';
-            console.error('Analysis persistence warning:', dbError.message);
+            const dbElapsedTime = Date.now() - dbStartTime;
+            console.log('\n' + '='.repeat(80));
+            console.log('DATABASE ERROR CAUGHT:');
+            console.error('❌ [DATABASE] ERROR after ' + dbElapsedTime + 'ms:');
+            console.error('   - Error Type:', dbError.constructor.name);
+            console.error('   - Error Code:', dbError.code);
+            console.error('   - Error Message:', dbError.message);
+            console.error('   - SQL State:', dbError.sqlState);
+            console.error('   - Full Stack:', dbError.stack);
+            console.log('='.repeat(80) + '\n');
         }
 
-        // --- STEP 3: AUTO-FIRE THE AI ADVICE PIPELINE ---
-        console.log(`[AI Core] Generating recommendations inside pipeline for: ${url}`);
-        let aiAdvice = [];
-        try {
-            aiAdvice = await fetchAiAdvice(scrapeResult);
-        } catch (aiError) {
-            console.error("AI Recommendation Generation non-fatal bypass:", aiError.message);
-            aiAdvice = [{
-                impact: "MEDIUM",
-                category: "Caching",
-                title: "Optimize Asset Delivery",
-                description: "AI generation encountered a momentary error. Please maximize caching layers."
-            }];
-        }
-
-        // --- STEP 4: OUTPUT PACKAGING ---
+        // Pack output response map
         const finalResponse = {
             SESSION_STATUS: "PERFORMANCE_ANALYSIS_COMPLETED",
             TARGET_HOST: new URL(url).hostname.replace('www.', ''),
             TIMESTAMP_EPOCH: Date.now(),
-            DATABASE_RECORD_ID: writeDbReceipt && writeDbReceipt.insertId ? writeDbReceipt.insertId : null,
+            DATABASE_RECORD_ID:
+                writeDbReceipt && writeDbReceipt.insertId ? writeDbReceipt.insertId : null,
 
             PHASE_1_RAW_SOCKET_INTERCEPTION: {
                 STATUS: "DATA_HARVEST_SUCCESSFUL",
@@ -130,11 +185,9 @@ router.post('/', authenticateToken, async (req, res) => {
             PHASE_2_ENVIRONMENTAL_RECONSTRUCTION: {
                 STATUS: "CALCULATION_MATRIX_ENGAGED",
                 TOTAL_TRANSMITTED_WEIGHT: `${normalized.pageWeightMB.toFixed(2)} MB`,
-                // ========================================================
-                // GREEN HOSTING API STATUS RESTORED HERE:
-                // ========================================================
                 HOSTING_INFRASTRUCTURE: {
-                    IS_GREEN_PROVIDER: normalized.isGreenHost === 1 || normalized.isGreenHost === true,
+                    IS_GREEN_PROVIDER:
+                        normalized.isGreenHost === 1 || normalized.isGreenHost === true,
                     PROVIDER_SOURCE_CREDIT: "The Green Web Foundation API"
                 },
                 RECONSTRUCTED_METRICS: {
@@ -143,10 +196,11 @@ router.post('/', authenticateToken, async (req, res) => {
                 }
             },
 
-            AI_SUSTAINABILITY_OPTIMIZATIONS: aiAdvice,
-            SYSTEM_INTEGRITY_NOTICE: persistenceStatus === 'STORED'
-                ? "Performance data saved. Full structural audit ready at /analysis/seo-audit"
-                : "Analysis completed, but database persistence failed."
+            AI_SUSTAINABILITY_OPTIMIZATIONS: performanceAiAdvice,
+            SYSTEM_INTEGRITY_NOTICE:
+                persistenceStatus === 'STORED'
+                    ? "Performance data saved. Full structural audit ready at /analysis/seo-audit"
+                    : "Analysis completed, but database persistence failed."
         };
 
         return res.status(200).json(finalResponse);
@@ -154,7 +208,7 @@ router.post('/', authenticateToken, async (req, res) => {
         console.error('analysis route failed:', error);
         res.status(500).json({
             SESSION_STATUS: "CRITICAL_VECTOR_FAILURE",
-            DIAGNOSTIC_EXCEPTION: error && error.message ? error.message : 'Unknown error'
+            DIAGNOSTIC_EXCEPTION: error.message
         });
     }
 });
@@ -168,27 +222,36 @@ router.post('/seo-audit', authenticateToken, async (req, res) => {
         const { url, analysis_id } = req.body;
 
         if (!url || !analysis_id) {
-            return res.status(400).json({ error: "Missing required parameters: url and analysis_id." });
+            return res
+                .status(400)
+                .json({ error: "Missing required parameters: url and analysis_id." });
         }
 
         console.log(`[SEO Engine] Starting deep crawler suite for Analysis Record ID: ${analysis_id}`);
 
-        // Run the heavy multi-page spider and crawler lookups (All Phase 2 logic)
+        // A. Run heavy multi-page crawler operations
         const seoAuditData = await analyzeUrlSeoSuite(url);
 
-        // Update the existing row's seo_metadata column in the database
+        // =====================================================================
+        // 🔥 LINKED: INJECT THE DYNAMIC COMPREHENSIVE HYBRID SEO AI ADVICE
+        // =====================================================================
+        console.log(`[AI SEO Core] Computing structural insights for record row: ${analysis_id}`);
+        const computedSeoAdvice = await fetchSeoAiAdvice(seoAuditData);
+
+        // B. Persist structural data mapping block straight to MySQL table row
         await updateSeoMetadata(analysis_id, seoAuditData);
 
         return res.status(200).json({
             SESSION_STATUS: "SEO_AUDIT_COMPLETED",
             DATABASE_RECORD_ID: Number(analysis_id),
-            SEO_METRICS_REPORT: seoAuditData
+            SEO_METRICS_REPORT: seoAuditData,
+            AI_STRUCTURAL_OPTIMIZATIONS: computedSeoAdvice
         });
     } catch (error) {
         console.error('SEO Audit Route Failure:', error);
         res.status(500).json({
             SESSION_STATUS: "SEO_AUDIT_FAILURE",
-            DIAGNOSTIC_EXCEPTION: error && error.message ? error.message : 'Unknown error'
+            DIAGNOSTIC_EXCEPTION: error.message
         });
     }
 });
