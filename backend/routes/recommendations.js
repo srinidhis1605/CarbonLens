@@ -1,6 +1,6 @@
 // backend/routes/recommendations.js
 const express = require('express');
-const router = express.Router();
+const router = Router();
 const { OpenAI } = require('openai');
 const authenticateToken = require('../middleware/authMiddleware');
 
@@ -10,6 +10,69 @@ const openai = new OpenAI({
     baseURL: process.env.AI_BASE_URL
 });
 
+// --- HELPER FUNCTION WITH UPDATED PROMPT RULES ---
+async function fetchAiAdvice(metrics) {
+    const promptText = `
+    Analyze these web performance metrics and return exactly 3 code optimization tips to reduce carbon footprint.
+    
+    Metrics:
+    - Page Size: ${metrics.pageWeightMB.toFixed(2)} MB
+    - Sustainability Score: ${metrics.carbonScore}/100
+    - CO2 Emissions: ${metrics.co2EstimateGrams} grams per visit
+    - Total Requests: ${metrics.rawScrapedData.totalRequests}
+    - Images: ${metrics.rawScrapedData.imageCount} (${(metrics.rawScrapedData.imageBytes / (1024*1024)).toFixed(2)} MB)
+    - JavaScript: ${metrics.rawScrapedData.scriptCount} (${(metrics.rawScrapedData.scriptBytes / (1024*1024)).toFixed(2)} MB)
+    - Stylesheets: ${metrics.rawScrapedData.styleCount} (${(metrics.rawScrapedData.styleBytes / (1024*1024)).toFixed(2)} MB)
+    
+    STRICT DATA OUTPUT CONSTRAINTS:
+    1. Your response must be a strict JSON array containing EXACTLY 3 objects.
+    2. Do not include markdown wraps or backticks like \`\`\`json in your string output.
+    3. You must provide exactly ONE card for each impact level: The first must be "HIGH", the second "MEDIUM", the third "LOW".
+    4. MANDATORY CATEGORY DIVERSITY: Each object MUST have a unique category. You cannot repeat categories. 
+       - Object 1 (HIGH impact) -> Select the worst performing metric category (e.g., if Images or Scripts are huge).
+       - Object 2 (MEDIUM impact) -> Pick a completely different category (e.g., Caching strategies or asset minification).
+       - Object 3 (LOW impact) -> Pick a third, different category (e.g., Hosting green checks or clean code maintenance).
+    5. If a metric count/weight is 0, do not recommend optimizations for that category; talk about advanced strategies in the other allowed categories (Scripts, Caching, Hosting).
+
+    JSON Structure Schema:
+    [
+        {
+            "impact": "HIGH",
+            "category": "Images" | "Scripts" | "Hosting" | "Caching",
+            "title": "...",
+            "description": "..."
+        },
+        {
+            "impact": "MEDIUM",
+            "category": "Images" | "Scripts" | "Hosting" | "Caching",
+            "title": "...",
+            "description": "..."
+        },
+        {
+            "impact": "LOW",
+            "category": "Images" | "Scripts" | "Hosting" | "Caching",
+            "title": "...",
+            "description": "..."
+        }
+    ]
+`;
+
+    // Using gemini-2.5-flash which is completely free on Google AI Studio
+    const response = await openai.chat.completions.create({
+        model: "gemini-2.5-flash", 
+        messages: [
+            { role: "system", content: "You are a green web engineering specialist. You respond exclusively with raw, valid JSON arrays." },
+            { role: "user", content: promptText }
+        ],
+        temperature: 0.2
+    });
+
+    const rawContent = response.choices[0].message.content.trim();
+    const cleanText = rawContent.replace(/^```json\s*|```$/g, '');
+    return JSON.parse(cleanText);
+}
+
+// Your route remains perfectly protected by authenticateToken and uses the helper function
 router.post('/', authenticateToken, async (req, res) => {
     const { metrics } = req.body;
 
@@ -18,48 +81,8 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 
     try {
-        const promptText = `
-            Analyze these web performance metrics and return exactly 3 highly actionable code optimization tips to reduce carbon footprint.
-            
-            Metrics:
-            - Page Size: ${metrics.pageWeightMB.toFixed(2)} MB
-            - Sustainability Score: ${metrics.carbonScore}/100
-            - CO2 Emissions: ${metrics.co2EstimateGrams} grams per visit
-            - Total Requests: ${metrics.rawScrapedData.totalRequests}
-            - Images: ${metrics.rawScrapedData.imageCount} (${(metrics.rawScrapedData.imageBytes / (1024*1024)).toFixed(2)} MB)
-            - JavaScript: ${metrics.rawScrapedData.scriptCount} (${(metrics.rawScrapedData.scriptBytes / (1024*1024)).toFixed(2)} MB)
-            - Stylesheets: ${metrics.rawScrapedData.styleCount} (${(metrics.rawScrapedData.styleBytes / (1024*1024)).toFixed(2)} MB)
-            
-            Your response must be a strict JSON array containing exactly 3 objects. Do not include markdown wraps or backticks like \`\`\`json in your string output.
-            Each object format must strictly mirror this JSON schema structure:
-            {
-                "impact": "HIGH" | "MEDIUM" | "LOW",
-                "category": "Images" | "Scripts" | "Hosting" | "Caching",
-                "title": "Short descriptive title",
-                "description": "Clear explanation detailing exactly what text or configuration code to change to reduce emissions."
-            }
-        `;
-
-        // Using gemini-2.5-flash which is completely free on Google AI Studio
-        const response = await openai.chat.completions.create({
-            model: "gemini-2.5-flash", 
-            messages: [
-                { role: "system", content: "You are a green web engineering specialist. You respond exclusively with raw, valid JSON arrays." },
-                { role: "user", content: promptText }
-            ],
-            temperature: 0.2
-        });
-
-        // Strip any potential markdown wrappers the model might add and parse into an object
-        let adviceJson;
-        try {
-            const rawContent = response.choices[0].message.content.trim();
-            const cleanText = rawContent.replace(/^```json\s*|```$/g, '');
-            adviceJson = JSON.parse(cleanText);
-        } catch (parseError) {
-            console.error("AI Text Parsing anomaly:", response.choices[0].message.content);
-            throw new Error("AI returned data in an invalid structural shape.");
-        }
+        // Calls our internal text/token handler
+        const adviceJson = await fetchAiAdvice(metrics);
 
         res.json({
             RECOMMENDATION_ENGINE_STATUS: "OPTIMIZATIONS_GENERATED",
@@ -74,4 +97,8 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+// --- EXPORT BOTH SO OTHER FILES CAN USE IT ---
+module.exports = {
+    router: router,          
+    fetchAiAdvice: fetchAiAdvice  
+};

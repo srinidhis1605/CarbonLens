@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const analysisRoutes = require('./routes/analysis');
-const recommendationsRouter = require('./routes/recommendations');
+const { router: recommendationsRouter } = require('./routes/recommendations');
 
 
 

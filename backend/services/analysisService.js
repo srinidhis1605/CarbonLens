@@ -65,7 +65,7 @@ const analyzeUrl = async (url) => {
 
     try {
         // Use your original working networkidle condition
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     } catch (error) {
         await browser.close();
         throw new Error("Failed to load URL");

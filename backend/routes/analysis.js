@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const { analyzeUrl } = require('../services/analysisService');
-const { normalizeAnalysisData } = require('../services/normalizationService'); // Upgraded Day 5 Utility
+const { normalizeAnalysisData } = require('../services/normalizationService'); 
 const authenticateToken = require('../middleware/authMiddleware');
 const { saveAnalysisResult } = require('../services/dbService');
+const { fetchAiAdvice } = require('./recommendations');
 
 function toSafeNumber(value) {
     const parsed = Number(value);
@@ -33,7 +34,7 @@ router.post('/', authenticateToken, async (req, res) => {
         // --- STEP 1: HARVEST NETWORK CHANNELS ---
         const rawData = await analyzeUrl(url);
 
-        // --- STEP 2: RUN DAY 5 NORMALIZATION & GREEN GRID CHECKS ---
+        // --- STEP 2: RUN NORMALIZATION & GREEN GRID CHECKS ---
         const normalized = await normalizeAnalysisData(url, rawData);
 
         // Sanitize secondary micro-asset metrics
@@ -84,6 +85,21 @@ router.post('/', authenticateToken, async (req, res) => {
             console.error('Analysis persistence warning:', dbError.message);
         }
 
+        // --- NEW INTEGRATION: AUTO-FIRE THE AI ADVICE PIPELINE HERE ---
+        console.log(`[AI Core] Generating recommendations inside pipeline for: ${url}`);
+        let aiAdvice = [];
+        try {
+            aiAdvice = await fetchAiAdvice(dbMetrics);
+        } catch (aiError) {
+            console.error("AI Recommendation Generation non-fatal bypass:", aiError.message);
+            aiAdvice = [{
+                impact: "MEDIUM",
+                category: "Caching",
+                title: "Optimize Asset Delivery",
+                description: "AI generation encountered a momentary error. Please maximize caching layers."
+            }];
+        }
+
         // --- STEP 3: OUTPUT PACKAGING ---
         res.json({
             SESSION_STATUS: "TARGET_DECONSTRUCTED_COMPLETED",
@@ -120,6 +136,9 @@ router.post('/', authenticateToken, async (req, res) => {
                     ESTIMATED_ANNUAL_CARBON_LOAD: (normalized.co2EstimateGrams * 10000 * 12 / 1000).toFixed(2) + " kg (Based on 10k monthly baseline sessions)"
                 }
             },
+
+            // ADDED HERE: Attaching your Gemini recommendations to the final response wrapper
+            AI_SUSTAINABILITY_OPTIMIZATIONS: aiAdvice,
 
             SYSTEM_INTEGRITY_NOTICE: persistenceStatus === 'STORED'
                 ? "All security contexts cleared. Extraction data securely locked to database ledger."
