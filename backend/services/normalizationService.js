@@ -56,33 +56,44 @@ async function checkGreenHosting(url) {
 }
 
 /**
- * Normalizes raw byte variables, builds exponential grades, and checks hosting grids
+ * Normalizes raw byte variables, builds exponential grades, checks hosting grids,
+ * and appends Phase 3 speed telemetry.
+ *
+ * @param {string} url
+ * @param {object} rawMetrics - networkMetrics from analyzeUrlPerformanceOnly()
+ * @param {object} speedMetrics - speedMetrics from analyzeUrlPerformanceOnly()
  */
-async function normalizeAnalysisData(url, rawMetrics) {
+async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}) {
     // 1. Convert raw bytes from Playwright into Gigabytes (GB)
     const totalBytes = Number(rawMetrics?.totalBytes) || 0;
     const totalWeightMB = totalBytes / (1024 * 1024);
     const totalWeightGB = totalBytes / (1024 * 1024 * 1024);
 
-    // 2. This is your Green Web API function call that you just fixed!
+    // 2. Green Web API hosting check
     const isGreenHost = await checkGreenHosting(url);
 
     // 3. DAY 8 FORMULA: Calculate total energy based on the 0.06 kWh per GB constant
     const energyPerGB = 0.06; 
     const energyUsedKWh = totalWeightGB * energyPerGB;
 
-    // 4. CHOOSE GRID INTENSITY BASED ON YOUR GREEN WEB API RESULT
-    // If the API said true, we use 312. If false, we use 442.
+    // 4. CHOOSE GRID INTENSITY BASED ON GREEN WEB API RESULT
     const carbonIntensity = isGreenHost ? 312 : 442;
     
     // 5. Calculate final grams of CO2
     const co2EstimateGrams = (energyUsedKWh * carbonIntensity).toFixed(4);
 
     return {
+        // Existing sustainability / page-weight metrics
         pageWeightMB: totalWeightMB,
         carbonScore: Math.round(100 * Math.exp(-0.15 * totalWeightMB)),
         co2EstimateGrams: parseFloat(co2EstimateGrams) || 0,
-        isGreenHost: isGreenHost // Passed right to your DB handler!
+        isGreenHost: isGreenHost,
+
+        // Phase 3 Speed Metrics
+        timeToFirstByteMs: Number(speedMetrics?.timeToFirstByteMs) || 0,
+        domContentLoadedMs: Number(speedMetrics?.domContentLoadedMs) || 0,
+        pageLoadTimeMs: Number(speedMetrics?.pageLoadTimeMs) || 0,
+        estimated4gLatencyMs: Number(speedMetrics?.estimated4gLatencyMs) || 0
     };
 }
 

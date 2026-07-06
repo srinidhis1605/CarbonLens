@@ -48,9 +48,15 @@ router.post('/', authenticateToken, async (req, res) => {
     try {
         console.log('analysis route started (Performance Only) for', url);
 
+        // =========================================================================
+        // STEP 3 HOOK: Pull both network metrics + speed metrics from service layer
+        // =========================================================================
         const scrapeResult = await analyzeUrlPerformanceOnly(url);
         const rawData = scrapeResult.networkMetrics || {};
-        const normalized = await normalizeAnalysisData(url, rawData);
+        const speedData = scrapeResult.speedMetrics || {};
+
+        // Normalize everything together
+        const normalized = await normalizeAnalysisData(url, rawData, speedData);
 
         const totalRequests = Math.floor(toSafeNumber(rawData.totalRequests));
         const thirdPartyRequests = Math.floor(toSafeNumber(rawData.thirdPartyRequests));
@@ -82,22 +88,22 @@ router.post('/', authenticateToken, async (req, res) => {
 
         // Prepare data schema format exactly how recommendations.js expects it
         const metricsPayloadForAi = {
-    pageWeightMB: normalized.pageWeightMB,
-    carbonScore: normalized.carbonScore,
-    co2EstimateGrams: normalized.co2EstimateGrams,
-    rawScrapedData: {
-        totalRequests,
-        thirdPartyRequests,
-        imageCount,
-        imageBytes,
-        scriptCount,
-        scriptBytes,
-        styleCount,
-        styleBytes,
-        fontCount,
-        fontBytes
-    }
-};
+            pageWeightMB: normalized.pageWeightMB,
+            carbonScore: normalized.carbonScore,
+            co2EstimateGrams: normalized.co2EstimateGrams,
+            rawScrapedData: {
+                totalRequests,
+                thirdPartyRequests,
+                imageCount,
+                imageBytes,
+                scriptCount,
+                scriptBytes,
+                styleCount,
+                styleBytes,
+                fontCount,
+                fontBytes
+            }
+        };
 
         let performanceAiAdvice = [];
         const aiStartTime = Date.now();
@@ -138,6 +144,13 @@ router.post('/', authenticateToken, async (req, res) => {
                 carbonScore: normalized.carbonScore,
                 co2EstimateGrams: normalized.co2EstimateGrams,
                 isGreenHost: normalized.isGreenHost,
+
+                // Optional: persist speed metrics too if your DB layer/table supports them
+                timeToFirstByteMs: normalized.timeToFirstByteMs,
+                domContentLoadedMs: normalized.domContentLoadedMs,
+                pageLoadTimeMs: normalized.pageLoadTimeMs,
+                estimated4gLatencyMs: normalized.estimated4gLatencyMs,
+
                 seoMetadata: null, // Initialized to null, will be populated via /seo-audit
                 rawScrapedData: metricsPayloadForAi.rawScrapedData
             });
@@ -193,6 +206,19 @@ router.post('/', authenticateToken, async (req, res) => {
                 RECONSTRUCTED_METRICS: {
                     CARBON_EFFICIENCY_SCORE: `${normalized.carbonScore}/100`,
                     SUSTAINABILITY_GRADE: grade
+                }
+            },
+
+            // =========================================================================
+            // NEW PHASE 3 SPEED TELEMETRY BLOCK
+            // =========================================================================
+            PHASE_3_SPEED_METRICS_TRANSCRIPT: {
+                STATUS: "TIMING_API_EXTRACTED",
+                METRICS: {
+                    SERVER_RESPONSE_LAG_TTFB: `${normalized.timeToFirstByteMs} ms`,
+                    DOM_STRUCTURAL_READINESS: `${normalized.domContentLoadedMs} ms`,
+                    TOTAL_VISUAL_RENDER_TIME: `${normalized.pageLoadTimeMs} ms`,
+                    ESTIMATED_4G_DOWNLOAD_DELAY: `${normalized.estimated4gLatencyMs} ms`
                 }
             },
 

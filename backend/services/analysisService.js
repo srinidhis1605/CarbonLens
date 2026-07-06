@@ -54,8 +54,74 @@ async function analyzeUrlPerformanceOnly(url) {
     });
 
     try {
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-        return { networkMetrics: metrics };
+        // 1. Navigate to target page
+        const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+
+        // Optional: wait a bit more so late resources finish and byte counts improve
+        await page.waitForLoadState('networkidle').catch(() => {});
+
+        // 2. Extract native browser performance timestamps
+        const timingMetrics = await page.evaluate(() => {
+            const [entry] = performance.getEntriesByType('navigation');
+            const timing = entry || performance.timing;
+
+            if (!timing) return null;
+
+            // For PerformanceNavigationTiming, values are already relative to navigation start
+            // For legacy performance.timing, subtract navigationStart
+            const baseTime = entry ? 0 : timing.navigationStart;
+
+            const ttfb = entry
+                ? timing.responseStart
+                : timing.responseStart - baseTime;
+
+            const domReady = entry
+                ? timing.domContentLoadedEventEnd
+                : timing.domContentLoadedEventEnd - baseTime;
+
+            const fullyLoaded = entry
+                ? timing.loadEventEnd
+                : timing.loadEventEnd - baseTime;
+
+            return {
+                ttfb: Math.max(0, ttfb || 0),
+                domReady: Math.max(0, domReady || 0),
+                fullyLoaded: Math.max(0, fullyLoaded || 0)
+            };
+        });
+
+        // 3. Calculate estimated 4G latency from transferred bytes
+        // Baseline: 25 Mbps download = 3,276,800 bytes/sec
+        // Fixed RTT overhead = 40ms
+        const totalBytes = metrics.totalBytes || 0;
+        const speed4GBytesPerSec = (25 * 1024 * 1024) / 8; // 3,276,800 bytes/sec
+        const networkRttOverheadMs = 40;
+
+        const calculated4GLatencyMs = Math.round(
+            ((totalBytes / speed4GBytesPerSec) * 1000) + networkRttOverheadMs
+        );
+
+        return {
+            networkMetrics: {
+                totalBytes: metrics.totalBytes,
+                totalRequests: metrics.totalRequests,
+                thirdPartyRequests: metrics.thirdPartyRequests,
+                imageCount: metrics.imageCount,
+                imageBytes: metrics.imageBytes,
+                scriptCount: metrics.scriptCount,
+                scriptBytes: metrics.scriptBytes,
+                styleCount: metrics.styleCount,
+                styleBytes: metrics.styleBytes,
+                fontCount: metrics.fontCount,
+                fontBytes: metrics.fontBytes
+            },
+            speedMetrics: {
+                timeToFirstByteMs: Math.round(timingMetrics?.ttfb || 0),
+                domContentLoadedMs: Math.round(timingMetrics?.domReady || 0),
+                pageLoadTimeMs: Math.round(timingMetrics?.fullyLoaded || 0),
+                estimated4gLatencyMs: calculated4GLatencyMs
+            }
+        };
     } finally {
         await browser.close();
     }
