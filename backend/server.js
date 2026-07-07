@@ -30,6 +30,7 @@ app.use(cors({
         if (!origin || FRONTEND_ORIGINS.includes(origin)) {
             return callback(null, true);
         }
+        console.warn(`CORS blocked for origin: ${origin}. Allowed: ${FRONTEND_ORIGINS.join(', ')}`);
         return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,
