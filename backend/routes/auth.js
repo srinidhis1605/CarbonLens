@@ -3,6 +3,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+function getCookieOptions() {
+    const isProduction = process.env.NODE_ENV === 'production';
+    return {
+        httpOnly: true,
+        secure: isProduction,
+        // Netlify frontend + Render backend are different sites; cookies need SameSite=None.
+        sameSite: isProduction ? 'none' : 'lax',
+    };
+}
+
 module.exports = (db) => {
     const router = express.Router();
 
@@ -61,11 +71,7 @@ module.exports = (db) => {
                 [hashedRefreshToken, user.id]
             );
 
-            const cookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-            };
+            const cookieOptions = getCookieOptions();
 
             res.cookie('accessToken', accessToken, {
                 ...cookieOptions,
@@ -120,11 +126,7 @@ module.exports = (db) => {
                 { expiresIn: '1h' }
             );
 
-            const cookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-            };
+            const cookieOptions = getCookieOptions();
 
             res.cookie('accessToken', accessToken, {
                 ...cookieOptions,

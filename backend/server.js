@@ -31,7 +31,8 @@ app.use(cors({
             return callback(null, true);
         }
         console.warn(`CORS blocked for origin: ${origin}. Allowed: ${FRONTEND_ORIGINS.join(', ')}`);
-        return callback(new Error(`CORS blocked for origin: ${origin}`));
+        // Use false (not Error) so preflight OPTIONS does not return 500.
+        return callback(null, false);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
