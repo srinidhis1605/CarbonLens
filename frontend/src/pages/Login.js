@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,11 +26,7 @@ export default function Login() {
       loginSuccess({ accessToken: data.accessToken, user: data.user });
       navigate(from, { replace: true });
     } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-          err?.message ||
-          "Login failed. Please try again."
-      );
+      setError(getApiErrorMessage(err, "Login failed. Please try again."));
     } finally {
       setLoading(false);
     }

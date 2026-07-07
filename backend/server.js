@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const analysisRoutes = require('./routes/analysis');
 const { router: recommendationsRouter } = require('./routes/recommendations');
+const { ensureHistoryColumns } = require('./services/dbService');
 
 dotenv.config({ path: path.join(__dirname, '.env'), override: true });
 
@@ -70,6 +71,12 @@ app.use('/recommendations', recommendationsRouter);
 app.get('/', (req, res) => {
     res.send('CarbonLens Backend is working!');
 });
+
+ensureHistoryColumns()
+    .then(() => console.log('Analysis history columns ready.'))
+    .catch((error) => {
+        console.error('Failed to ensure history columns:', error.message);
+    });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

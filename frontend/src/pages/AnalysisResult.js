@@ -1,16 +1,27 @@
-import React, { useState } from "react";
-import { Navigate, useLocation, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import AnalysisSummary from "../components/AnalysisSummary";
 import SeoReport from "../components/SeoReport";
-import { runSeoAudit } from "../services/analysisService";
+import AnalysisHistoryList from "../components/AnalysisHistoryList";
+import { getAnalysisById, runSeoAudit } from "../services/analysisService";
 
 export default function AnalysisResult() {
+  const { analysisId: routeAnalysisId } = useParams();
   const location = useLocation();
-  const { analysis, analysisId, url } = location.state || {};
+  const initialState = location.state || {};
 
-  const [seo, setSeo] = useState(null);
+  const [analysis, setAnalysis] = useState(initialState.analysis || null);
+  const [analysisId, setAnalysisId] = useState(
+    initialState.analysisId || routeAnalysisId || null
+  );
+  const [url, setUrl] = useState(initialState.url || "");
+  const [seo, setSeo] = useState(initialState.seo || null);
+  const [isLegacy, setIsLegacy] = useState(initialState.isLegacy || false);
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(!!routeAnalysisId && !initialState.analysis);
   const [error, setError] = useState("");
+  const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
+
   const performanceNavItems = [
     { id: "environmental-metrics", label: "Environmental metrics" },
     { id: "speed-metrics", label: "Speed metrics" },
@@ -33,8 +44,67 @@ export default function AnalysisResult() {
     { id: "seo-ai-suggestions", label: "AI structural suggestions", conditional: true },
   ];
 
-  if (!analysis || !analysisId) {
+  useEffect(() => {
+    if (!routeAnalysisId) return;
+
+    let cancelled = false;
+
+    async function loadSavedAnalysis() {
+      setPageLoading(true);
+      setError("");
+      try {
+        const record = await getAnalysisById(routeAnalysisId);
+        if (cancelled) return;
+
+        setAnalysis(record.analysis);
+        setAnalysisId(record.analysisId);
+        setUrl(record.url);
+        setSeo(record.seo || null);
+        setIsLegacy(!!record.isLegacy);
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err?.response?.data?.error ||
+              err?.message ||
+              "Failed to load saved analysis."
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setPageLoading(false);
+        }
+      }
+    }
+
+    if (!initialState.analysis || String(initialState.analysisId) !== String(routeAnalysisId)) {
+      loadSavedAnalysis();
+    } else {
+      setPageLoading(false);
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [routeAnalysisId, initialState.analysis, initialState.analysisId]);
+
+  if (!pageLoading && !analysis && !analysisId && !routeAnalysisId) {
     return <Navigate to="/dashboard" replace />;
+  }
+
+  if (!pageLoading && routeAnalysisId && !analysis && error) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-10 space-y-4">
+        <div className="p-4 rounded-md bg-red-50 text-red-700 text-sm border border-red-200">
+          {error}
+        </div>
+        <Link
+          to="/dashboard"
+          className="inline-block text-sm font-medium text-brand hover:text-brand-dark"
+        >
+          Back to dashboard
+        </Link>
+      </div>
+    );
   }
 
   const handleSeoAudit = async () => {
@@ -43,6 +113,7 @@ export default function AnalysisResult() {
     try {
       const data = await runSeoAudit(analysisId, url);
       setSeo(data);
+      setHistoryRefreshKey((value) => value + 1);
     } catch (err) {
       setError(
         err?.response?.data?.message ||
@@ -82,6 +153,14 @@ export default function AnalysisResult() {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  if (pageLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-10 text-sm text-slate-500">
+        Loading analysis...
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
@@ -123,6 +202,14 @@ export default function AnalysisResult() {
         </div>
       )}
 
+      {isLegacy && (
+        <div className="p-3 rounded-md bg-amber-50 text-amber-800 text-sm border border-amber-200">
+          This is an older analysis restored from saved database metrics. Speed
+          metrics and AI suggestions are unavailable. Run a new analysis for the
+          full report.
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <aside className="hidden md:block lg:col-span-3">
           <div className="sticky top-6 bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
@@ -160,6 +247,11 @@ export default function AnalysisResult() {
                 </>
               )}
             </nav>
+
+            <AnalysisHistoryList
+              activeAnalysisId={analysisId}
+              refreshKey={historyRefreshKey}
+            />
           </div>
         </aside>
 

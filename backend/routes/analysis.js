@@ -6,7 +6,14 @@ const router = express.Router();
 const { analyzeUrlPerformanceOnly, analyzeUrlSeoSuite } = require('../services/analysisService');
 const { normalizeAnalysisData } = require('../services/normalizationService');
 const authenticateToken = require('../middleware/authMiddleware');
-const { saveAnalysisResult, updateSeoMetadata } = require('../services/dbService');
+const {
+    saveAnalysisResult,
+    saveAnalysisPayload,
+    updateSeoMetadata,
+    saveSeoAuditPayload,
+    getAnalysisHistory,
+    getAnalysisById,
+} = require('../services/dbService');
 
 // =========================================================================
 // 🎯 LINK THE DEDICATED HYBRID RECOMMENDATION ENGINES HERE
@@ -229,6 +236,14 @@ router.post('/', authenticateToken, async (req, res) => {
                     : "Analysis completed, but database persistence failed."
         };
 
+        if (writeDbReceipt?.insertId && persistenceStatus === 'STORED') {
+            try {
+                await saveAnalysisPayload(writeDbReceipt.insertId, userId, finalResponse);
+            } catch (payloadError) {
+                console.error('Failed to save analysis payload:', payloadError.message);
+            }
+        }
+
         return res.status(200).json(finalResponse);
     } catch (error) {
         console.error('analysis route failed:', error);
@@ -246,6 +261,7 @@ router.post('/', authenticateToken, async (req, res) => {
 router.post('/seo-audit', authenticateToken, async (req, res) => {
     try {
         const { url, analysis_id } = req.body;
+        const userId = req.user.id;
 
         if (!url || !analysis_id) {
             return res
@@ -255,30 +271,52 @@ router.post('/seo-audit', authenticateToken, async (req, res) => {
 
         console.log(`[SEO Engine] Starting deep crawler suite for Analysis Record ID: ${analysis_id}`);
 
-        // A. Run heavy multi-page crawler operations
         const seoAuditData = await analyzeUrlSeoSuite(url);
-
-        // =====================================================================
-        // 🔥 LINKED: INJECT THE DYNAMIC COMPREHENSIVE HYBRID SEO AI ADVICE
-        // =====================================================================
-        console.log(`[AI SEO Core] Computing structural insights for record row: ${analysis_id}`);
         const computedSeoAdvice = await fetchSeoAiAdvice(seoAuditData);
 
-        // B. Persist structural data mapping block straight to MySQL table row
-        await updateSeoMetadata(analysis_id, seoAuditData);
+        await updateSeoMetadata(analysis_id, userId, seoAuditData);
 
-        return res.status(200).json({
+        const seoResponse = {
             SESSION_STATUS: "SEO_AUDIT_COMPLETED",
             DATABASE_RECORD_ID: Number(analysis_id),
             SEO_METRICS_REPORT: seoAuditData,
-            AI_STRUCTURAL_OPTIMIZATIONS: computedSeoAdvice
-        });
+            AI_STRUCTURAL_OPTIMIZATIONS: computedSeoAdvice,
+        };
+
+        await saveSeoAuditPayload(analysis_id, userId, seoResponse);
+
+        return res.status(200).json(seoResponse);
     } catch (error) {
         console.error('SEO Audit Route Failure:', error);
         res.status(500).json({
             SESSION_STATUS: "SEO_AUDIT_FAILURE",
             DIAGNOSTIC_EXCEPTION: error.message
         });
+    }
+});
+
+router.get('/history', authenticateToken, async (req, res) => {
+    try {
+        const history = await getAnalysisHistory(req.user.id, req.query.limit);
+        res.json({ history });
+    } catch (error) {
+        console.error('Analysis history route failed:', error);
+        res.status(500).json({ error: 'Failed to load analysis history.' });
+    }
+});
+
+router.get('/:id', authenticateToken, async (req, res) => {
+    try {
+        const record = await getAnalysisById(req.user.id, req.params.id);
+
+        if (!record) {
+            return res.status(404).json({ error: 'Analysis not found.' });
+        }
+
+        res.json(record);
+    } catch (error) {
+        console.error('Analysis detail route failed:', error);
+        res.status(500).json({ error: 'Failed to load analysis record.' });
     }
 });
 

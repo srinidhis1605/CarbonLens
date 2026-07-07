@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UrlInputForm from "../components/UrlInputForm";
+import AnalysisHistoryList from "../components/AnalysisHistoryList";
 import { runAnalysis } from "../services/analysisService";
 
 export default function Dashboard() {
@@ -22,7 +23,7 @@ export default function Dashboard() {
         throw new Error("Analysis response missing DATABASE_RECORD_ID.");
       }
 
-      navigate("/analysis", {
+      navigate(`/analysis/${recordId}`, {
         state: { analysis: data, analysisId: recordId, url },
       });
     } catch (err) {
@@ -52,6 +53,8 @@ export default function Dashboard() {
           {error}
         </div>
       )}
+
+      <AnalysisHistoryList variant="horizontal" />
     </div>
   );
 }

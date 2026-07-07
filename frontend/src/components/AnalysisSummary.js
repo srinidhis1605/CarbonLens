@@ -23,11 +23,28 @@ function Card({ title, children }) {
   );
 }
 
+function formatSessionStatus(status) {
+  const labels = {
+    PERFORMANCE_ANALYSIS_COMPLETED: "Performance analysis successful",
+    SEO_AUDIT_COMPLETED: "SEO audit successful",
+    CRITICAL_VECTOR_FAILURE: "Analysis failed",
+    SEO_AUDIT_FAILURE: "SEO audit failed",
+  };
+
+  if (!status) return "—";
+  if (labels[status]) return labels[status];
+
+  return String(status)
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/^\w/, (char) => char.toUpperCase());
+}
+
 export default function AnalysisSummary({ analysis }) {
   if (!analysis) return null;
 
   const host = analysis.TARGET_HOST;
-  const status = analysis.SESSION_STATUS;
+  const status = formatSessionStatus(analysis.SESSION_STATUS);
   const recordId = analysis.DATABASE_RECORD_ID;
 
   const phase1 = analysis.PHASE_1_RAW_SOCKET_INTERCEPTION || {};

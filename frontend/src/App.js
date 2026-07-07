@@ -25,6 +25,14 @@ export default function App() {
             }
           />
           <Route
+            path="/analysis/:analysisId"
+            element={
+              <ProtectedRoute>
+                <AnalysisResult />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/analysis"
             element={
               <ProtectedRoute>

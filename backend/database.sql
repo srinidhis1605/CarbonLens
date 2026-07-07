@@ -49,3 +49,9 @@ CREATE TABLE IF NOT EXISTS analysis (
 
 ALTER TABLE `analysis` 
 ADD COLUMN `seo_metadata` JSON DEFAULT NULL AFTER `font_bytes`;
+
+ALTER TABLE `analysis`
+ADD COLUMN `analysis_payload` JSON DEFAULT NULL AFTER `seo_metadata`;
+
+ALTER TABLE `analysis`
+ADD COLUMN `seo_audit_payload` JSON DEFAULT NULL AFTER `analysis_payload`;

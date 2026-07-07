@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../services/authService";
+import { getApiErrorMessage } from "../utils/apiError";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -19,11 +20,7 @@ export default function Register() {
       await register(form);
       navigate("/login", { replace: true });
     } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-          err?.message ||
-          "Registration failed. Please try again."
-      );
+      setError(getApiErrorMessage(err, "Registration failed. Please try again."));
     } finally {
       setLoading(false);
     }

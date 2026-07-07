@@ -31,11 +31,14 @@ module.exports = (db) => {
             if (results.length === 0) return res.status(401).json({ error: "User not found" });
 
             const user = results[0];
-            
-            // Compare the plain text password with the stored hash
-            const isMatch = await bcrypt.compare(password, user.password_hash);
-            
-            if (isMatch) {
+
+            try {
+                const isMatch = await bcrypt.compare(password, user.password_hash);
+
+                if (!isMatch) {
+                    return res.status(401).json({ error: "Invalid password" });
+                }
+
                 const accessToken = jwt.sign(
                     { id: user.id },
                     process.env.JWT_SECRET,
@@ -71,12 +74,13 @@ module.exports = (db) => {
                     maxAge: 7 * 24 * 60 * 60 * 1000,
                 });
 
-                res.json({
+                return res.json({
                     accessToken,
                     user: { id: user.id, name: user.name, email: user.email },
                 });
-            } else {
-                res.status(401).json({ error: "Invalid password" });
+            } catch (loginError) {
+                console.error('Login failed:', loginError.message);
+                return res.status(500).json({ error: "Login failed. Please try again." });
             }
         });
     });
