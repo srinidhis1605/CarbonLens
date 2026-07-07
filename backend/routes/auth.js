@@ -1,11 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // We use a function that takes 'db' as an argument
 module.exports = (db) => {
+    const router = express.Router();
     router.post('/register', async (req, res) => {
         const { name, email, password } = req.body;
         

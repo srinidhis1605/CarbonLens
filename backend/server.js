@@ -1,46 +1,44 @@
-// Import the "ingredients" we installed
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 const analysisRoutes = require('./routes/analysis');
 const { router: recommendationsRouter } = require('./routes/recommendations');
 
-// Middleware: These functions run before your routes to handle data 
-app.use(cors({  // Allow frontend to talk to backend
-    origin: 'http://localhost:3000',    // Update this to your React port
-    credentials: true,  // Crucial for cookies to work
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allow these
-    allowedHeaders: ['Content-Type', 'Authorization'] // Crucial if you use JWT tokens
-}));
-app.options('*', cors());
-
-
-// Read .env file manually
-const envPath = path.join(__dirname, '.env');
-if (fs.existsSync(envPath)) {
-    const envContent = fs.readFileSync(envPath, 'utf8');
-    envContent.split('\n').forEach(line => {
-        const [key, value] = line.trim().split('=');
-        if (key && value) {
-            process.env[key] = value;
-        }
-    });
-}
-
-
-// Also try dotenv as backup
-require('dotenv').config({ path: envPath });
+dotenv.config({ path: path.join(__dirname, '.env'), override: true });
 
 const app = express();
 
+const FRONTEND_ORIGINS = (process.env.FRONTEND_ORIGIN || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+const PORT = Number(process.env.PORT);
 
-app.use(express.json()); // Allow the server to read JSON data
+if (FRONTEND_ORIGINS.length === 0) {
+    throw new Error('Missing FRONTEND_ORIGIN in backend/.env');
+}
+if (!PORT) {
+    throw new Error('Missing PORT in backend/.env');
+}
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow non-browser tools (no Origin header) and configured frontend origins.
+        if (!origin || FRONTEND_ORIGINS.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json());
 app.use(cookieParser());
-app.use('/analysis', analysisRoutes);
-app.use('/recommendations', recommendationsRouter);
 
 // Set up the Database Connection
 const db = mysql.createConnection({
@@ -59,23 +57,20 @@ db.connect((err) => {
     console.log('Successfully connected to MySQL Database!');
 });
 
-// Make db available to routes
 app.use((req, res, next) => {
     req.db = db;
     next();
 });
 
-// Import the auth routes
-const authRoutes = require('./routes/auth')(db); 
+const authRoutes = require('./routes/auth')(db);
 app.use('/auth', authRoutes);
+app.use('/analysis', analysisRoutes);
+app.use('/recommendations', recommendationsRouter);
 
-// Simple test route
 app.get('/', (req, res) => {
     res.send('CarbonLens Backend is working!');
 });
 
-// Start the server
-const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
