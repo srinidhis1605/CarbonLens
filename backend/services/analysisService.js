@@ -4,12 +4,28 @@ const { chromium } = require('playwright');
 const { extractMetadata } = require('./seoParser');
 const { auditRobotsTxt, auditSitemapXml, auditLivePages } = require('./crawlerService');
 
+// Low-memory Chromium flags so the browser can run on constrained hosts (e.g. Render free tier, 512MB).
+const CHROMIUM_LAUNCH_OPTIONS = {
+    headless: true,
+    args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--single-process',
+        '--no-zygote',
+    ],
+};
+
+// Keep the SEO deep crawl small enough to finish within host request timeouts.
+const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 8;
+
 /**
  * METHOD 1: Lightning Fast Performance Profile Scan
  */
 async function analyzeUrlPerformanceOnly(url) {
     const rootOrigin = new URL(url).origin;
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch(CHROMIUM_LAUNCH_OPTIONS);
     const page = await browser.newPage();
 
     let metrics = {
@@ -132,12 +148,12 @@ async function analyzeUrlPerformanceOnly(url) {
  */
 async function analyzeUrlSeoSuite(url) {
     const rootOrigin = new URL(url).origin;
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch(CHROMIUM_LAUNCH_OPTIONS);
     const page = await browser.newPage();
 
     try {
         // A. Run the deep spider to count all live internal paths across dropdowns/footers
-        const allDiscoveredUrls = await auditLivePages(page, url, 100);
+        const allDiscoveredUrls = await auditLivePages(page, url, SEO_MAX_CRAWL_PAGES);
 
         // B. Seed the compilation using the core page elements from the homepage
         await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
