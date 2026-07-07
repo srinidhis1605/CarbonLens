@@ -74,95 +74,93 @@ export default function AnalysisSummary({ analysis }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div id="environmental-metrics" className="scroll-mt-24">
-          <Card title="Environmental">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Carbon efficiency</span>
-                  <span className="font-medium">
-                    {reconstructed.CARBON_EFFICIENCY_SCORE ?? "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Sustainability grade</span>
-                  <span className="font-medium">
-                    {reconstructed.SUSTAINABILITY_GRADE ?? "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Green hosting</span>
-                  <span className="font-medium">
-                    {typeof hosting.IS_GREEN_PROVIDER === "boolean"
-                      ? hosting.IS_GREEN_PROVIDER
-                        ? "Yes"
-                        : "No"
-                      : "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Source</span>
-                  <span className="font-medium text-right">
-                    {hosting.PROVIDER_SOURCE_CREDIT ?? "—"}
-                  </span>
-                </div>
+      <div id="environmental-metrics" className="scroll-mt-24">
+        <Card title="Environmental">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Carbon efficiency</span>
+                <span className="font-medium">
+                  {reconstructed.CARBON_EFFICIENCY_SCORE ?? "—"}
+                </span>
               </div>
-              <PerformanceScoreDonut
-                scoreText={reconstructed.CARBON_EFFICIENCY_SCORE}
-                grade={reconstructed.SUSTAINABILITY_GRADE}
-              />
+              <div className="flex justify-between">
+                <span className="text-slate-500">Sustainability grade</span>
+                <span className="font-medium">
+                  {reconstructed.SUSTAINABILITY_GRADE ?? "—"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Green hosting</span>
+                <span className="font-medium">
+                  {typeof hosting.IS_GREEN_PROVIDER === "boolean"
+                    ? hosting.IS_GREEN_PROVIDER
+                      ? "Yes"
+                      : "No"
+                    : "—"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Source</span>
+                <span className="font-medium text-right">
+                  {hosting.PROVIDER_SOURCE_CREDIT ?? "—"}
+                </span>
+              </div>
             </div>
-          </Card>
-        </div>
+            <PerformanceScoreDonut
+              scoreText={reconstructed.CARBON_EFFICIENCY_SCORE}
+              grade={reconstructed.SUSTAINABILITY_GRADE}
+            />
+          </div>
+        </Card>
+      </div>
 
-        <div id="speed-metrics" className="scroll-mt-24 md:col-span-2">
-          <Card title="Speed metrics">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-sm mb-2">
-              <div className="flex justify-between md:block">
-                <span className="text-slate-500">TTFB</span>
-                <span className="font-medium">
-                  {metrics.SERVER_RESPONSE_LAG_TTFB ?? "—"}
-                </span>
-              </div>
-              <div className="flex justify-between md:block">
-                <span className="text-slate-500">DOM ready</span>
-                <span className="font-medium">
-                  {metrics.DOM_STRUCTURAL_READINESS ?? "—"}
-                </span>
-              </div>
-              <div className="flex justify-between md:block">
-                <span className="text-slate-500">Visual render</span>
-                <span className="font-medium">
-                  {metrics.TOTAL_VISUAL_RENDER_TIME ?? "—"}
-                </span>
-              </div>
-              <div className="flex justify-between md:block">
-                <span className="text-slate-500">4G download</span>
-                <span className="font-medium">
-                  {metrics.ESTIMATED_4G_DOWNLOAD_DELAY ?? "—"}
-                </span>
-              </div>
+      <div id="speed-metrics" className="scroll-mt-24">
+        <Card title="Speed metrics">
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-slate-500">TTFB</span>
+              <span className="font-medium">
+                {metrics.SERVER_RESPONSE_LAG_TTFB ?? "—"}
+              </span>
             </div>
-            <PerformanceWaterfallChart metrics={metrics} />
-          </Card>
-        </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">DOM ready</span>
+              <span className="font-medium">
+                {metrics.DOM_STRUCTURAL_READINESS ?? "—"}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">Visual render</span>
+              <span className="font-medium">
+                {metrics.TOTAL_VISUAL_RENDER_TIME ?? "—"}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">4G download</span>
+              <span className="font-medium">
+                {metrics.ESTIMATED_4G_DOWNLOAD_DELAY ?? "—"}
+              </span>
+            </div>
+          </div>
+          <PerformanceWaterfallChart metrics={metrics} />
+        </Card>
       </div>
 
       <div id="network-traffic" className="scroll-mt-24">
         <Card title="Network traffic">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-            <div>
-              <p className="text-slate-500">Total requests</p>
-              <p className="font-semibold">
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-slate-500">Total requests</span>
+              <span className="font-medium">
                 {traffic.TOTAL_NETWORK_REQUESTS_LOGGED ?? "—"}
-              </p>
+              </span>
             </div>
-            <div>
-              <p className="text-slate-500">Third-party</p>
-              <p className="font-semibold">
+            <div className="flex justify-between">
+              <span className="text-slate-500">Third-party</span>
+              <span className="font-medium">
                 {traffic.FOREIGN_THIRD_PARTY_INJECTIONS ?? "—"}
-              </p>
+              </span>
             </div>
           </div>
 

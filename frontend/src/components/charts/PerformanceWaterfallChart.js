@@ -86,14 +86,11 @@ export default function PerformanceWaterfallChart({ metrics }) {
   const maxTime = Math.max(...data.map((item) => item.offset + item.duration));
 
   return (
-    <div className="mt-5">
+    <div className="mt-4 pt-4 border-t border-slate-100">
       <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">
         Performance waterfall
       </p>
-      <p className="text-xs text-slate-500 mb-3">
-        Each segment starts where the previous phase ends, showing how load time adds up.
-      </p>
-      <div className="h-56 w-full">
+      <div className="h-40 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             layout="vertical"
@@ -110,8 +107,8 @@ export default function PerformanceWaterfallChart({ metrics }) {
             <YAxis
               type="category"
               dataKey="name"
-              width={130}
-              tick={{ fontSize: 11 }}
+              width={108}
+              tick={{ fontSize: 10 }}
             />
             <Tooltip content={<WaterfallTooltip />} />
             <Bar dataKey="offset" stackId="waterfall" fill="transparent" />
@@ -123,7 +120,7 @@ export default function PerformanceWaterfallChart({ metrics }) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
+      <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-slate-600">
         {data.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <span

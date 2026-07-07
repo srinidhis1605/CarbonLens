@@ -37,11 +37,11 @@ export default function AssetBreakdownChart({ payloads = [] }) {
   if (data.length === 0) return null;
 
   return (
-    <div className="mt-5">
+    <div className="mt-4 pt-4 border-t border-slate-100">
       <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">
         Asset breakdown (MB)
       </p>
-      <div className="h-56 w-full">
+      <div className="h-40 w-full max-w-md">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
