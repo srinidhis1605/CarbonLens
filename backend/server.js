@@ -8,6 +8,16 @@ const cookieParser = require('cookie-parser');
 const analysisRoutes = require('./routes/analysis');
 const { router: recommendationsRouter } = require('./routes/recommendations');
 
+// Middleware: These functions run before your routes to handle data 
+app.use(cors({  // Allow frontend to talk to backend
+    origin: 'http://localhost:3000',    // Update this to your React port
+    credentials: true,  // Crucial for cookies to work
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allow these
+    allowedHeaders: ['Content-Type', 'Authorization'] // Crucial if you use JWT tokens
+}));
+app.options('*', cors());
+
+
 // Read .env file manually
 const envPath = path.join(__dirname, '.env');
 if (fs.existsSync(envPath)) {
@@ -26,11 +36,6 @@ require('dotenv').config({ path: envPath });
 
 const app = express();
 
-// Middleware: These functions run before your routes to handle data 
-app.use(cors({ // Allow frontend to talk to backend
-    origin: 'http://localhost:5173', // Update this to your React port
-    credentials: true // Crucial for cookies to work
-}));
 
 app.use(express.json()); // Allow the server to read JSON data
 app.use(cookieParser());
@@ -70,7 +75,7 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

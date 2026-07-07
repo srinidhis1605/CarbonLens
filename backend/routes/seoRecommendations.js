@@ -95,7 +95,7 @@ async function fetchSeoAiAdvice(seoMetrics) {
     // =========================================================================
     // LAYER B: LIGHTWEIGHT, TARGETED DYNAMIC KEYWORD API CALL (Using gemini-2.5-flash)
     // =========================================================================
-    if (!process.env.GEMINI_API_KEY) {
+    if (!process.env.AI_API_KEY) {
         console.warn("[AI Engine] Missing GEMINI_API_KEY environment variable. Skipping Layer B.");
         return finalRecommendations;
     }

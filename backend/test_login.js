@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function testLogin() {
     try {
-        const response = await axios.post('http://localhost:3000/auth/login', {
+        const response = await axios.post('http://localhost:5000/auth/login', {
             email: "sri@example.com", // Use the email you registered earlier
             password: "1234"
         });
