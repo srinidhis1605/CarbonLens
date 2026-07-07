@@ -46,18 +46,44 @@ async function auditRobotsTxt(browserPage, rootOrigin) {
  * @param {string} sitemapUrl - Absolute URL destination target of the root sitemap.
  * @returns {Promise} Completed sitemap statistics.
  */
-async function auditSitemapXml(browserPage, sitemapUrl) {
-    if (!sitemapUrl) return { found: false, resolvedUrl: null };
+async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
+    if (!sitemapUrl) return { found: false, resolvedUrl: null, totalUrls: 0 };
 
-    console.log(`crawlerService: Checking root sitemap via Playwright: ${sitemapUrl}`);
+    // Cap recursion into nested sitemap-index files so a malicious/huge site can't stall the audit.
+    const MAX_INDEX_DEPTH = 2;
+    const MAX_CHILD_SITEMAPS = 50;
+
+    if (depth === 0) {
+        console.log(`crawlerService: Checking root sitemap via Playwright: ${sitemapUrl}`);
+    }
+
     let sitemapLoaded = false;
+    let totalUrls = 0;
 
     try {
         const response = await browserPage.request.get(sitemapUrl, { timeout: 8000 });
 
         if (response.status() === 200) {
             sitemapLoaded = true;
-            // Validate it actually contains parseable XML content structure if needed
+            const xml = await response.text();
+            const parsed = xmlParser.parse(xml);
+
+            const asArray = (val) => (Array.isArray(val) ? val : val != null ? [val] : []);
+            const locOf = (entry) => (typeof entry === 'string' ? entry : entry && entry.loc);
+
+            if (parsed && parsed.urlset) {
+                // Standard sitemap: count the <url> entries directly.
+                totalUrls = asArray(parsed.urlset.url).length;
+            } else if (parsed && parsed.sitemapindex && depth < MAX_INDEX_DEPTH) {
+                // Sitemap index: recurse into each child sitemap and sum their URL counts.
+                const children = asArray(parsed.sitemapindex.sitemap).slice(0, MAX_CHILD_SITEMAPS);
+                for (const child of children) {
+                    const childUrl = locOf(child);
+                    if (!childUrl) continue;
+                    const childResult = await auditSitemapXml(browserPage, childUrl, depth + 1);
+                    totalUrls += childResult.totalUrls || 0;
+                }
+            }
         }
     } catch (err) {
         console.warn(`crawlerService: Sitemap validation failure via Playwright: ${err.message}`);
@@ -65,7 +91,8 @@ async function auditSitemapXml(browserPage, sitemapUrl) {
 
     return {
         found: sitemapLoaded,
-        resolvedUrl: sitemapUrl
+        resolvedUrl: sitemapUrl,
+        totalUrls
     };
 }
 

@@ -220,7 +220,12 @@ async function analyzeUrlSeoSuite(url) {
                 sitemapXml: {
                     found: sitemapResult.found,
                     resolvedUrl: sitemapResult.resolvedUrl,
-                    totalLivePagesCounted: allDiscoveredUrls.length
+                    // Prefer the authoritative page count from the sitemap itself (lists every
+                    // published URL). Fall back to the limited browser crawl only when no sitemap exists.
+                    totalLivePagesCounted:
+                        sitemapResult.found && sitemapResult.totalUrls > 0
+                            ? sitemapResult.totalUrls
+                            : allDiscoveredUrls.length
                 }
             }
         };
