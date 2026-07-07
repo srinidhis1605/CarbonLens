@@ -1,5 +1,4 @@
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -41,29 +40,21 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Set up the Database Connection
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
+const dbPool = require('./db');
 
-// Test the connection
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL: ' + err.message);
-        return;
-    }
-    console.log('Successfully connected to MySQL Database!');
-});
+dbPool
+    .query('SELECT 1')
+    .then(() => console.log('Successfully connected to MySQL Database!'))
+    .catch((err) => {
+        console.error('Error connecting to MySQL:', err.message);
+    });
 
 app.use((req, res, next) => {
-    req.db = db;
+    req.db = dbPool;
     next();
 });
 
-const authRoutes = require('./routes/auth')(db);
+const authRoutes = require('./routes/auth')(dbPool);
 app.use('/auth', authRoutes);
 app.use('/analysis', analysisRoutes);
 app.use('/recommendations', recommendationsRouter);
