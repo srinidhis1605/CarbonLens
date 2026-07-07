@@ -26,7 +26,7 @@ export default function AnalysisResult() {
     { id: "seo-overview", label: "SEO overview" },
     { id: "seo-meta", label: "Meta" },
     { id: "seo-content-structure", label: "Content structure" },
-    { id: "seo-crawl-legal", label: "Crawl & legal" },
+    { id: "seo-crawl-legal", label: "Audit checklist" },
     { id: "seo-open-graph", label: "Open Graph" },
     { id: "seo-social-links", label: "Social links" },
     { id: "seo-keywords", label: "Keywords", conditional: true },

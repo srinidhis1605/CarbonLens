@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AuditChecklistGrid from "./charts/AuditChecklistGrid";
 
 function Stat({ label, value }) {
   return (
@@ -142,27 +143,19 @@ export default function SeoReport({ seo }) {
   };
 
   const visibleKeywords = showAllKeywords ? keywords : keywords.slice(0, 20);
+  const totalHeadings =
+    (headings.h1Count ?? 0) + (headings.h2Count ?? 0) + (headings.h3Count ?? 0);
 
   return (
     <section className="space-y-5">
       <Section id="seo-overview">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <Stat label="Title length" value={report.titleLength} />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <Stat label="Title length" value={report.titleLength ?? "—"} />
           <Stat
             label="Meta desc length"
-            value={report.metaDescriptionLength}
+            value={report.metaDescriptionLength ?? "—"}
           />
-          <Stat label="Robots" value={report.robotsDirectives} />
-          <Stat
-            label="Mobile optimized"
-            value={
-              typeof report.isMobileOptimized === "boolean"
-                ? report.isMobileOptimized
-                  ? "Yes"
-                  : "No"
-                : "—"
-            }
-          />
+          <Stat label="Headings count" value={totalHeadings} />
         </div>
       </Section>
 
@@ -228,33 +221,12 @@ export default function SeoReport({ seo }) {
 
       <Section id="seo-crawl-legal">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Card title="Crawler configuration">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-slate-500">robots.txt</span>
-                <Yes v={robots.found} />
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Indexing blocked</span>
-                <Yes v={robots.globalIndexingBlocked} />
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">sitemap.xml</span>
-                <Yes v={sitemap.found} />
-              </div>
-              {sitemap.resolvedUrl && (
-                <div>
-                  <p className="text-slate-500">Sitemap URL</p>
-                  <p className="text-xs break-all">{sitemap.resolvedUrl}</p>
-                </div>
-              )}
-              <div className="flex justify-between">
-                <span className="text-slate-500">Live pages</span>
-                <span className="font-medium">
-                  {sitemap.totalLivePagesCounted ?? "—"}
-                </span>
-              </div>
-            </div>
+          <Card title="Audit checklist">
+            <AuditChecklistGrid
+              robots={robots}
+              sitemap={sitemap}
+              isMobileOptimized={report.isMobileOptimized}
+            />
           </Card>
 
           <Card title="Legal compliance">

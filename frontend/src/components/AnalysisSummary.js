@@ -1,4 +1,7 @@
 import React from "react";
+import AssetBreakdownChart from "./charts/AssetBreakdownChart";
+import PerformanceScoreDonut from "./charts/PerformanceScoreDonut";
+import PerformanceWaterfallChart from "./charts/PerformanceWaterfallChart";
 
 function Stat({ label, value }) {
   return (
@@ -74,67 +77,74 @@ export default function AnalysisSummary({ analysis }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div id="environmental-metrics" className="scroll-mt-24">
           <Card title="Environmental">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Carbon efficiency</span>
-                <span className="font-medium">
-                  {reconstructed.CARBON_EFFICIENCY_SCORE ?? "—"}
-                </span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Carbon efficiency</span>
+                  <span className="font-medium">
+                    {reconstructed.CARBON_EFFICIENCY_SCORE ?? "—"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Sustainability grade</span>
+                  <span className="font-medium">
+                    {reconstructed.SUSTAINABILITY_GRADE ?? "—"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Green hosting</span>
+                  <span className="font-medium">
+                    {typeof hosting.IS_GREEN_PROVIDER === "boolean"
+                      ? hosting.IS_GREEN_PROVIDER
+                        ? "Yes"
+                        : "No"
+                      : "—"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Source</span>
+                  <span className="font-medium text-right">
+                    {hosting.PROVIDER_SOURCE_CREDIT ?? "—"}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Sustainability grade</span>
-                <span className="font-medium">
-                  {reconstructed.SUSTAINABILITY_GRADE ?? "—"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Green hosting</span>
-                <span className="font-medium">
-                  {typeof hosting.IS_GREEN_PROVIDER === "boolean"
-                    ? hosting.IS_GREEN_PROVIDER
-                      ? "Yes"
-                      : "No"
-                    : "—"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Source</span>
-                <span className="font-medium text-right">
-                  {hosting.PROVIDER_SOURCE_CREDIT ?? "—"}
-                </span>
-              </div>
+              <PerformanceScoreDonut
+                scoreText={reconstructed.CARBON_EFFICIENCY_SCORE}
+                grade={reconstructed.SUSTAINABILITY_GRADE}
+              />
             </div>
           </Card>
         </div>
 
-        <div id="speed-metrics" className="scroll-mt-24">
+        <div id="speed-metrics" className="scroll-mt-24 md:col-span-2">
           <Card title="Speed metrics">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-sm mb-2">
+              <div className="flex justify-between md:block">
                 <span className="text-slate-500">TTFB</span>
                 <span className="font-medium">
                   {metrics.SERVER_RESPONSE_LAG_TTFB ?? "—"}
                 </span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between md:block">
                 <span className="text-slate-500">DOM ready</span>
                 <span className="font-medium">
                   {metrics.DOM_STRUCTURAL_READINESS ?? "—"}
                 </span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between md:block">
                 <span className="text-slate-500">Visual render</span>
                 <span className="font-medium">
                   {metrics.TOTAL_VISUAL_RENDER_TIME ?? "—"}
                 </span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between md:block">
                 <span className="text-slate-500">4G download</span>
                 <span className="font-medium">
                   {metrics.ESTIMATED_4G_DOWNLOAD_DELAY ?? "—"}
                 </span>
               </div>
             </div>
+            <PerformanceWaterfallChart metrics={metrics} />
           </Card>
         </div>
       </div>
@@ -157,26 +167,29 @@ export default function AnalysisSummary({ analysis }) {
           </div>
 
           {payloads.length > 0 && (
-            <div className="mt-4 overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead className="text-slate-500 text-left">
-                  <tr>
-                    <th className="py-2 pr-4">Type</th>
-                    <th className="py-2 pr-4">Count</th>
-                    <th className="py-2">Weight</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payloads.map((p, i) => (
-                    <tr key={i} className="border-t border-slate-100">
-                      <td className="py-2 pr-4">{p.CLASSIFICATION ?? "—"}</td>
-                      <td className="py-2 pr-4">{p.COUNT ?? "—"}</td>
-                      <td className="py-2">{p.RAW_WEIGHT ?? "—"}</td>
+            <>
+              <div className="mt-4 overflow-x-auto">
+                <table className="min-w-full text-sm">
+                  <thead className="text-slate-500 text-left">
+                    <tr>
+                      <th className="py-2 pr-4">Type</th>
+                      <th className="py-2 pr-4">Count</th>
+                      <th className="py-2">Weight</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {payloads.map((p, i) => (
+                      <tr key={i} className="border-t border-slate-100">
+                        <td className="py-2 pr-4">{p.CLASSIFICATION ?? "—"}</td>
+                        <td className="py-2 pr-4">{p.COUNT ?? "—"}</td>
+                        <td className="py-2">{p.RAW_WEIGHT ?? "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <AssetBreakdownChart payloads={payloads} />
+            </>
           )}
         </Card>
       </div>
