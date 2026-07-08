@@ -2,7 +2,7 @@
 const { chromium } = require('playwright');
 // Imported Phase 1 utility safely at the top
 const { extractMetadata } = require('./seoParser');
-const { auditRobotsTxt, auditSitemapXml, auditLivePages, normalizeInternalUrl } = require('./crawlerService');
+const { auditRobotsTxt, auditSitemapXml, auditLivePages, normalizeInternalUrl, looksLikeAsset } = require('./crawlerService');
 
 // Low-memory Chromium flags so the browser can run on constrained hosts (e.g. Render free tier, 512MB).
 // NOTE: intentionally NOT using --single-process / --no-zygote — they crash Chromium on Linux during
@@ -19,7 +19,7 @@ const CHROMIUM_LAUNCH_OPTIONS = {
 
 // The BFS spider crawls until its frontier is empty OR this wall-clock time budget elapses — so it
 // genuinely visits each reachable URL rather than stopping at a fixed page number.
-const SEO_CRAWL_TIME_BUDGET_MS = Number(process.env.SEO_CRAWL_TIME_BUDGET_MS) || 50000;
+const SEO_CRAWL_TIME_BUDGET_MS = Number(process.env.SEO_CRAWL_TIME_BUDGET_MS) || 35000;
 // Very high safety ceiling only to prevent a runaway/infinite loop on pathological sites.
 const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 500;
 // How many of the discovered pages we re-visit for full metadata extraction (the memory-heavy step).
@@ -153,23 +153,34 @@ async function analyzeUrlPerformanceOnly(url) {
  */
 async function analyzeUrlSeoSuite(url) {
     const rootOrigin = new URL(url).origin;
+
+    // A. Lightweight HTTP work first — NO browser. Discovery, robots.txt and sitemap.xml are all
+    //    plain HTTP fetches, so the memory-heavy part of the audit never touches Chromium.
+    //    Bounded by a time budget (not a fixed page count) so it checks each reachable URL.
+    const crawledUrls = await auditLivePages(url, {
+        maxPages: SEO_MAX_CRAWL_PAGES,
+        deadline: Date.now() + SEO_CRAWL_TIME_BUDGET_MS,
+    });
+    const robotsResult = await auditRobotsTxt(rootOrigin);
+    const targetSitemapUrl = robotsResult.extractedSitemap || `${rootOrigin}/sitemap.xml`;
+    const sitemapResult = await auditSitemapXml(targetSitemapUrl);
+
+    // B. Browser is launched ONLY for metadata extraction (homepage + a small subset of pages).
+    //    Rendering just a handful of pages keeps peak memory well under constrained host limits.
     const browser = await chromium.launch(CHROMIUM_LAUNCH_OPTIONS);
     const page = await browser.newPage();
 
+    let masterSeoResult;
     try {
-        // A. Run the deep spider to discover all live internal paths across dropdowns/footers.
-        //    Bounded by a time budget (not a fixed page count) so it checks each reachable URL.
-        const crawledUrls = await auditLivePages(page, url, {
-            maxPages: SEO_MAX_CRAWL_PAGES,
-            deadline: Date.now() + SEO_CRAWL_TIME_BUDGET_MS,
-        });
+        // Seed the compilation using the core page elements from the homepage.
+        // Use 'domcontentloaded' (reliable) and only *optionally* wait for network idle — sites
+        // with continuous third-party requests never reach 'networkidle', so we must not throw on it.
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+        masterSeoResult = await extractMetadata(page);
 
-        // B. Seed the compilation using the core page elements from the homepage
-        await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-        const masterSeoResult = await extractMetadata(page);
-
-        // C. Site-Wide Merge Loop for deep keyword/compliance aggregation.
-        // Only re-visit a small subset for full metadata extraction (the memory-heavy step).
+        // Site-Wide Merge Loop: re-visit only a small subset of discovered pages for deep
+        // keyword/compliance aggregation (this is the memory-heavy step, so it stays capped).
         const metadataUrls = crawledUrls.slice(0, SEO_MAX_METADATA_PAGES);
         for (const subUrl of metadataUrls) {
             if (subUrl === url || subUrl === `${rootOrigin}/` || subUrl === rootOrigin) continue;
@@ -201,16 +212,17 @@ async function analyzeUrlSeoSuite(url) {
                 console.warn(`analysisService: SEO extraction skipped at [${subUrl}]: ${err.message}`);
             }
         }
+    } finally {
+        await browser.close();
+    }
 
-        // D. Global Crawler Lookups (Robots and Sitemaps)
-        const robotsResult = await auditRobotsTxt(page, rootOrigin);
-        const targetSitemapUrl = robotsResult.extractedSitemap || `${rootOrigin}/sitemap.xml`;
-        const sitemapResult = await auditSitemapXml(page, targetSitemapUrl);
-
-        // E. Total live pages = union of everything the BFS spider reached AND everything the
-        // sitemap lists (normalized), so neither source alone undercounts the site.
+    // C. Total live pages = union of everything the BFS spider reached AND everything the
+    // sitemap lists (normalized), so neither source alone undercounts the site.
+    {
         const safeNormalize = (u) => {
             try {
+                const parsed = new URL(u);
+                if (looksLikeAsset(parsed.pathname)) return null;
                 return normalizeInternalUrl(u);
             } catch (_) {
                 return null;
@@ -257,8 +269,6 @@ async function analyzeUrlSeoSuite(url) {
                 }
             }
         };
-    } finally {
-        await browser.close();
     }
 }
 
