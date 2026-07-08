@@ -5,6 +5,8 @@ const { extractMetadata } = require('./seoParser');
 const { auditRobotsTxt, auditSitemapXml, auditLivePages, normalizeInternalUrl } = require('./crawlerService');
 
 // Low-memory Chromium flags so the browser can run on constrained hosts (e.g. Render free tier, 512MB).
+// NOTE: intentionally NOT using --single-process / --no-zygote — they crash Chromium on Linux during
+// repeated navigations (deep crawl), which surfaced as 500s on Render.
 const CHROMIUM_LAUNCH_OPTIONS = {
     headless: true,
     args: [
@@ -12,8 +14,6 @@ const CHROMIUM_LAUNCH_OPTIONS = {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--single-process',
-        '--no-zygote',
     ],
 };
 
