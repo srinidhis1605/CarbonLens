@@ -32,10 +32,17 @@ function BoolBadge({ value, trueLabel = "Yes", falseLabel = "No" }) {
 }
 
 export default function AuditChecklistGrid({ robots, sitemap, isMobileOptimized }) {
-  const pageCount = sitemap.totalLivePagesCounted;
+  const discoveredPages = Array.isArray(sitemap.discoveredPages)
+    ? sitemap.discoveredPages
+    : [];
+  const pageCount =
+    sitemap.totalLivePagesCounted != null
+      ? sitemap.totalLivePagesCounted
+      : discoveredPages.length || null;
   const sitemapStatus = sitemap.found
     ? `Found${pageCount != null ? ` (${pageCount} pages)` : ""}`
     : "Not found";
+  const foundOrCrawled = !!sitemap.found || discoveredPages.length > 0;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -53,16 +60,40 @@ export default function AuditChecklistGrid({ robots, sitemap, isMobileOptimized 
       <AuditStatusCard
         label="Sitemap.xml"
         status={sitemapStatus}
-        ok={!!sitemap.found}
+        ok={foundOrCrawled}
       >
-        {sitemap.resolvedUrl ? (
-          <div className="text-sm">
-            <p className="text-slate-500 mb-1">Sitemap URL</p>
-            <p className="text-xs text-slate-700 break-all">{sitemap.resolvedUrl}</p>
-          </div>
-        ) : (
-          <p className="text-xs text-slate-500">No sitemap URL detected</p>
-        )}
+        <div className="space-y-3">
+          {sitemap.resolvedUrl ? (
+            <div className="text-sm">
+              <p className="text-slate-500 mb-1">Sitemap URL</p>
+              <p className="text-xs text-slate-700 break-all">{sitemap.resolvedUrl}</p>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500">No sitemap URL detected</p>
+          )}
+
+          {discoveredPages.length > 0 && (
+            <details className="text-sm">
+              <summary className="cursor-pointer text-slate-500 select-none">
+                Discovered pages ({discoveredPages.length})
+              </summary>
+              <ul className="mt-2 max-h-48 overflow-y-auto space-y-1 pr-1">
+                {discoveredPages.map((pageUrl) => (
+                  <li key={pageUrl}>
+                    <a
+                      href={pageUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-blue-600 hover:underline break-all"
+                    >
+                      {pageUrl}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </div>
       </AuditStatusCard>
 
       <AuditStatusCard

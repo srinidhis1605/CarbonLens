@@ -2,7 +2,7 @@
 const { chromium } = require('playwright');
 // Imported Phase 1 utility safely at the top
 const { extractMetadata } = require('./seoParser');
-const { auditRobotsTxt, auditSitemapXml, auditLivePages } = require('./crawlerService');
+const { auditRobotsTxt, auditSitemapXml, auditLivePages, normalizeInternalUrl } = require('./crawlerService');
 
 // Low-memory Chromium flags so the browser can run on constrained hosts (e.g. Render free tier, 512MB).
 const CHROMIUM_LAUNCH_OPTIONS = {
@@ -17,11 +17,12 @@ const CHROMIUM_LAUNCH_OPTIONS = {
     ],
 };
 
-// How many internal pages the BFS spider is allowed to DISCOVER (used only for counting/link
-// discovery — a lightweight domcontentloaded navigation per page).
-const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 40;
-// How many of the discovered pages we re-visit for full metadata extraction (the expensive part
-// that drives memory/time). Kept small so the audit stays within constrained host limits.
+// The BFS spider crawls until its frontier is empty OR this wall-clock time budget elapses — so it
+// genuinely visits each reachable URL rather than stopping at a fixed page number.
+const SEO_CRAWL_TIME_BUDGET_MS = Number(process.env.SEO_CRAWL_TIME_BUDGET_MS) || 50000;
+// Very high safety ceiling only to prevent a runaway/infinite loop on pathological sites.
+const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 500;
+// How many of the discovered pages we re-visit for full metadata extraction (the memory-heavy step).
 const SEO_MAX_METADATA_PAGES = Number(process.env.SEO_MAX_METADATA_PAGES) || 8;
 
 /**
@@ -156,8 +157,12 @@ async function analyzeUrlSeoSuite(url) {
     const page = await browser.newPage();
 
     try {
-        // A. Run the deep spider to discover all live internal paths across dropdowns/footers
-        const crawledUrls = await auditLivePages(page, url, SEO_MAX_CRAWL_PAGES);
+        // A. Run the deep spider to discover all live internal paths across dropdowns/footers.
+        //    Bounded by a time budget (not a fixed page count) so it checks each reachable URL.
+        const crawledUrls = await auditLivePages(page, url, {
+            maxPages: SEO_MAX_CRAWL_PAGES,
+            deadline: Date.now() + SEO_CRAWL_TIME_BUDGET_MS,
+        });
 
         // B. Seed the compilation using the core page elements from the homepage
         await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
@@ -204,21 +209,24 @@ async function analyzeUrlSeoSuite(url) {
 
         // E. Total live pages = union of everything the BFS spider reached AND everything the
         // sitemap lists (normalized), so neither source alone undercounts the site.
-        const normalizePath = (u) => {
+        const safeNormalize = (u) => {
             try {
-                const parsed = new URL(u);
-                parsed.hash = '';
-                parsed.search = '';
-                let path = parsed.pathname.replace(/\/+$/, '');
-                return `${parsed.origin}${path || '/'}`;
+                return normalizeInternalUrl(u);
             } catch (_) {
-                return u;
+                return null;
             }
         };
         const uniquePages = new Set();
-        for (const u of crawledUrls) uniquePages.add(normalizePath(u));
-        for (const u of sitemapResult.urls || []) uniquePages.add(normalizePath(u));
-        const totalLivePagesCounted = uniquePages.size;
+        for (const u of crawledUrls) {
+            const n = safeNormalize(u);
+            if (n) uniquePages.add(n);
+        }
+        for (const u of sitemapResult.urls || []) {
+            const n = safeNormalize(u);
+            if (n) uniquePages.add(n);
+        }
+        const discoveredPages = Array.from(uniquePages).sort();
+        const totalLivePagesCounted = discoveredPages.length;
 
         // Construct the exact isolated SEO object block layout you wanted:
         return {
@@ -244,7 +252,8 @@ async function analyzeUrlSeoSuite(url) {
                 sitemapXml: {
                     found: sitemapResult.found,
                     resolvedUrl: sitemapResult.resolvedUrl,
-                    totalLivePagesCounted
+                    totalLivePagesCounted,
+                    discoveredPages
                 }
             }
         };

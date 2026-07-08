@@ -104,21 +104,36 @@ async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
  * Deep-crawls a website using the active Playwright page context to discover all live internal URLs
  * (including hidden dropdown menus, headers, and footer pages).
  */
-async function auditLivePages(browserPage, startUrl, maxPages = 150) {
+/**
+ * Normalizes a URL so the same page isn't counted twice (drops hash, query, and trailing slash).
+ */
+function normalizeInternalUrl(rawUrl, base) {
+    const parsed = base ? new URL(rawUrl, base) : new URL(rawUrl);
+    parsed.hash = '';
+    parsed.search = '';
+    const path = parsed.pathname.replace(/\/+$/, '');
+    return `${parsed.origin}${path || '/'}`;
+}
+
+async function auditLivePages(browserPage, startUrl, options = {}) {
+    // No arbitrary page number drives the crawl — it keeps discovering until the frontier is empty
+    // or the time budget runs out. maxPages is only a very high safety ceiling to prevent runaway loops.
+    const { maxPages = 500, deadline = Infinity } = options;
+
     const discoveredUrls = new Set();
     const queue = [];
 
     try {
         const parsedStart = new URL(startUrl);
         const targetHost = parsedStart.hostname;
-        const targetOrigin = parsedStart.origin;
+        const seed = normalizeInternalUrl(startUrl);
 
-        queue.push(targetOrigin);
-        discoveredUrls.add(targetOrigin);
+        queue.push(seed);
+        discoveredUrls.add(seed);
 
         console.log(`crawlerService: Commencing deep spider crawl for domain: ${targetHost}`);
 
-        while (queue.length > 0 && discoveredUrls.size < maxPages) {
+        while (queue.length > 0 && discoveredUrls.size < maxPages && Date.now() < deadline) {
             const currentUrl = queue.shift();
 
             try {
@@ -133,9 +148,7 @@ async function auditLivePages(browserPage, startUrl, maxPages = 150) {
                 for (let href of pageLinks) {
                     try {
                         const absoluteUrlObj = new URL(href, currentUrl);
-                        absoluteUrlObj.hash = '';
-                        absoluteUrlObj.search = '';
-                        const cleanUrl = absoluteUrlObj.href;
+                        const cleanUrl = normalizeInternalUrl(absoluteUrlObj.href);
 
                         if (absoluteUrlObj.hostname === targetHost && !discoveredUrls.has(cleanUrl)) {
                             if (discoveredUrls.size < maxPages) {
@@ -149,6 +162,10 @@ async function auditLivePages(browserPage, startUrl, maxPages = 150) {
                 console.warn(`crawlerService: Skipped unreachable path [${currentUrl}]: ${navError.message}`);
             }
         }
+
+        if (Date.now() >= deadline) {
+            console.warn(`crawlerService: Crawl time budget reached; discovered ${discoveredUrls.size} pages, ${queue.length} still queued.`);
+        }
     } catch (globalError) {
         console.error("crawlerService: Spider framework encountered an exception breakdown:", globalError);
     }
@@ -156,4 +173,4 @@ async function auditLivePages(browserPage, startUrl, maxPages = 150) {
     return Array.from(discoveredUrls);
 }
 
-module.exports = { auditRobotsTxt, auditSitemapXml, auditLivePages };
+module.exports = { auditRobotsTxt, auditSitemapXml, auditLivePages, normalizeInternalUrl };
