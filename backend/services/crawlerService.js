@@ -47,7 +47,7 @@ async function auditRobotsTxt(browserPage, rootOrigin) {
  * @returns {Promise} Completed sitemap statistics.
  */
 async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
-    if (!sitemapUrl) return { found: false, resolvedUrl: null, totalUrls: 0 };
+    if (!sitemapUrl) return { found: false, resolvedUrl: null, totalUrls: 0, urls: [] };
 
     // Cap recursion into nested sitemap-index files so a malicious/huge site can't stall the audit.
     const MAX_INDEX_DEPTH = 2;
@@ -58,7 +58,7 @@ async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
     }
 
     let sitemapLoaded = false;
-    let totalUrls = 0;
+    const urls = [];
 
     try {
         const response = await browserPage.request.get(sitemapUrl, { timeout: 8000 });
@@ -72,16 +72,19 @@ async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
             const locOf = (entry) => (typeof entry === 'string' ? entry : entry && entry.loc);
 
             if (parsed && parsed.urlset) {
-                // Standard sitemap: count the <url> entries directly.
-                totalUrls = asArray(parsed.urlset.url).length;
+                // Standard sitemap: collect every <url><loc> entry.
+                for (const entry of asArray(parsed.urlset.url)) {
+                    const loc = locOf(entry);
+                    if (loc) urls.push(String(loc).trim());
+                }
             } else if (parsed && parsed.sitemapindex && depth < MAX_INDEX_DEPTH) {
-                // Sitemap index: recurse into each child sitemap and sum their URL counts.
+                // Sitemap index: recurse into each child sitemap and merge their URLs.
                 const children = asArray(parsed.sitemapindex.sitemap).slice(0, MAX_CHILD_SITEMAPS);
                 for (const child of children) {
                     const childUrl = locOf(child);
                     if (!childUrl) continue;
                     const childResult = await auditSitemapXml(browserPage, childUrl, depth + 1);
-                    totalUrls += childResult.totalUrls || 0;
+                    if (childResult.urls && childResult.urls.length) urls.push(...childResult.urls);
                 }
             }
         }
@@ -92,7 +95,8 @@ async function auditSitemapXml(browserPage, sitemapUrl, depth = 0) {
     return {
         found: sitemapLoaded,
         resolvedUrl: sitemapUrl,
-        totalUrls
+        totalUrls: urls.length,
+        urls
     };
 }
 

@@ -17,8 +17,12 @@ const CHROMIUM_LAUNCH_OPTIONS = {
     ],
 };
 
-// Keep the SEO deep crawl small enough to finish within host request timeouts.
-const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 8;
+// How many internal pages the BFS spider is allowed to DISCOVER (used only for counting/link
+// discovery — a lightweight domcontentloaded navigation per page).
+const SEO_MAX_CRAWL_PAGES = Number(process.env.SEO_MAX_CRAWL_PAGES) || 40;
+// How many of the discovered pages we re-visit for full metadata extraction (the expensive part
+// that drives memory/time). Kept small so the audit stays within constrained host limits.
+const SEO_MAX_METADATA_PAGES = Number(process.env.SEO_MAX_METADATA_PAGES) || 8;
 
 /**
  * METHOD 1: Lightning Fast Performance Profile Scan
@@ -152,15 +156,17 @@ async function analyzeUrlSeoSuite(url) {
     const page = await browser.newPage();
 
     try {
-        // A. Run the deep spider to count all live internal paths across dropdowns/footers
-        const allDiscoveredUrls = await auditLivePages(page, url, SEO_MAX_CRAWL_PAGES);
+        // A. Run the deep spider to discover all live internal paths across dropdowns/footers
+        const crawledUrls = await auditLivePages(page, url, SEO_MAX_CRAWL_PAGES);
 
         // B. Seed the compilation using the core page elements from the homepage
         await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
         const masterSeoResult = await extractMetadata(page);
 
-        // C. Site-Wide Merge Loop for deep keyword/compliance aggregation
-        for (const subUrl of allDiscoveredUrls) {
+        // C. Site-Wide Merge Loop for deep keyword/compliance aggregation.
+        // Only re-visit a small subset for full metadata extraction (the memory-heavy step).
+        const metadataUrls = crawledUrls.slice(0, SEO_MAX_METADATA_PAGES);
+        for (const subUrl of metadataUrls) {
             if (subUrl === url || subUrl === `${rootOrigin}/` || subUrl === rootOrigin) continue;
 
             try {
@@ -196,6 +202,24 @@ async function analyzeUrlSeoSuite(url) {
         const targetSitemapUrl = robotsResult.extractedSitemap || `${rootOrigin}/sitemap.xml`;
         const sitemapResult = await auditSitemapXml(page, targetSitemapUrl);
 
+        // E. Total live pages = union of everything the BFS spider reached AND everything the
+        // sitemap lists (normalized), so neither source alone undercounts the site.
+        const normalizePath = (u) => {
+            try {
+                const parsed = new URL(u);
+                parsed.hash = '';
+                parsed.search = '';
+                let path = parsed.pathname.replace(/\/+$/, '');
+                return `${parsed.origin}${path || '/'}`;
+            } catch (_) {
+                return u;
+            }
+        };
+        const uniquePages = new Set();
+        for (const u of crawledUrls) uniquePages.add(normalizePath(u));
+        for (const u of sitemapResult.urls || []) uniquePages.add(normalizePath(u));
+        const totalLivePagesCounted = uniquePages.size;
+
         // Construct the exact isolated SEO object block layout you wanted:
         return {
             title: masterSeoResult.title,
@@ -220,12 +244,7 @@ async function analyzeUrlSeoSuite(url) {
                 sitemapXml: {
                     found: sitemapResult.found,
                     resolvedUrl: sitemapResult.resolvedUrl,
-                    // Prefer the authoritative page count from the sitemap itself (lists every
-                    // published URL). Fall back to the limited browser crawl only when no sitemap exists.
-                    totalLivePagesCounted:
-                        sitemapResult.found && sitemapResult.totalUrls > 0
-                            ? sitemapResult.totalUrls
-                            : allDiscoveredUrls.length
+                    totalLivePagesCounted
                 }
             }
         };
