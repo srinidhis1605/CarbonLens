@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import AnalysisLoadingOverlay from "../components/AnalysisLoadingOverlay";
 import AnalysisSummary from "../components/AnalysisSummary";
 import SeoReport from "../components/SeoReport";
 import AnalysisHistoryList from "../components/AnalysisHistoryList";
@@ -216,6 +217,8 @@ export default function AnalysisResult() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+      <AnalysisLoadingOverlay active={loading} mode="seo" url={url} />
+
       <header className="bg-white border border-slate-200 rounded-xl px-6 py-5 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">

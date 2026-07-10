@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UrlInputForm from "../components/UrlInputForm";
 import AnalysisHistoryList from "../components/AnalysisHistoryList";
+import AnalysisLoadingOverlay from "../components/AnalysisLoadingOverlay";
 import { runAnalysis } from "../services/analysisService";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
+  const [loadingUrl, setLoadingUrl] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleAnalyze = async (url) => {
     setError("");
+    setLoadingUrl(url);
     setLoading(true);
     try {
       const data = await runAnalysis(url);
@@ -39,6 +42,8 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 space-y-6">
+      <AnalysisLoadingOverlay active={loading} mode="performance" url={loadingUrl} />
+
       <div>
         <h1 className="text-3xl font-semibold">Analyze a website</h1>
         <p className="text-slate-600 mt-1">
