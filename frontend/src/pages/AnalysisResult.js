@@ -3,7 +3,13 @@ import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import AnalysisSummary from "../components/AnalysisSummary";
 import SeoReport from "../components/SeoReport";
 import AnalysisHistoryList from "../components/AnalysisHistoryList";
-import { getAnalysisById, runSeoAudit } from "../services/analysisService";
+import {
+  buildAiMetricsFromAnalysis,
+  fetchPerformanceRecommendations,
+  getAnalysisById,
+  runSeoAudit,
+  saveAiSuggestions,
+} from "../services/analysisService";
 
 export default function AnalysisResult() {
   const { analysisId: routeAnalysisId } = useParams();
@@ -21,6 +27,7 @@ export default function AnalysisResult() {
   const [pageLoading, setPageLoading] = useState(!!routeAnalysisId && !initialState.analysis);
   const [error, setError] = useState("");
   const [historyRefreshKey, setHistoryRefreshKey] = useState(0);
+  const [aiLoading, setAiLoading] = useState(false);
 
   const performanceNavItems = [
     { id: "environmental-metrics", label: "Environmental metrics" },
@@ -87,6 +94,51 @@ export default function AnalysisResult() {
     };
   }, [routeAnalysisId, initialState.analysis, initialState.analysisId]);
 
+  useEffect(() => {
+    if (!analysis || isLegacy) return;
+
+    const existing = Array.isArray(analysis.AI_SUSTAINABILITY_OPTIMIZATIONS)
+      ? analysis.AI_SUSTAINABILITY_OPTIMIZATIONS
+      : [];
+    if (existing.length > 0) return;
+
+    let cancelled = false;
+
+    async function loadAiSuggestions() {
+      setAiLoading(true);
+      try {
+        const metrics = buildAiMetricsFromAnalysis(analysis);
+        const suggestions = await fetchPerformanceRecommendations(metrics);
+        if (cancelled || !suggestions.length) return;
+
+        setAnalysis((prev) =>
+          prev
+            ? {
+                ...prev,
+                AI_SUSTAINABILITY_OPTIMIZATIONS: suggestions,
+              }
+            : prev
+        );
+
+        if (analysisId) {
+          void saveAiSuggestions(analysisId, suggestions).catch(() => {});
+        }
+      } catch (_) {
+        // AI suggestions are optional — metrics remain visible.
+      } finally {
+        if (!cancelled) {
+          setAiLoading(false);
+        }
+      }
+    }
+
+    loadAiSuggestions();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [analysis, analysisId, isLegacy]);
+
   if (!pageLoading && !analysis && !analysisId && !routeAnalysisId) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -130,7 +182,7 @@ export default function AnalysisResult() {
     ? analysis.AI_SUSTAINABILITY_OPTIMIZATIONS
     : [];
   const visiblePerformanceNavItems = performanceNavItems.filter(
-    (item) => !item.conditional || suggestions.length > 0
+    (item) => !item.conditional || suggestions.length > 0 || aiLoading
   );
 
   const seoReport = seo?.SEO_METRICS_REPORT || {};
@@ -257,7 +309,7 @@ export default function AnalysisResult() {
 
         <main className="lg:col-span-9 space-y-8">
           <section id="performance-summary" className="scroll-mt-24">
-            <AnalysisSummary analysis={analysis} />
+            <AnalysisSummary analysis={analysis} aiLoading={aiLoading} />
           </section>
 
           <section id="seo-audit" className="scroll-mt-24">

@@ -21,7 +21,7 @@ const CHROMIUM_LAUNCH_OPTIONS = {
 };
 
 const PERFORMANCE_GOTO_TIMEOUT_MS = Number(process.env.PERFORMANCE_GOTO_TIMEOUT_MS) || 30000;
-const PERFORMANCE_SETTLE_MS = Number(process.env.PERFORMANCE_SETTLE_MS) || 4000;
+const PERFORMANCE_SETTLE_MS = Number(process.env.PERFORMANCE_SETTLE_MS) || 1500;
 
 // The BFS spider crawls until its frontier is empty OR this wall-clock time budget elapses — so it
 // genuinely visits each reachable URL rather than stopping at a fixed page number.
@@ -95,9 +95,8 @@ async function analyzeUrlPerformanceOnly(url) {
             timeout: PERFORMANCE_GOTO_TIMEOUT_MS,
         });
 
-        // Brief settle so lazy assets still get counted — never block the scan on networkidle.
-        await page.waitForLoadState('load', { timeout: PERFORMANCE_SETTLE_MS }).catch(() => {});
-        await page.waitForLoadState('networkidle', { timeout: 2000 }).catch(() => {});
+        // Short fixed settle — counts in-flight assets without waiting for full load/networkidle.
+        await new Promise((resolve) => setTimeout(resolve, PERFORMANCE_SETTLE_MS));
 
         const timingMetrics = await page.evaluate(() => {
             const [entry] = performance.getEntriesByType('navigation');

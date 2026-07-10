@@ -42,7 +42,7 @@ async function checkGreenHosting(url) {
     
     try {
         const response = await axios.get(`https://api.thegreenwebfoundation.org/api/v3/greencheck/${domain}`, {
-            timeout: 4000,
+            timeout: 2500,
             headers: {
                 'User-Agent': 'CarbonLens-Sustainability-App/1.0'
             }

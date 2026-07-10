@@ -18,8 +18,8 @@ const {
 // =========================================================================
 // 🎯 LINK THE DEDICATED HYBRID RECOMMENDATION ENGINES HERE
 // =========================================================================
-const { fetchAiAdvice } = require('./recommendations'); // Phase 1 Performance
-const { fetchSeoAiAdvice } = require('./seoRecommendations'); // Phase 2 SEO
+// Phase 2 SEO AI
+const { fetchSeoAiAdvice } = require('./seoRecommendations');
 
 function toSafeNumber(value) {
     const parsed = Number(value);
@@ -34,6 +34,108 @@ function calculateGrade(score) {
     if (score >= 50) return 'D';
     if (score >= 35) return 'E';
     return 'F';
+}
+
+function buildMetricsPayloadForAi(normalized, rawData) {
+    const totalRequests = Math.floor(toSafeNumber(rawData.totalRequests));
+    const thirdPartyRequests = Math.floor(toSafeNumber(rawData.thirdPartyRequests));
+    const imageCount = Math.floor(toSafeNumber(rawData.imageCount));
+    const imageBytes = toSafeNumber(rawData.imageBytes);
+    const scriptCount = Math.floor(toSafeNumber(rawData.scriptCount));
+    const scriptBytes = toSafeNumber(rawData.scriptBytes);
+    const styleCount = Math.floor(toSafeNumber(rawData.styleCount));
+    const styleBytes = toSafeNumber(rawData.styleBytes);
+    const fontCount = Math.floor(toSafeNumber(rawData.fontCount));
+    const fontBytes = toSafeNumber(rawData.fontBytes);
+
+    return {
+        pageWeightMB: normalized.pageWeightMB,
+        carbonScore: normalized.carbonScore,
+        co2EstimateGrams: normalized.co2EstimateGrams,
+        rawScrapedData: {
+            totalRequests,
+            thirdPartyRequests,
+            imageCount,
+            imageBytes,
+            scriptCount,
+            scriptBytes,
+            styleCount,
+            styleBytes,
+            fontCount,
+            fontBytes,
+        },
+        display: {
+            imagesMB: (imageBytes / (1024 * 1024)).toFixed(2),
+            scriptsMB: (scriptBytes / (1024 * 1024)).toFixed(2),
+            stylesMB: (styleBytes / (1024 * 1024)).toFixed(2),
+            fontsMB: (fontBytes / (1024 * 1024)).toFixed(2),
+            totalRequests,
+            thirdPartyRequests,
+            imageCount,
+            scriptCount,
+            styleCount,
+            fontCount,
+        },
+    };
+}
+
+function buildPerformanceResponse(url, normalized, metricsPayloadForAi, options = {}) {
+    const {
+        performanceAiAdvice = [],
+        writeDbReceipt = null,
+        persistenceStatus = 'STORED',
+    } = options;
+    const display = metricsPayloadForAi.display;
+    const grade = calculateGrade(normalized.carbonScore);
+
+    return {
+        SESSION_STATUS: 'PERFORMANCE_ANALYSIS_COMPLETED',
+        TARGET_HOST: new URL(url).hostname.replace('www.', ''),
+        TIMESTAMP_EPOCH: Date.now(),
+        DATABASE_RECORD_ID:
+            writeDbReceipt && writeDbReceipt.insertId ? writeDbReceipt.insertId : null,
+        AI_METRICS_INPUT: metricsPayloadForAi,
+        PHASE_1_RAW_SOCKET_INTERCEPTION: {
+            STATUS: 'DATA_HARVEST_SUCCESSFUL',
+            INTERCEPTED_TRAFFIC: {
+                TOTAL_NETWORK_REQUESTS_LOGGED: display.totalRequests,
+                FOREIGN_THIRD_PARTY_INJECTIONS: display.thirdPartyRequests,
+            },
+            EXTRACTED_PAYLOAD_SIGNATURES: [
+                { CLASSIFICATION: 'BINARY_IMAGES', COUNT: display.imageCount, RAW_WEIGHT: `${display.imagesMB} MB` },
+                { CLASSIFICATION: 'CLIENT_JS_SCRIPTS', COUNT: display.scriptCount, RAW_WEIGHT: `${display.scriptsMB} MB` },
+                { CLASSIFICATION: 'COMPRESSED_STYLES', COUNT: display.styleCount, RAW_WEIGHT: `${display.stylesMB} MB` },
+                { CLASSIFICATION: 'EMBEDDED_FONTS', COUNT: display.fontCount, RAW_WEIGHT: `${display.fontsMB} MB` },
+            ],
+        },
+        PHASE_2_ENVIRONMENTAL_RECONSTRUCTION: {
+            STATUS: 'CALCULATION_MATRIX_ENGAGED',
+            TOTAL_TRANSMITTED_WEIGHT: `${normalized.pageWeightMB.toFixed(2)} MB`,
+            HOSTING_INFRASTRUCTURE: {
+                IS_GREEN_PROVIDER:
+                    normalized.isGreenHost === 1 || normalized.isGreenHost === true,
+                PROVIDER_SOURCE_CREDIT: 'The Green Web Foundation API',
+            },
+            RECONSTRUCTED_METRICS: {
+                CARBON_EFFICIENCY_SCORE: `${normalized.carbonScore}/100`,
+                SUSTAINABILITY_GRADE: grade,
+            },
+        },
+        PHASE_3_SPEED_METRICS_TRANSCRIPT: {
+            STATUS: 'TIMING_API_EXTRACTED',
+            METRICS: {
+                SERVER_RESPONSE_LAG_TTFB: `${normalized.timeToFirstByteMs} ms`,
+                DOM_STRUCTURAL_READINESS: `${normalized.domContentLoadedMs} ms`,
+                TOTAL_VISUAL_RENDER_TIME: `${normalized.pageLoadTimeMs} ms`,
+                ESTIMATED_4G_DOWNLOAD_DELAY: `${normalized.estimated4gLatencyMs} ms`,
+            },
+        },
+        AI_SUSTAINABILITY_OPTIMIZATIONS: performanceAiAdvice,
+        SYSTEM_INTEGRITY_NOTICE:
+            persistenceStatus === 'STORED'
+                ? 'Performance data saved. Full structural audit ready at /analysis/seo-audit'
+                : 'Analysis completed, but database persistence failed.',
+    };
 }
 
 /**
@@ -66,187 +168,45 @@ router.post('/', authenticateToken, async (req, res) => {
         const speedData = scrapeResult.speedMetrics || {};
 
         const normalized = await normalizeAnalysisData(url, rawData, speedData, { isGreenHost });
+        const metricsPayloadForAi = buildMetricsPayloadForAi(normalized, rawData);
 
-        const totalRequests = Math.floor(toSafeNumber(rawData.totalRequests));
-        const thirdPartyRequests = Math.floor(toSafeNumber(rawData.thirdPartyRequests));
-        const imageCount = Math.floor(toSafeNumber(rawData.imageCount));
-        const imageBytes = toSafeNumber(rawData.imageBytes);
-        const scriptCount = Math.floor(toSafeNumber(rawData.scriptCount));
-        const scriptBytes = toSafeNumber(rawData.scriptBytes);
-        const styleCount = Math.floor(toSafeNumber(rawData.styleCount));
-        const styleBytes = toSafeNumber(rawData.styleBytes);
-        const fontCount = Math.floor(toSafeNumber(rawData.fontCount));
-        const fontBytes = toSafeNumber(rawData.fontBytes);
-
-        const imagesMB = (imageBytes / (1024 * 1024)).toFixed(2);
-        const scriptsMB = (scriptBytes / (1024 * 1024)).toFixed(2);
-        const stylesMB = (styleBytes / (1024 * 1024)).toFixed(2);
-        const fontsMB = (fontBytes / (1024 * 1024)).toFixed(2);
-
-        const grade = calculateGrade(normalized.carbonScore);
-
-        // =====================================================================
-        // 🔥 LINKED: INJECT THE AUTOMATED PERFORMANCE AI PIPELINE
-        // =====================================================================
-        console.log('\n' + '='.repeat(80));
-        console.log('⏱️  [AI STAGE] Performance Analysis AI Pipeline Starting...');
-        console.log('='.repeat(80));
-        console.log(`📊 Target URL: ${url}`);
-        console.log(`📈 Metrics: ${totalRequests} requests, ${imagesMB}MB images, Score: ${normalized.carbonScore}/100`);
-        console.log('🤖 Calling AI Service for recommendations...');
-
-        // Prepare data schema format exactly how recommendations.js expects it
-        const metricsPayloadForAi = {
-            pageWeightMB: normalized.pageWeightMB,
-            carbonScore: normalized.carbonScore,
-            co2EstimateGrams: normalized.co2EstimateGrams,
-            rawScrapedData: {
-                totalRequests,
-                thirdPartyRequests,
-                imageCount,
-                imageBytes,
-                scriptCount,
-                scriptBytes,
-                styleCount,
-                styleBytes,
-                fontCount,
-                fontBytes
-            }
-        };
-
-        let performanceAiAdvice = [];
-        const aiStartTime = Date.now();
-        try {
-            console.log('⏳ Waiting for AI response from Gemini API...');
-            performanceAiAdvice = await fetchAiAdvice(metricsPayloadForAi);
-            const aiElapsedTime = Date.now() - aiStartTime;
-            console.log(`✅ AI Response received successfully in ${aiElapsedTime}ms`);
-            console.log(`🎯 Generated ${performanceAiAdvice.length} optimization recommendations`);
-            performanceAiAdvice.forEach((rec, idx) => {
-                console.log(`   [${idx + 1}] ${rec.impact} - ${rec.category}: ${rec.title}`);
-            });
-            console.log('='.repeat(80) + '\n');
-        } catch (aiError) {
-            const aiElapsedTime = Date.now() - aiStartTime;
-            console.error(`❌ AI ERROR after ${aiElapsedTime}ms:`, aiError.message);
-            console.log('='.repeat(80) + '\n');
-            performanceAiAdvice = [
-                {
-                    impact: "MEDIUM",
-                    category: "Scripts",
-                    title: "Optimize Asset Bundles",
-                    description:
-                        "AI extraction encountered a temporary latency block. Compress your core resources."
-                }
-            ];
-        }
-
-        // Persist performance and initial state data to MySQL
         let persistenceStatus = 'STORED';
         let writeDbReceipt = null;
         const dbStartTime = Date.now();
         try {
-            console.log('\n' + '='.repeat(80));
-            console.log('💾 [DATABASE] Starting analysis persistence to MySQL...');
+            console.log('💾 [DATABASE] Saving analysis record...');
             writeDbReceipt = await saveAnalysisResult(userId, url, {
                 pageWeightMB: normalized.pageWeightMB,
                 carbonScore: normalized.carbonScore,
                 co2EstimateGrams: normalized.co2EstimateGrams,
                 isGreenHost: normalized.isGreenHost,
-
-                // Optional: persist speed metrics too if your DB layer/table supports them
                 timeToFirstByteMs: normalized.timeToFirstByteMs,
                 domContentLoadedMs: normalized.domContentLoadedMs,
                 pageLoadTimeMs: normalized.pageLoadTimeMs,
                 estimated4gLatencyMs: normalized.estimated4gLatencyMs,
-
-                seoMetadata: null, // Initialized to null, will be populated via /seo-audit
-                rawScrapedData: metricsPayloadForAi.rawScrapedData
+                seoMetadata: null,
+                rawScrapedData: metricsPayloadForAi.rawScrapedData,
             });
-            const dbElapsedTime = Date.now() - dbStartTime;
-            console.log(`✅ [DATABASE] Analysis record saved successfully in ${dbElapsedTime}ms`);
-            console.log(`   - Website ID: ${writeDbReceipt.websiteId}`);
-            console.log(`   - Analysis ID: ${writeDbReceipt.insertId}`);
-            console.log('='.repeat(80) + '\n');
+            console.log(`✅ [DATABASE] Saved in ${Date.now() - dbStartTime}ms (id: ${writeDbReceipt.insertId})`);
         } catch (dbError) {
             persistenceStatus = 'PERSISTENCE_SKIPPED';
-            const dbElapsedTime = Date.now() - dbStartTime;
-            console.log('\n' + '='.repeat(80));
-            console.log('DATABASE ERROR CAUGHT:');
-            console.error('❌ [DATABASE] ERROR after ' + dbElapsedTime + 'ms:');
-            console.error('   - Error Type:', dbError.constructor.name);
-            console.error('   - Error Code:', dbError.code);
-            console.error('   - Error Message:', dbError.message);
-            console.error('   - SQL State:', dbError.sqlState);
-            console.error('   - Full Stack:', dbError.stack);
-            console.log('='.repeat(80) + '\n');
+            console.error('❌ [DATABASE] ERROR:', dbError.message);
         }
 
-        // Pack output response map
-        const finalResponse = {
-            SESSION_STATUS: "PERFORMANCE_ANALYSIS_COMPLETED",
-            TARGET_HOST: new URL(url).hostname.replace('www.', ''),
-            TIMESTAMP_EPOCH: Date.now(),
-            DATABASE_RECORD_ID:
-                writeDbReceipt && writeDbReceipt.insertId ? writeDbReceipt.insertId : null,
-
-            PHASE_1_RAW_SOCKET_INTERCEPTION: {
-                STATUS: "DATA_HARVEST_SUCCESSFUL",
-                INTERCEPTED_TRAFFIC: {
-                    TOTAL_NETWORK_REQUESTS_LOGGED: totalRequests,
-                    FOREIGN_THIRD_PARTY_INJECTIONS: thirdPartyRequests
-                },
-                EXTRACTED_PAYLOAD_SIGNATURES: [
-                    { CLASSIFICATION: "BINARY_IMAGES", COUNT: imageCount, RAW_WEIGHT: `${imagesMB} MB` },
-                    { CLASSIFICATION: "CLIENT_JS_SCRIPTS", COUNT: scriptCount, RAW_WEIGHT: `${scriptsMB} MB` },
-                    { CLASSIFICATION: "COMPRESSED_STYLES", COUNT: styleCount, RAW_WEIGHT: `${stylesMB} MB` },
-                    { CLASSIFICATION: "EMBEDDED_FONTS", COUNT: fontCount, RAW_WEIGHT: `${fontsMB} MB` }
-                ]
-            },
-
-            PHASE_2_ENVIRONMENTAL_RECONSTRUCTION: {
-                STATUS: "CALCULATION_MATRIX_ENGAGED",
-                TOTAL_TRANSMITTED_WEIGHT: `${normalized.pageWeightMB.toFixed(2)} MB`,
-                HOSTING_INFRASTRUCTURE: {
-                    IS_GREEN_PROVIDER:
-                        normalized.isGreenHost === 1 || normalized.isGreenHost === true,
-                    PROVIDER_SOURCE_CREDIT: "The Green Web Foundation API"
-                },
-                RECONSTRUCTED_METRICS: {
-                    CARBON_EFFICIENCY_SCORE: `${normalized.carbonScore}/100`,
-                    SUSTAINABILITY_GRADE: grade
-                }
-            },
-
-            // =========================================================================
-            // NEW PHASE 3 SPEED TELEMETRY BLOCK
-            // =========================================================================
-            PHASE_3_SPEED_METRICS_TRANSCRIPT: {
-                STATUS: "TIMING_API_EXTRACTED",
-                METRICS: {
-                    SERVER_RESPONSE_LAG_TTFB: `${normalized.timeToFirstByteMs} ms`,
-                    DOM_STRUCTURAL_READINESS: `${normalized.domContentLoadedMs} ms`,
-                    TOTAL_VISUAL_RENDER_TIME: `${normalized.pageLoadTimeMs} ms`,
-                    ESTIMATED_4G_DOWNLOAD_DELAY: `${normalized.estimated4gLatencyMs} ms`
-                }
-            },
-
-            AI_SUSTAINABILITY_OPTIMIZATIONS: performanceAiAdvice,
-            SYSTEM_INTEGRITY_NOTICE:
-                persistenceStatus === 'STORED'
-                    ? "Performance data saved. Full structural audit ready at /analysis/seo-audit"
-                    : "Analysis completed, but database persistence failed."
-        };
+        const finalResponse = buildPerformanceResponse(url, normalized, metricsPayloadForAi, {
+            writeDbReceipt,
+            persistenceStatus,
+            performanceAiAdvice: [],
+        });
 
         if (writeDbReceipt?.insertId && persistenceStatus === 'STORED') {
-            try {
-                await saveAnalysisPayload(writeDbReceipt.insertId, userId, finalResponse);
-            } catch (payloadError) {
-                console.error('Failed to save analysis payload:', payloadError.message);
-            }
+            void saveAnalysisPayload(writeDbReceipt.insertId, userId, finalResponse).catch((payloadError) => {
+                console.error('Failed to save initial analysis payload:', payloadError.message);
+            });
         }
 
-        return res.status(200).json(finalResponse);
+        res.status(200).json(finalResponse);
+        return;
     } catch (error) {
         console.error('analysis route failed:', error);
         res.status(500).json({
@@ -304,6 +264,34 @@ router.get('/history', authenticateToken, async (req, res) => {
     } catch (error) {
         console.error('Analysis history route failed:', error);
         res.status(500).json({ error: 'Failed to load analysis history.' });
+    }
+});
+
+router.patch('/:id/ai-suggestions', authenticateToken, async (req, res) => {
+    try {
+        const analysisId = req.params.id;
+        const userId = req.user.id;
+        const suggestions = req.body?.suggestions;
+
+        if (!Array.isArray(suggestions)) {
+            return res.status(400).json({ error: 'suggestions must be an array.' });
+        }
+
+        const record = await getAnalysisById(userId, analysisId);
+        if (!record?.analysis) {
+            return res.status(404).json({ error: 'Analysis not found.' });
+        }
+
+        const payload = {
+            ...record.analysis,
+            AI_SUSTAINABILITY_OPTIMIZATIONS: suggestions,
+        };
+
+        await saveAnalysisPayload(analysisId, userId, payload);
+        res.json({ success: true, AI_SUSTAINABILITY_OPTIMIZATIONS: suggestions });
+    } catch (error) {
+        console.error('Save AI suggestions route failed:', error);
+        res.status(500).json({ error: 'Failed to save AI suggestions.' });
     }
 });
 

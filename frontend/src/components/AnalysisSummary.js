@@ -40,7 +40,7 @@ function formatSessionStatus(status) {
     .replace(/^\w/, (char) => char.toUpperCase());
 }
 
-export default function AnalysisSummary({ analysis }) {
+export default function AnalysisSummary({ analysis, aiLoading = false }) {
   if (!analysis) return null;
 
   const host = analysis.TARGET_HOST;
@@ -209,31 +209,35 @@ export default function AnalysisSummary({ analysis }) {
         </Card>
       </div>
 
-      {suggestions.length > 0 && (
+      {(suggestions.length > 0 || aiLoading) && (
         <div id="ai-sustainability-suggestions" className="scroll-mt-24">
           <Card title="AI sustainability suggestions">
-            <ul className="space-y-3">
-              {suggestions.map((s, i) => (
-                <li key={i} className="border border-slate-100 rounded-md p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className={`text-xs font-semibold px-2 py-0.5 rounded ${impactColor(
-                        s.impact
-                      )}`}
-                    >
-                      {s.impact ?? "—"}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {s.category ?? ""}
-                    </span>
-                  </div>
-                  <p className="font-medium">{s.title ?? "—"}</p>
-                  <p className="text-sm text-slate-600 mt-1">
-                    {s.description ?? ""}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            {aiLoading ? (
+              <p className="text-sm text-slate-500">Generating recommendations...</p>
+            ) : (
+              <ul className="space-y-3">
+                {suggestions.map((s, i) => (
+                  <li key={i} className="border border-slate-100 rounded-md p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span
+                        className={`text-xs font-semibold px-2 py-0.5 rounded ${impactColor(
+                          s.impact
+                        )}`}
+                      >
+                        {s.impact ?? "—"}
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {s.category ?? ""}
+                      </span>
+                    </div>
+                    <p className="font-medium">{s.title ?? "—"}</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      {s.description ?? ""}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </Card>
         </div>
       )}
