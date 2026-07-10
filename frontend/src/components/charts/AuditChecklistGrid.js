@@ -45,7 +45,7 @@ export default function AuditChecklistGrid({ robots, sitemap, isMobileOptimized 
   const foundOrCrawled = !!sitemap.found || discoveredPages.length > 0;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="flex flex-col gap-3">
       <AuditStatusCard
         label="Robots.txt"
         status={robots.found ? "Found" : "Not found"}
