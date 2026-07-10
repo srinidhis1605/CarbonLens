@@ -14,8 +14,14 @@ const CHROMIUM_LAUNCH_OPTIONS = {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
+        '--disable-extensions',
+        '--disable-background-networking',
+        '--mute-audio',
     ],
 };
+
+const PERFORMANCE_GOTO_TIMEOUT_MS = Number(process.env.PERFORMANCE_GOTO_TIMEOUT_MS) || 30000;
+const PERFORMANCE_SETTLE_MS = Number(process.env.PERFORMANCE_SETTLE_MS) || 4000;
 
 // The BFS spider crawls until its frontier is empty OR this wall-clock time budget elapses — so it
 // genuinely visits each reachable URL rather than stopping at a fixed page number.
@@ -47,41 +53,52 @@ async function analyzeUrlPerformanceOnly(url) {
         fontBytes: 0
     };
 
-    page.on('response', async (response) => {
+    page.on('response', (response) => {
         try {
             const headers = response.headers();
             const len = headers['content-length'] ? parseInt(headers['content-length'], 10) : 0;
             const resUrl = response.url();
             const type = response.request().resourceType();
 
-            metrics.totalBytes += len;
+            metrics.totalBytes += Number.isFinite(len) ? len : 0;
             metrics.totalRequests += 1;
             if (!resUrl.includes(rootOrigin)) metrics.thirdPartyRequests += 1;
 
             if (type === 'image') {
                 metrics.imageCount += 1;
-                metrics.imageBytes += len;
+                metrics.imageBytes += len || 0;
             } else if (type === 'script') {
                 metrics.scriptCount += 1;
-                metrics.scriptBytes += len;
+                metrics.scriptBytes += len || 0;
             } else if (type === 'stylesheet') {
                 metrics.styleCount += 1;
-                metrics.styleBytes += len;
+                metrics.styleBytes += len || 0;
             } else if (type === 'font') {
                 metrics.fontCount += 1;
-                metrics.fontBytes += len;
+                metrics.fontBytes += len || 0;
             }
         } catch (_) {}
     });
 
+    // Skip heavy streams — they slow the scan without affecting carbon metrics much.
+    await page.route('**/*', (route) => {
+        const type = route.request().resourceType();
+        if (type === 'media' || type === 'websocket' || type === 'eventsource') {
+            return route.abort();
+        }
+        return route.continue();
+    });
+
     try {
-        // 1. Navigate to target page
-        const response = await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+        await page.goto(url, {
+            waitUntil: 'domcontentloaded',
+            timeout: PERFORMANCE_GOTO_TIMEOUT_MS,
+        });
 
-        // Optional: wait a bit more so late resources finish and byte counts improve
-        await page.waitForLoadState('networkidle').catch(() => {});
+        // Brief settle so lazy assets still get counted — never block the scan on networkidle.
+        await page.waitForLoadState('load', { timeout: PERFORMANCE_SETTLE_MS }).catch(() => {});
+        await page.waitForLoadState('networkidle', { timeout: 2000 }).catch(() => {});
 
-        // 2. Extract native browser performance timestamps
         const timingMetrics = await page.evaluate(() => {
             const [entry] = performance.getEntriesByType('navigation');
             const timing = entry || performance.timing;
@@ -139,7 +156,11 @@ async function analyzeUrlPerformanceOnly(url) {
             speedMetrics: {
                 timeToFirstByteMs: Math.round(timingMetrics?.ttfb || 0),
                 domContentLoadedMs: Math.round(timingMetrics?.domReady || 0),
-                pageLoadTimeMs: Math.round(timingMetrics?.fullyLoaded || 0),
+                pageLoadTimeMs: Math.round(
+                    (timingMetrics?.fullyLoaded > 0
+                        ? timingMetrics.fullyLoaded
+                        : timingMetrics?.domReady) || 0
+                ),
                 estimated4gLatencyMs: calculated4GLatencyMs
             }
         };

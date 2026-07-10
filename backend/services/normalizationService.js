@@ -63,14 +63,17 @@ async function checkGreenHosting(url) {
  * @param {object} rawMetrics - networkMetrics from analyzeUrlPerformanceOnly()
  * @param {object} speedMetrics - speedMetrics from analyzeUrlPerformanceOnly()
  */
-async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}) {
+async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}, options = {}) {
     // 1. Convert raw bytes from Playwright into Gigabytes (GB)
     const totalBytes = Number(rawMetrics?.totalBytes) || 0;
     const totalWeightMB = totalBytes / (1024 * 1024);
     const totalWeightGB = totalBytes / (1024 * 1024 * 1024);
 
-    // 2. Green Web API hosting check
-    const isGreenHost = await checkGreenHosting(url);
+    // 2. Green Web API hosting check (can be pre-fetched in parallel with the browser scan)
+    const isGreenHost =
+        typeof options.isGreenHost === 'boolean'
+            ? options.isGreenHost
+            : await checkGreenHosting(url);
 
     // 3. DAY 8 FORMULA: Calculate total energy based on the 0.06 kWh per GB constant
     const energyPerGB = 0.06; 
@@ -97,4 +100,4 @@ async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}) {
     };
 }
 
-module.exports = { normalizeAnalysisData };
+module.exports = { normalizeAnalysisData, checkGreenHosting };

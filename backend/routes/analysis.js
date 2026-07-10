@@ -4,7 +4,7 @@ const router = express.Router();
 
 // 1. Core Service Imports
 const { analyzeUrlPerformanceOnly, analyzeUrlSeoSuite } = require('../services/analysisService');
-const { normalizeAnalysisData } = require('../services/normalizationService');
+const { normalizeAnalysisData, checkGreenHosting } = require('../services/normalizationService');
 const authenticateToken = require('../middleware/authMiddleware');
 const {
     saveAnalysisResult,
@@ -58,12 +58,14 @@ router.post('/', authenticateToken, async (req, res) => {
         // =========================================================================
         // STEP 3 HOOK: Pull both network metrics + speed metrics from service layer
         // =========================================================================
-        const scrapeResult = await analyzeUrlPerformanceOnly(url);
+        const [scrapeResult, isGreenHost] = await Promise.all([
+            analyzeUrlPerformanceOnly(url),
+            checkGreenHosting(url),
+        ]);
         const rawData = scrapeResult.networkMetrics || {};
         const speedData = scrapeResult.speedMetrics || {};
 
-        // Normalize everything together
-        const normalized = await normalizeAnalysisData(url, rawData, speedData);
+        const normalized = await normalizeAnalysisData(url, rawData, speedData, { isGreenHost });
 
         const totalRequests = Math.floor(toSafeNumber(rawData.totalRequests));
         const thirdPartyRequests = Math.floor(toSafeNumber(rawData.thirdPartyRequests));
