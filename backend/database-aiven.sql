@@ -65,3 +65,4 @@ CREATE INDEX idx_websites_url ON websites (url);
 CREATE INDEX idx_analysis_user_id ON analysis (user_id);
 CREATE INDEX idx_analysis_website_id ON analysis (website_id);
 CREATE INDEX idx_analysis_created_at ON analysis (created_at);
+CREATE INDEX idx_analysis_user_id_id ON analysis (user_id, id);

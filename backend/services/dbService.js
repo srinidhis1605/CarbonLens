@@ -131,6 +131,17 @@ async function ensureHistoryColumns() {
             }
         }
     }
+
+    // Speeds up per-user history (avoids ER_OUT_OF_SORTMEMORY on small Aiven instances).
+    try {
+        await dbPool.execute(
+            'CREATE INDEX idx_analysis_user_id_id ON analysis (user_id, id)'
+        );
+    } catch (error) {
+        if (error.code !== 'ER_DUP_KEYNAME') {
+            throw error;
+        }
+    }
 }
 
 /**
@@ -247,6 +258,8 @@ async function saveSeoAuditPayload(analysisId, userId, seoPayload) {
 async function getAnalysisHistory(userId, limit = 20) {
     const safeLimit = Math.min(Math.max(Number(limit) || 20, 1), 50);
 
+    // ORDER BY primary key (newest id) — same order as created_at but avoids sort-buffer
+    // exhaustion on constrained MySQL hosts (e.g. Aiven free tier).
     const [rows] = await dbPool.execute(
         `SELECT
             a.id,
@@ -261,7 +274,7 @@ async function getAnalysisHistory(userId, limit = 20) {
          FROM analysis a
          INNER JOIN websites w ON w.id = a.website_id
          WHERE a.user_id = ?
-         ORDER BY a.created_at DESC
+         ORDER BY a.id DESC
          LIMIT ${safeLimit}`,
         [userId]
     );

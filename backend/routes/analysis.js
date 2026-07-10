@@ -13,6 +13,7 @@ const {
     saveSeoAuditPayload,
     getAnalysisHistory,
     getAnalysisById,
+    ensureHistoryColumns,
 } = require('../services/dbService');
 
 // =========================================================================
@@ -259,6 +260,7 @@ router.post('/seo-audit', authenticateToken, async (req, res) => {
 
 router.get('/history', authenticateToken, async (req, res) => {
     try {
+        await ensureHistoryColumns();
         const history = await getAnalysisHistory(req.user.id, req.query.limit);
         res.json({ history });
     } catch (error) {
