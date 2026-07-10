@@ -1,5 +1,16 @@
 import React from "react";
 
+function exportDiscoveredPagesToExcel(urls) {
+  const escapeCsv = (value) => `"${String(value).replace(/"/g, '""')}"`;
+  const csv = `\uFEFFURL\n${urls.map(escapeCsv).join("\n")}`;
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "discovered-pages.csv";
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
 function AuditStatusCard({ label, status, ok, children }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 h-full">
@@ -63,14 +74,25 @@ export default function AuditChecklistGrid({ robots, sitemap, isMobileOptimized 
         ok={foundOrCrawled}
       >
         <div className="space-y-3">
-          {sitemap.resolvedUrl ? (
-            <div className="text-sm">
+          <div className="flex items-start justify-between gap-3 text-sm">
+            <div className="min-w-0 flex-1">
               <p className="text-slate-500 mb-1">Sitemap URL</p>
-              <p className="text-xs text-slate-700 break-all">{sitemap.resolvedUrl}</p>
+              {sitemap.resolvedUrl ? (
+                <p className="text-xs text-slate-700 break-all">{sitemap.resolvedUrl}</p>
+              ) : (
+                <p className="text-xs text-slate-500">No sitemap URL detected</p>
+              )}
             </div>
-          ) : (
-            <p className="text-xs text-slate-500">No sitemap URL detected</p>
-          )}
+            {discoveredPages.length > 0 && (
+              <button
+                type="button"
+                onClick={() => exportDiscoveredPagesToExcel(discoveredPages)}
+                className="shrink-0 text-xs font-medium text-brand hover:text-brand-dark hover:underline"
+              >
+                Export to Excel
+              </button>
+            )}
+          </div>
 
           {discoveredPages.length > 0 && (
             <details className="text-sm">
