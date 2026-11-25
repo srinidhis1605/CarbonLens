@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenGrid Analytics — CarbonLens Controlled Test Website (Optimized)</title>
+    <meta name="description" content="Controlled test website for CarbonLens 2.0 real optimization and before-and-after validation experiments." />
+    <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <link rel="stylesheet" href="assets/css/components.min.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand-mark">
+                <img src="assets/images/badge-partner.webp" alt="GreenGrid Eco Badge" width="36" height="36" style="border-radius: 8px; object-fit: cover;" />
+                <span>GreenGrid Sustainability Portal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#initiatives">Initiatives</a></li>
+                <li><a href="#gallery">Infrastructure</a></li>
+                <li><a href="#estimator">Estimator</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="overview" class="hero">
+            <div>
+                <span class="badge-pill">Optimized Website Version (Actual Asset Optimization)</span>
+                <h1>Sustainable Web Engineering &amp; Digital Carbon Reduction</h1>
+                <p>
+                    This controlled website serves as the immutable baseline for CarbonLens 2.0 actual optimization
+                    demonstrations. It ships intentionally unoptimized high-resolution raster images, unminified
+                    stylesheets and scripts, and unused legacy assets so real optimization savings can be measured
+                    before and after via Playwright.
+                </p>
+                <a href="#estimator" class="btn-primary">Explore Footprint Estimator</a>
+            </div>
+            <div>
+                <img src="assets/images/hero-banner.webp" alt="Sustainable green energy digital grid hero banner" class="hero-image" />
+            </div>
+        </section>
+
+        <section id="metrics-kpi-strip" class="metrics-strip" aria-label="Sustainability KPIs"></section>
+
+        <section id="initiatives">
+            <h2 class="section-title">Web Optimization Focus Areas</h2>
+            <div class="filter-bar">
+                <button type="button" class="filter-btn active" data-filter="all">All Areas</button>
+                <button type="button" class="filter-btn" data-filter="images">Image Delivery</button>
+                <button type="button" class="filter-btn" data-filter="code">JavaScript &amp; CSS</button>
+                <button type="button" class="filter-btn" data-filter="infra">Green Infrastructure</button>
+            </div>
+            <p id="filter-status-text" style="font-size: 0.85rem; color: #475569; margin-bottom: 14px;"></p>
+
+            <div class="card-grid">
+                <article class="feature-card" data-category="images">
+                    <img src="assets/images/solar-campus.webp" alt="Solar powered digital campus"  loading="lazy" decoding="async" />
+                    <div class="feature-card-body">
+                        <h3>Modern Image Formats</h3>
+                        <p>Converting oversized PNG and JPEG photographs to resized WebP assets dramatically reduces network transfer bytes.</p>
+                    </div>
+                </article>
+                <article class="feature-card" data-category="code">
+                    <img src="assets/images/dashboard-preview.webp" alt="Carbon analytics dashboard preview"  loading="lazy" decoding="async" />
+                    <div class="feature-card-body">
+                        <h3>Lean JavaScript &amp; CSS</h3>
+                        <p>Minifying active bundles and eliminating unused legacy scripts and stylesheets lowers transfer weight and CPU work.</p>
+                    </div>
+                </article>
+                <article class="feature-card" data-category="infra">
+                    <img src="assets/images/datacenter-overview.webp" alt="Efficient green data center overview"  loading="lazy" decoding="async" />
+                    <div class="feature-card-body">
+                        <h3>Renewable Hosting Awareness</h3>
+                        <p>Combining lean frontend architecture with verified renewable-energy hosting minimizes estimated digital emissions.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2 class="section-title">Visual Research Assets</h2>
+            <div class="gallery-row">
+                <img src="assets/images/efficiency-report.webp" alt="Digital sustainability efficiency report graphic"  loading="lazy" decoding="async" />
+                <img src="assets/images/grid-network.webp" alt="Low carbon global network infrastructure visual"  loading="lazy" decoding="async" />
+            </div>
+        </section>
+
+        <section id="estimator" class="estimator-panel">
+            <h2 class="section-title" style="margin-bottom: 6px;">Interactive Traffic Footprint Preview</h2>
+            <p style="font-size: 0.9rem; color: #475569;">
+                Verifies that client-side JavaScript remains fully interactive after minification and unused-script removal.
+            </p>
+            <div class="estimator-controls">
+                <div>
+                    <label for="input-monthly-visits">Monthly Page Views</label>
+                    <input id="input-monthly-visits" type="number" value="10000" min="100" />
+                </div>
+                <div>
+                    <label for="input-page-weight-mb">Measured Page Weight (MB)</label>
+                    <input id="input-page-weight-mb" type="number" step="0.0001" value="" placeholder="Auto-measured" min="0.0001" />
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <button id="btn-recalculate-preview" type="button" class="btn-primary" style="width: 100%;">
+                        Recalculate Estimate
+                    </button>
+                </div>
+            </div>
+            <p id="estimator-source-notice" style="font-size: 0.8rem; color: #475569; margin-top: 10px;"></p>
+            <div id="estimator-result" class="estimator-output"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        CarbonLens 2.0 Controlled Test Website — Optimized Output Version — Generated by CarbonLens 2.0
+    </footer>
+
+    <script src="assets/js/data-catalog.min.js" defer></script>
+    <script src="assets/js/app.min.js" defer></script>
+</body>
+</html>

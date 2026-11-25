@@ -48,12 +48,15 @@ function buildMetricsPayloadForAi(normalized, rawData) {
     const styleBytes = toSafeNumber(rawData.styleBytes);
     const fontCount = Math.floor(toSafeNumber(rawData.fontCount));
     const fontBytes = toSafeNumber(rawData.fontBytes);
+    const otherBytes = toSafeNumber(rawData.otherBytes);
+    const totalBytes = toSafeNumber(rawData.totalBytes) || (imageBytes + scriptBytes + styleBytes + fontBytes + otherBytes);
 
     return {
         pageWeightMB: normalized.pageWeightMB,
         carbonScore: normalized.carbonScore,
         co2EstimateGrams: normalized.co2EstimateGrams,
         rawScrapedData: {
+            totalBytes,
             totalRequests,
             thirdPartyRequests,
             imageCount,
@@ -64,6 +67,7 @@ function buildMetricsPayloadForAi(normalized, rawData) {
             styleBytes,
             fontCount,
             fontBytes,
+            otherBytes,
         },
         display: {
             imagesMB: (imageBytes / (1024 * 1024)).toFixed(2),
@@ -120,6 +124,8 @@ function buildPerformanceResponse(url, normalized, metricsPayloadForAi, options 
             RECONSTRUCTED_METRICS: {
                 CARBON_EFFICIENCY_SCORE: `${normalized.carbonScore}/100`,
                 SUSTAINABILITY_GRADE: grade,
+                ESTIMATED_ENERGY_KWH: normalized.energyUsedKWh ?? null,
+                CO2_ESTIMATE_GRAMS: normalized.co2EstimateGrams ?? null,
             },
         },
         PHASE_3_SPEED_METRICS_TRANSCRIPT: {

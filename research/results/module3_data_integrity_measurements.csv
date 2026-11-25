@@ -1,0 +1,5 @@
+source_type,version,total_bytes,image_bytes,script_bytes,css_bytes,other_or_html_bytes,requests,energy_kwh_calc,co2_grams_calc,carbon_score_calc
+filesystem_disk,original,18256665,17925665,116808,207398,6794,14,,,
+filesystem_disk,optimized,170946,156878,3211,4024,6833,12,,,
+browser_playwright,original,18256665,17925665,116808,207398,6794,14,0.00102017,0.450915,7
+browser_playwright,optimized,170946,156878,3211,4024,6833,12,0.00000955,0.004222,98

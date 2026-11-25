@@ -1,0 +1,3385 @@
+/* ==========================================================================
+   LEGACY UNUSED PRINT & CAROUSEL THEME STYLESHEET
+   Intentionally loaded on the original controlled website but unused by any DOM element.
+   Eligible for safe removal during Module 3 CSS optimization.
+   ========================================================================== */
+
+/* Deprecated carousel slide theme #1 (unused in current page layout) */
+.deprecated-carousel-v1-slide-1,
+.deprecated-carousel-v1-caption-1 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #2 (unused in current page layout) */
+.deprecated-carousel-v1-slide-2,
+.deprecated-carousel-v1-caption-2 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #3 (unused in current page layout) */
+.deprecated-carousel-v1-slide-3,
+.deprecated-carousel-v1-caption-3 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #4 (unused in current page layout) */
+.deprecated-carousel-v1-slide-4,
+.deprecated-carousel-v1-caption-4 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #5 (unused in current page layout) */
+.deprecated-carousel-v1-slide-5,
+.deprecated-carousel-v1-caption-5 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #6 (unused in current page layout) */
+.deprecated-carousel-v1-slide-6,
+.deprecated-carousel-v1-caption-6 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #7 (unused in current page layout) */
+.deprecated-carousel-v1-slide-7,
+.deprecated-carousel-v1-caption-7 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #8 (unused in current page layout) */
+.deprecated-carousel-v1-slide-8,
+.deprecated-carousel-v1-caption-8 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #9 (unused in current page layout) */
+.deprecated-carousel-v1-slide-9,
+.deprecated-carousel-v1-caption-9 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #10 (unused in current page layout) */
+.deprecated-carousel-v1-slide-10,
+.deprecated-carousel-v1-caption-10 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #11 (unused in current page layout) */
+.deprecated-carousel-v1-slide-11,
+.deprecated-carousel-v1-caption-11 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #12 (unused in current page layout) */
+.deprecated-carousel-v1-slide-12,
+.deprecated-carousel-v1-caption-12 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #13 (unused in current page layout) */
+.deprecated-carousel-v1-slide-13,
+.deprecated-carousel-v1-caption-13 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #14 (unused in current page layout) */
+.deprecated-carousel-v1-slide-14,
+.deprecated-carousel-v1-caption-14 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #15 (unused in current page layout) */
+.deprecated-carousel-v1-slide-15,
+.deprecated-carousel-v1-caption-15 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #16 (unused in current page layout) */
+.deprecated-carousel-v1-slide-16,
+.deprecated-carousel-v1-caption-16 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #17 (unused in current page layout) */
+.deprecated-carousel-v1-slide-17,
+.deprecated-carousel-v1-caption-17 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #18 (unused in current page layout) */
+.deprecated-carousel-v1-slide-18,
+.deprecated-carousel-v1-caption-18 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #19 (unused in current page layout) */
+.deprecated-carousel-v1-slide-19,
+.deprecated-carousel-v1-caption-19 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #20 (unused in current page layout) */
+.deprecated-carousel-v1-slide-20,
+.deprecated-carousel-v1-caption-20 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #21 (unused in current page layout) */
+.deprecated-carousel-v1-slide-21,
+.deprecated-carousel-v1-caption-21 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #22 (unused in current page layout) */
+.deprecated-carousel-v1-slide-22,
+.deprecated-carousel-v1-caption-22 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #23 (unused in current page layout) */
+.deprecated-carousel-v1-slide-23,
+.deprecated-carousel-v1-caption-23 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #24 (unused in current page layout) */
+.deprecated-carousel-v1-slide-24,
+.deprecated-carousel-v1-caption-24 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #25 (unused in current page layout) */
+.deprecated-carousel-v1-slide-25,
+.deprecated-carousel-v1-caption-25 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #26 (unused in current page layout) */
+.deprecated-carousel-v1-slide-26,
+.deprecated-carousel-v1-caption-26 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #27 (unused in current page layout) */
+.deprecated-carousel-v1-slide-27,
+.deprecated-carousel-v1-caption-27 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #28 (unused in current page layout) */
+.deprecated-carousel-v1-slide-28,
+.deprecated-carousel-v1-caption-28 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #29 (unused in current page layout) */
+.deprecated-carousel-v1-slide-29,
+.deprecated-carousel-v1-caption-29 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #30 (unused in current page layout) */
+.deprecated-carousel-v1-slide-30,
+.deprecated-carousel-v1-caption-30 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #31 (unused in current page layout) */
+.deprecated-carousel-v1-slide-31,
+.deprecated-carousel-v1-caption-31 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #32 (unused in current page layout) */
+.deprecated-carousel-v1-slide-32,
+.deprecated-carousel-v1-caption-32 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #33 (unused in current page layout) */
+.deprecated-carousel-v1-slide-33,
+.deprecated-carousel-v1-caption-33 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #34 (unused in current page layout) */
+.deprecated-carousel-v1-slide-34,
+.deprecated-carousel-v1-caption-34 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #35 (unused in current page layout) */
+.deprecated-carousel-v1-slide-35,
+.deprecated-carousel-v1-caption-35 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #36 (unused in current page layout) */
+.deprecated-carousel-v1-slide-36,
+.deprecated-carousel-v1-caption-36 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #37 (unused in current page layout) */
+.deprecated-carousel-v1-slide-37,
+.deprecated-carousel-v1-caption-37 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #38 (unused in current page layout) */
+.deprecated-carousel-v1-slide-38,
+.deprecated-carousel-v1-caption-38 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #39 (unused in current page layout) */
+.deprecated-carousel-v1-slide-39,
+.deprecated-carousel-v1-caption-39 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #40 (unused in current page layout) */
+.deprecated-carousel-v1-slide-40,
+.deprecated-carousel-v1-caption-40 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #41 (unused in current page layout) */
+.deprecated-carousel-v1-slide-41,
+.deprecated-carousel-v1-caption-41 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #42 (unused in current page layout) */
+.deprecated-carousel-v1-slide-42,
+.deprecated-carousel-v1-caption-42 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #43 (unused in current page layout) */
+.deprecated-carousel-v1-slide-43,
+.deprecated-carousel-v1-caption-43 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #44 (unused in current page layout) */
+.deprecated-carousel-v1-slide-44,
+.deprecated-carousel-v1-caption-44 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #45 (unused in current page layout) */
+.deprecated-carousel-v1-slide-45,
+.deprecated-carousel-v1-caption-45 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #46 (unused in current page layout) */
+.deprecated-carousel-v1-slide-46,
+.deprecated-carousel-v1-caption-46 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #47 (unused in current page layout) */
+.deprecated-carousel-v1-slide-47,
+.deprecated-carousel-v1-caption-47 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #48 (unused in current page layout) */
+.deprecated-carousel-v1-slide-48,
+.deprecated-carousel-v1-caption-48 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #49 (unused in current page layout) */
+.deprecated-carousel-v1-slide-49,
+.deprecated-carousel-v1-caption-49 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #50 (unused in current page layout) */
+.deprecated-carousel-v1-slide-50,
+.deprecated-carousel-v1-caption-50 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #51 (unused in current page layout) */
+.deprecated-carousel-v1-slide-51,
+.deprecated-carousel-v1-caption-51 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #52 (unused in current page layout) */
+.deprecated-carousel-v1-slide-52,
+.deprecated-carousel-v1-caption-52 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #53 (unused in current page layout) */
+.deprecated-carousel-v1-slide-53,
+.deprecated-carousel-v1-caption-53 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #54 (unused in current page layout) */
+.deprecated-carousel-v1-slide-54,
+.deprecated-carousel-v1-caption-54 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #55 (unused in current page layout) */
+.deprecated-carousel-v1-slide-55,
+.deprecated-carousel-v1-caption-55 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #56 (unused in current page layout) */
+.deprecated-carousel-v1-slide-56,
+.deprecated-carousel-v1-caption-56 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #57 (unused in current page layout) */
+.deprecated-carousel-v1-slide-57,
+.deprecated-carousel-v1-caption-57 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #58 (unused in current page layout) */
+.deprecated-carousel-v1-slide-58,
+.deprecated-carousel-v1-caption-58 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #59 (unused in current page layout) */
+.deprecated-carousel-v1-slide-59,
+.deprecated-carousel-v1-caption-59 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #60 (unused in current page layout) */
+.deprecated-carousel-v1-slide-60,
+.deprecated-carousel-v1-caption-60 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #61 (unused in current page layout) */
+.deprecated-carousel-v1-slide-61,
+.deprecated-carousel-v1-caption-61 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #62 (unused in current page layout) */
+.deprecated-carousel-v1-slide-62,
+.deprecated-carousel-v1-caption-62 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #63 (unused in current page layout) */
+.deprecated-carousel-v1-slide-63,
+.deprecated-carousel-v1-caption-63 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #64 (unused in current page layout) */
+.deprecated-carousel-v1-slide-64,
+.deprecated-carousel-v1-caption-64 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #65 (unused in current page layout) */
+.deprecated-carousel-v1-slide-65,
+.deprecated-carousel-v1-caption-65 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #66 (unused in current page layout) */
+.deprecated-carousel-v1-slide-66,
+.deprecated-carousel-v1-caption-66 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #67 (unused in current page layout) */
+.deprecated-carousel-v1-slide-67,
+.deprecated-carousel-v1-caption-67 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #68 (unused in current page layout) */
+.deprecated-carousel-v1-slide-68,
+.deprecated-carousel-v1-caption-68 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #69 (unused in current page layout) */
+.deprecated-carousel-v1-slide-69,
+.deprecated-carousel-v1-caption-69 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #70 (unused in current page layout) */
+.deprecated-carousel-v1-slide-70,
+.deprecated-carousel-v1-caption-70 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #71 (unused in current page layout) */
+.deprecated-carousel-v1-slide-71,
+.deprecated-carousel-v1-caption-71 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #72 (unused in current page layout) */
+.deprecated-carousel-v1-slide-72,
+.deprecated-carousel-v1-caption-72 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #73 (unused in current page layout) */
+.deprecated-carousel-v1-slide-73,
+.deprecated-carousel-v1-caption-73 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #74 (unused in current page layout) */
+.deprecated-carousel-v1-slide-74,
+.deprecated-carousel-v1-caption-74 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #75 (unused in current page layout) */
+.deprecated-carousel-v1-slide-75,
+.deprecated-carousel-v1-caption-75 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #76 (unused in current page layout) */
+.deprecated-carousel-v1-slide-76,
+.deprecated-carousel-v1-caption-76 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #77 (unused in current page layout) */
+.deprecated-carousel-v1-slide-77,
+.deprecated-carousel-v1-caption-77 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #78 (unused in current page layout) */
+.deprecated-carousel-v1-slide-78,
+.deprecated-carousel-v1-caption-78 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #79 (unused in current page layout) */
+.deprecated-carousel-v1-slide-79,
+.deprecated-carousel-v1-caption-79 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #80 (unused in current page layout) */
+.deprecated-carousel-v1-slide-80,
+.deprecated-carousel-v1-caption-80 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #81 (unused in current page layout) */
+.deprecated-carousel-v1-slide-81,
+.deprecated-carousel-v1-caption-81 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #82 (unused in current page layout) */
+.deprecated-carousel-v1-slide-82,
+.deprecated-carousel-v1-caption-82 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #83 (unused in current page layout) */
+.deprecated-carousel-v1-slide-83,
+.deprecated-carousel-v1-caption-83 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #84 (unused in current page layout) */
+.deprecated-carousel-v1-slide-84,
+.deprecated-carousel-v1-caption-84 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #85 (unused in current page layout) */
+.deprecated-carousel-v1-slide-85,
+.deprecated-carousel-v1-caption-85 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #86 (unused in current page layout) */
+.deprecated-carousel-v1-slide-86,
+.deprecated-carousel-v1-caption-86 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #87 (unused in current page layout) */
+.deprecated-carousel-v1-slide-87,
+.deprecated-carousel-v1-caption-87 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #88 (unused in current page layout) */
+.deprecated-carousel-v1-slide-88,
+.deprecated-carousel-v1-caption-88 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #89 (unused in current page layout) */
+.deprecated-carousel-v1-slide-89,
+.deprecated-carousel-v1-caption-89 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #90 (unused in current page layout) */
+.deprecated-carousel-v1-slide-90,
+.deprecated-carousel-v1-caption-90 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #91 (unused in current page layout) */
+.deprecated-carousel-v1-slide-91,
+.deprecated-carousel-v1-caption-91 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #92 (unused in current page layout) */
+.deprecated-carousel-v1-slide-92,
+.deprecated-carousel-v1-caption-92 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #93 (unused in current page layout) */
+.deprecated-carousel-v1-slide-93,
+.deprecated-carousel-v1-caption-93 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #94 (unused in current page layout) */
+.deprecated-carousel-v1-slide-94,
+.deprecated-carousel-v1-caption-94 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #95 (unused in current page layout) */
+.deprecated-carousel-v1-slide-95,
+.deprecated-carousel-v1-caption-95 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #96 (unused in current page layout) */
+.deprecated-carousel-v1-slide-96,
+.deprecated-carousel-v1-caption-96 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #97 (unused in current page layout) */
+.deprecated-carousel-v1-slide-97,
+.deprecated-carousel-v1-caption-97 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #98 (unused in current page layout) */
+.deprecated-carousel-v1-slide-98,
+.deprecated-carousel-v1-caption-98 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #99 (unused in current page layout) */
+.deprecated-carousel-v1-slide-99,
+.deprecated-carousel-v1-caption-99 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #100 (unused in current page layout) */
+.deprecated-carousel-v1-slide-100,
+.deprecated-carousel-v1-caption-100 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #101 (unused in current page layout) */
+.deprecated-carousel-v1-slide-101,
+.deprecated-carousel-v1-caption-101 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #102 (unused in current page layout) */
+.deprecated-carousel-v1-slide-102,
+.deprecated-carousel-v1-caption-102 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #103 (unused in current page layout) */
+.deprecated-carousel-v1-slide-103,
+.deprecated-carousel-v1-caption-103 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #104 (unused in current page layout) */
+.deprecated-carousel-v1-slide-104,
+.deprecated-carousel-v1-caption-104 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #105 (unused in current page layout) */
+.deprecated-carousel-v1-slide-105,
+.deprecated-carousel-v1-caption-105 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #106 (unused in current page layout) */
+.deprecated-carousel-v1-slide-106,
+.deprecated-carousel-v1-caption-106 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #107 (unused in current page layout) */
+.deprecated-carousel-v1-slide-107,
+.deprecated-carousel-v1-caption-107 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #108 (unused in current page layout) */
+.deprecated-carousel-v1-slide-108,
+.deprecated-carousel-v1-caption-108 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #109 (unused in current page layout) */
+.deprecated-carousel-v1-slide-109,
+.deprecated-carousel-v1-caption-109 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #110 (unused in current page layout) */
+.deprecated-carousel-v1-slide-110,
+.deprecated-carousel-v1-caption-110 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #111 (unused in current page layout) */
+.deprecated-carousel-v1-slide-111,
+.deprecated-carousel-v1-caption-111 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #112 (unused in current page layout) */
+.deprecated-carousel-v1-slide-112,
+.deprecated-carousel-v1-caption-112 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #113 (unused in current page layout) */
+.deprecated-carousel-v1-slide-113,
+.deprecated-carousel-v1-caption-113 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #114 (unused in current page layout) */
+.deprecated-carousel-v1-slide-114,
+.deprecated-carousel-v1-caption-114 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #115 (unused in current page layout) */
+.deprecated-carousel-v1-slide-115,
+.deprecated-carousel-v1-caption-115 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #116 (unused in current page layout) */
+.deprecated-carousel-v1-slide-116,
+.deprecated-carousel-v1-caption-116 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #117 (unused in current page layout) */
+.deprecated-carousel-v1-slide-117,
+.deprecated-carousel-v1-caption-117 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #118 (unused in current page layout) */
+.deprecated-carousel-v1-slide-118,
+.deprecated-carousel-v1-caption-118 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #119 (unused in current page layout) */
+.deprecated-carousel-v1-slide-119,
+.deprecated-carousel-v1-caption-119 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #120 (unused in current page layout) */
+.deprecated-carousel-v1-slide-120,
+.deprecated-carousel-v1-caption-120 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #121 (unused in current page layout) */
+.deprecated-carousel-v1-slide-121,
+.deprecated-carousel-v1-caption-121 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #122 (unused in current page layout) */
+.deprecated-carousel-v1-slide-122,
+.deprecated-carousel-v1-caption-122 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #123 (unused in current page layout) */
+.deprecated-carousel-v1-slide-123,
+.deprecated-carousel-v1-caption-123 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #124 (unused in current page layout) */
+.deprecated-carousel-v1-slide-124,
+.deprecated-carousel-v1-caption-124 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #125 (unused in current page layout) */
+.deprecated-carousel-v1-slide-125,
+.deprecated-carousel-v1-caption-125 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #126 (unused in current page layout) */
+.deprecated-carousel-v1-slide-126,
+.deprecated-carousel-v1-caption-126 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #127 (unused in current page layout) */
+.deprecated-carousel-v1-slide-127,
+.deprecated-carousel-v1-caption-127 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #128 (unused in current page layout) */
+.deprecated-carousel-v1-slide-128,
+.deprecated-carousel-v1-caption-128 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #129 (unused in current page layout) */
+.deprecated-carousel-v1-slide-129,
+.deprecated-carousel-v1-caption-129 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #130 (unused in current page layout) */
+.deprecated-carousel-v1-slide-130,
+.deprecated-carousel-v1-caption-130 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #131 (unused in current page layout) */
+.deprecated-carousel-v1-slide-131,
+.deprecated-carousel-v1-caption-131 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #132 (unused in current page layout) */
+.deprecated-carousel-v1-slide-132,
+.deprecated-carousel-v1-caption-132 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #133 (unused in current page layout) */
+.deprecated-carousel-v1-slide-133,
+.deprecated-carousel-v1-caption-133 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #134 (unused in current page layout) */
+.deprecated-carousel-v1-slide-134,
+.deprecated-carousel-v1-caption-134 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #135 (unused in current page layout) */
+.deprecated-carousel-v1-slide-135,
+.deprecated-carousel-v1-caption-135 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #136 (unused in current page layout) */
+.deprecated-carousel-v1-slide-136,
+.deprecated-carousel-v1-caption-136 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #137 (unused in current page layout) */
+.deprecated-carousel-v1-slide-137,
+.deprecated-carousel-v1-caption-137 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #138 (unused in current page layout) */
+.deprecated-carousel-v1-slide-138,
+.deprecated-carousel-v1-caption-138 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #139 (unused in current page layout) */
+.deprecated-carousel-v1-slide-139,
+.deprecated-carousel-v1-caption-139 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #140 (unused in current page layout) */
+.deprecated-carousel-v1-slide-140,
+.deprecated-carousel-v1-caption-140 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #141 (unused in current page layout) */
+.deprecated-carousel-v1-slide-141,
+.deprecated-carousel-v1-caption-141 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #142 (unused in current page layout) */
+.deprecated-carousel-v1-slide-142,
+.deprecated-carousel-v1-caption-142 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #143 (unused in current page layout) */
+.deprecated-carousel-v1-slide-143,
+.deprecated-carousel-v1-caption-143 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #144 (unused in current page layout) */
+.deprecated-carousel-v1-slide-144,
+.deprecated-carousel-v1-caption-144 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #145 (unused in current page layout) */
+.deprecated-carousel-v1-slide-145,
+.deprecated-carousel-v1-caption-145 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #146 (unused in current page layout) */
+.deprecated-carousel-v1-slide-146,
+.deprecated-carousel-v1-caption-146 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #147 (unused in current page layout) */
+.deprecated-carousel-v1-slide-147,
+.deprecated-carousel-v1-caption-147 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #148 (unused in current page layout) */
+.deprecated-carousel-v1-slide-148,
+.deprecated-carousel-v1-caption-148 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #149 (unused in current page layout) */
+.deprecated-carousel-v1-slide-149,
+.deprecated-carousel-v1-caption-149 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #150 (unused in current page layout) */
+.deprecated-carousel-v1-slide-150,
+.deprecated-carousel-v1-caption-150 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #151 (unused in current page layout) */
+.deprecated-carousel-v1-slide-151,
+.deprecated-carousel-v1-caption-151 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #152 (unused in current page layout) */
+.deprecated-carousel-v1-slide-152,
+.deprecated-carousel-v1-caption-152 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #153 (unused in current page layout) */
+.deprecated-carousel-v1-slide-153,
+.deprecated-carousel-v1-caption-153 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #154 (unused in current page layout) */
+.deprecated-carousel-v1-slide-154,
+.deprecated-carousel-v1-caption-154 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #155 (unused in current page layout) */
+.deprecated-carousel-v1-slide-155,
+.deprecated-carousel-v1-caption-155 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #156 (unused in current page layout) */
+.deprecated-carousel-v1-slide-156,
+.deprecated-carousel-v1-caption-156 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #157 (unused in current page layout) */
+.deprecated-carousel-v1-slide-157,
+.deprecated-carousel-v1-caption-157 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #158 (unused in current page layout) */
+.deprecated-carousel-v1-slide-158,
+.deprecated-carousel-v1-caption-158 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #159 (unused in current page layout) */
+.deprecated-carousel-v1-slide-159,
+.deprecated-carousel-v1-caption-159 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #160 (unused in current page layout) */
+.deprecated-carousel-v1-slide-160,
+.deprecated-carousel-v1-caption-160 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #161 (unused in current page layout) */
+.deprecated-carousel-v1-slide-161,
+.deprecated-carousel-v1-caption-161 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #162 (unused in current page layout) */
+.deprecated-carousel-v1-slide-162,
+.deprecated-carousel-v1-caption-162 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #163 (unused in current page layout) */
+.deprecated-carousel-v1-slide-163,
+.deprecated-carousel-v1-caption-163 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #164 (unused in current page layout) */
+.deprecated-carousel-v1-slide-164,
+.deprecated-carousel-v1-caption-164 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #165 (unused in current page layout) */
+.deprecated-carousel-v1-slide-165,
+.deprecated-carousel-v1-caption-165 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #166 (unused in current page layout) */
+.deprecated-carousel-v1-slide-166,
+.deprecated-carousel-v1-caption-166 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #167 (unused in current page layout) */
+.deprecated-carousel-v1-slide-167,
+.deprecated-carousel-v1-caption-167 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #168 (unused in current page layout) */
+.deprecated-carousel-v1-slide-168,
+.deprecated-carousel-v1-caption-168 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #169 (unused in current page layout) */
+.deprecated-carousel-v1-slide-169,
+.deprecated-carousel-v1-caption-169 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #170 (unused in current page layout) */
+.deprecated-carousel-v1-slide-170,
+.deprecated-carousel-v1-caption-170 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #171 (unused in current page layout) */
+.deprecated-carousel-v1-slide-171,
+.deprecated-carousel-v1-caption-171 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #172 (unused in current page layout) */
+.deprecated-carousel-v1-slide-172,
+.deprecated-carousel-v1-caption-172 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #173 (unused in current page layout) */
+.deprecated-carousel-v1-slide-173,
+.deprecated-carousel-v1-caption-173 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #174 (unused in current page layout) */
+.deprecated-carousel-v1-slide-174,
+.deprecated-carousel-v1-caption-174 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #175 (unused in current page layout) */
+.deprecated-carousel-v1-slide-175,
+.deprecated-carousel-v1-caption-175 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #176 (unused in current page layout) */
+.deprecated-carousel-v1-slide-176,
+.deprecated-carousel-v1-caption-176 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #177 (unused in current page layout) */
+.deprecated-carousel-v1-slide-177,
+.deprecated-carousel-v1-caption-177 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #178 (unused in current page layout) */
+.deprecated-carousel-v1-slide-178,
+.deprecated-carousel-v1-caption-178 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #179 (unused in current page layout) */
+.deprecated-carousel-v1-slide-179,
+.deprecated-carousel-v1-caption-179 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #180 (unused in current page layout) */
+.deprecated-carousel-v1-slide-180,
+.deprecated-carousel-v1-caption-180 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #181 (unused in current page layout) */
+.deprecated-carousel-v1-slide-181,
+.deprecated-carousel-v1-caption-181 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #182 (unused in current page layout) */
+.deprecated-carousel-v1-slide-182,
+.deprecated-carousel-v1-caption-182 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #183 (unused in current page layout) */
+.deprecated-carousel-v1-slide-183,
+.deprecated-carousel-v1-caption-183 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #184 (unused in current page layout) */
+.deprecated-carousel-v1-slide-184,
+.deprecated-carousel-v1-caption-184 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #185 (unused in current page layout) */
+.deprecated-carousel-v1-slide-185,
+.deprecated-carousel-v1-caption-185 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #186 (unused in current page layout) */
+.deprecated-carousel-v1-slide-186,
+.deprecated-carousel-v1-caption-186 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #187 (unused in current page layout) */
+.deprecated-carousel-v1-slide-187,
+.deprecated-carousel-v1-caption-187 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #188 (unused in current page layout) */
+.deprecated-carousel-v1-slide-188,
+.deprecated-carousel-v1-caption-188 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #189 (unused in current page layout) */
+.deprecated-carousel-v1-slide-189,
+.deprecated-carousel-v1-caption-189 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #190 (unused in current page layout) */
+.deprecated-carousel-v1-slide-190,
+.deprecated-carousel-v1-caption-190 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #191 (unused in current page layout) */
+.deprecated-carousel-v1-slide-191,
+.deprecated-carousel-v1-caption-191 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #192 (unused in current page layout) */
+.deprecated-carousel-v1-slide-192,
+.deprecated-carousel-v1-caption-192 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #193 (unused in current page layout) */
+.deprecated-carousel-v1-slide-193,
+.deprecated-carousel-v1-caption-193 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #194 (unused in current page layout) */
+.deprecated-carousel-v1-slide-194,
+.deprecated-carousel-v1-caption-194 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #195 (unused in current page layout) */
+.deprecated-carousel-v1-slide-195,
+.deprecated-carousel-v1-caption-195 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #196 (unused in current page layout) */
+.deprecated-carousel-v1-slide-196,
+.deprecated-carousel-v1-caption-196 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #197 (unused in current page layout) */
+.deprecated-carousel-v1-slide-197,
+.deprecated-carousel-v1-caption-197 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #198 (unused in current page layout) */
+.deprecated-carousel-v1-slide-198,
+.deprecated-carousel-v1-caption-198 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #199 (unused in current page layout) */
+.deprecated-carousel-v1-slide-199,
+.deprecated-carousel-v1-caption-199 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #200 (unused in current page layout) */
+.deprecated-carousel-v1-slide-200,
+.deprecated-carousel-v1-caption-200 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #201 (unused in current page layout) */
+.deprecated-carousel-v1-slide-201,
+.deprecated-carousel-v1-caption-201 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #202 (unused in current page layout) */
+.deprecated-carousel-v1-slide-202,
+.deprecated-carousel-v1-caption-202 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #203 (unused in current page layout) */
+.deprecated-carousel-v1-slide-203,
+.deprecated-carousel-v1-caption-203 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #204 (unused in current page layout) */
+.deprecated-carousel-v1-slide-204,
+.deprecated-carousel-v1-caption-204 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #205 (unused in current page layout) */
+.deprecated-carousel-v1-slide-205,
+.deprecated-carousel-v1-caption-205 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #206 (unused in current page layout) */
+.deprecated-carousel-v1-slide-206,
+.deprecated-carousel-v1-caption-206 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #207 (unused in current page layout) */
+.deprecated-carousel-v1-slide-207,
+.deprecated-carousel-v1-caption-207 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #208 (unused in current page layout) */
+.deprecated-carousel-v1-slide-208,
+.deprecated-carousel-v1-caption-208 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #209 (unused in current page layout) */
+.deprecated-carousel-v1-slide-209,
+.deprecated-carousel-v1-caption-209 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #210 (unused in current page layout) */
+.deprecated-carousel-v1-slide-210,
+.deprecated-carousel-v1-caption-210 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #211 (unused in current page layout) */
+.deprecated-carousel-v1-slide-211,
+.deprecated-carousel-v1-caption-211 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #212 (unused in current page layout) */
+.deprecated-carousel-v1-slide-212,
+.deprecated-carousel-v1-caption-212 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #213 (unused in current page layout) */
+.deprecated-carousel-v1-slide-213,
+.deprecated-carousel-v1-caption-213 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #214 (unused in current page layout) */
+.deprecated-carousel-v1-slide-214,
+.deprecated-carousel-v1-caption-214 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #215 (unused in current page layout) */
+.deprecated-carousel-v1-slide-215,
+.deprecated-carousel-v1-caption-215 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #216 (unused in current page layout) */
+.deprecated-carousel-v1-slide-216,
+.deprecated-carousel-v1-caption-216 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #217 (unused in current page layout) */
+.deprecated-carousel-v1-slide-217,
+.deprecated-carousel-v1-caption-217 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #218 (unused in current page layout) */
+.deprecated-carousel-v1-slide-218,
+.deprecated-carousel-v1-caption-218 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #219 (unused in current page layout) */
+.deprecated-carousel-v1-slide-219,
+.deprecated-carousel-v1-caption-219 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #220 (unused in current page layout) */
+.deprecated-carousel-v1-slide-220,
+.deprecated-carousel-v1-caption-220 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #221 (unused in current page layout) */
+.deprecated-carousel-v1-slide-221,
+.deprecated-carousel-v1-caption-221 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #222 (unused in current page layout) */
+.deprecated-carousel-v1-slide-222,
+.deprecated-carousel-v1-caption-222 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #223 (unused in current page layout) */
+.deprecated-carousel-v1-slide-223,
+.deprecated-carousel-v1-caption-223 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #224 (unused in current page layout) */
+.deprecated-carousel-v1-slide-224,
+.deprecated-carousel-v1-caption-224 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #225 (unused in current page layout) */
+.deprecated-carousel-v1-slide-225,
+.deprecated-carousel-v1-caption-225 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #226 (unused in current page layout) */
+.deprecated-carousel-v1-slide-226,
+.deprecated-carousel-v1-caption-226 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #227 (unused in current page layout) */
+.deprecated-carousel-v1-slide-227,
+.deprecated-carousel-v1-caption-227 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #228 (unused in current page layout) */
+.deprecated-carousel-v1-slide-228,
+.deprecated-carousel-v1-caption-228 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #229 (unused in current page layout) */
+.deprecated-carousel-v1-slide-229,
+.deprecated-carousel-v1-caption-229 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #230 (unused in current page layout) */
+.deprecated-carousel-v1-slide-230,
+.deprecated-carousel-v1-caption-230 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #231 (unused in current page layout) */
+.deprecated-carousel-v1-slide-231,
+.deprecated-carousel-v1-caption-231 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #232 (unused in current page layout) */
+.deprecated-carousel-v1-slide-232,
+.deprecated-carousel-v1-caption-232 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #233 (unused in current page layout) */
+.deprecated-carousel-v1-slide-233,
+.deprecated-carousel-v1-caption-233 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #234 (unused in current page layout) */
+.deprecated-carousel-v1-slide-234,
+.deprecated-carousel-v1-caption-234 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #235 (unused in current page layout) */
+.deprecated-carousel-v1-slide-235,
+.deprecated-carousel-v1-caption-235 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #236 (unused in current page layout) */
+.deprecated-carousel-v1-slide-236,
+.deprecated-carousel-v1-caption-236 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #237 (unused in current page layout) */
+.deprecated-carousel-v1-slide-237,
+.deprecated-carousel-v1-caption-237 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #238 (unused in current page layout) */
+.deprecated-carousel-v1-slide-238,
+.deprecated-carousel-v1-caption-238 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #239 (unused in current page layout) */
+.deprecated-carousel-v1-slide-239,
+.deprecated-carousel-v1-caption-239 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #240 (unused in current page layout) */
+.deprecated-carousel-v1-slide-240,
+.deprecated-carousel-v1-caption-240 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #241 (unused in current page layout) */
+.deprecated-carousel-v1-slide-241,
+.deprecated-carousel-v1-caption-241 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #242 (unused in current page layout) */
+.deprecated-carousel-v1-slide-242,
+.deprecated-carousel-v1-caption-242 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #243 (unused in current page layout) */
+.deprecated-carousel-v1-slide-243,
+.deprecated-carousel-v1-caption-243 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #244 (unused in current page layout) */
+.deprecated-carousel-v1-slide-244,
+.deprecated-carousel-v1-caption-244 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #245 (unused in current page layout) */
+.deprecated-carousel-v1-slide-245,
+.deprecated-carousel-v1-caption-245 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #246 (unused in current page layout) */
+.deprecated-carousel-v1-slide-246,
+.deprecated-carousel-v1-caption-246 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #247 (unused in current page layout) */
+.deprecated-carousel-v1-slide-247,
+.deprecated-carousel-v1-caption-247 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #248 (unused in current page layout) */
+.deprecated-carousel-v1-slide-248,
+.deprecated-carousel-v1-caption-248 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #249 (unused in current page layout) */
+.deprecated-carousel-v1-slide-249,
+.deprecated-carousel-v1-caption-249 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #250 (unused in current page layout) */
+.deprecated-carousel-v1-slide-250,
+.deprecated-carousel-v1-caption-250 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #251 (unused in current page layout) */
+.deprecated-carousel-v1-slide-251,
+.deprecated-carousel-v1-caption-251 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #252 (unused in current page layout) */
+.deprecated-carousel-v1-slide-252,
+.deprecated-carousel-v1-caption-252 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #253 (unused in current page layout) */
+.deprecated-carousel-v1-slide-253,
+.deprecated-carousel-v1-caption-253 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #254 (unused in current page layout) */
+.deprecated-carousel-v1-slide-254,
+.deprecated-carousel-v1-caption-254 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #255 (unused in current page layout) */
+.deprecated-carousel-v1-slide-255,
+.deprecated-carousel-v1-caption-255 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #256 (unused in current page layout) */
+.deprecated-carousel-v1-slide-256,
+.deprecated-carousel-v1-caption-256 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #257 (unused in current page layout) */
+.deprecated-carousel-v1-slide-257,
+.deprecated-carousel-v1-caption-257 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #258 (unused in current page layout) */
+.deprecated-carousel-v1-slide-258,
+.deprecated-carousel-v1-caption-258 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #259 (unused in current page layout) */
+.deprecated-carousel-v1-slide-259,
+.deprecated-carousel-v1-caption-259 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}
+
+/* Deprecated carousel slide theme #260 (unused in current page layout) */
+.deprecated-carousel-v1-slide-260,
+.deprecated-carousel-v1-caption-260 {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 12px 16px 12px 16px;
+    margin: 4px 8px 4px 8px;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+}

@@ -5,11 +5,14 @@ const router = Router();
 const { OpenAI } = require('openai');
 const authenticateToken = require('../middleware/authMiddleware');
 
-// Initialize OpenAI client targeting Google AI Studio's Gemini Endpoint
-const openai = new OpenAI({
-    apiKey: process.env.AI_API_KEY,
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
-});
+// Initialize OpenAI client lazily so missing AI_API_KEY does not crash server startup
+function getOpenAiClient() {
+    if (!process.env.AI_API_KEY) return null;
+    return new OpenAI({
+        apiKey: process.env.AI_API_KEY,
+        baseURL: process.env.AI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai/"
+    });
+}
 
 console.log('[INIT] AI Client configured - API Key:', process.env.AI_API_KEY ? 'SET' : 'MISSING');
 
@@ -70,6 +73,10 @@ async function fetchAiAdvice(metrics) {
     console.log('🔄 [AI] Making API call to Gemini with model: gemini-2.5-flash');
     console.log('─'.repeat(80));
     try {
+        const openai = getOpenAiClient();
+        if (!openai) {
+            throw new Error('AI_API_KEY is not configured.');
+        }
         const response = await openai.chat.completions.create({
             model: "gemini-2.5-flash", 
             messages: [

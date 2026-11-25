@@ -6,6 +6,13 @@ const dotenv = require('dotenv');
 const analysisRoutes = require('./routes/analysis');
 const { router: recommendationsRouter } = require('./routes/recommendations');
 const { ensureHistoryColumns } = require('./services/dbService');
+const { ensureV2Tables } = require('./services/v2DbService');
+const v2AgentRoutes = require('./routes/v2Agent');
+const v2SimulationsRoutes = require('./routes/v2Simulations');
+const v2OptimizationRoutes = require('./routes/v2Optimization');
+const v2ValidationRoutes = require('./routes/v2Validation');
+const v2MlRoutes = require('./routes/v2Ml');
+const { ORIGINAL_DIR, OPTIMIZED_DIR } = require('./services/optimizationService');
 
 dotenv.config({ path: path.join(__dirname, '.env'), override: true });
 
@@ -61,14 +68,36 @@ app.use('/auth', authRoutes);
 app.use('/analysis', analysisRoutes);
 app.use('/recommendations', recommendationsRouter);
 
+// CarbonLens 2.0 API Routes (v1 routes above remain 100% intact)
+app.use('/api/v2/agent', v2AgentRoutes);
+app.use('/api/v2/simulations', v2SimulationsRoutes);
+app.use('/api/v2/optimization', v2OptimizationRoutes);
+app.use('/api/v2/validation', v2ValidationRoutes);
+app.use('/api/v2/ml', v2MlRoutes);
+
+// Controlled Test Website static hosting for Module 3 & Module 4 (no-cache so Playwright measures actual transfer)
+const controlledStaticOpts = {
+    etag: false,
+    lastModified: false,
+    setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'no-store');
+    },
+};
+app.use('/controlled-site/original', express.static(ORIGINAL_DIR, controlledStaticOpts));
+app.use('/controlled-site/optimized', express.static(OPTIMIZED_DIR, controlledStaticOpts));
+
 app.get('/', (req, res) => {
-    res.send('CarbonLens Backend is working!');
+    res.send('CarbonLens 2.0 Backend is working!');
 });
 
 ensureHistoryColumns()
-    .then(() => console.log('Analysis history columns ready.'))
+    .then(() => {
+        console.log('Analysis history columns ready.');
+        return ensureV2Tables();
+    })
+    .then(() => console.log('CarbonLens 2.0 database tables ready.'))
     .catch((error) => {
-        console.error('Failed to ensure history columns:', error.message);
+        console.error('Failed to ensure database tables/columns:', error.message);
     });
 
 app.listen(PORT, () => {

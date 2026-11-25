@@ -31,11 +31,80 @@ function extractDomain(url) {
     }
 }
 
+const ENERGY_KWH_PER_GB = 0.06;
+const CARBON_INTENSITY_GREEN = 312;
+const CARBON_INTENSITY_STANDARD = 442;
+const SCORE_DECAY_COEFFICIENT = 0.15;
+
+function calculateGrade(score) {
+    if (score >= 95) return 'A+';
+    if (score >= 90) return 'A';
+    if (score >= 80) return 'B';
+    if (score >= 65) return 'C';
+    if (score >= 50) return 'D';
+    if (score >= 35) return 'E';
+    return 'F';
+}
+
+function isLocalOrPrivateHost(domain) {
+    const clean = String(domain || '').toLowerCase().trim();
+    return (
+        clean === 'localhost' ||
+        clean === '127.0.0.1' ||
+        clean === '::1' ||
+        clean.endsWith('.local') ||
+        /^10\./.test(clean) ||
+        /^192\.168\./.test(clean)
+    );
+}
+
+/**
+ * Pure, deterministic CarbonLens sustainability calculation engine.
+ * Reused across live scans, What-if simulations, and Before-and-After validation.
+ * Note: Energy and CO2 outputs are calculated estimates, not direct physical measurements.
+ */
+function calculateSustainabilityMetrics({ totalBytes = 0, isGreenHost = false } = {}) {
+    const safeBytes = Math.max(0, Number(totalBytes) || 0);
+    const totalWeightMB = safeBytes / (1024 * 1024);
+    const totalWeightGB = safeBytes / (1024 * 1024 * 1024);
+    const green = Boolean(isGreenHost);
+
+    const energyUsedKWh = totalWeightGB * ENERGY_KWH_PER_GB;
+    const carbonIntensity = green ? CARBON_INTENSITY_GREEN : CARBON_INTENSITY_STANDARD;
+    const co2RawGrams = energyUsedKWh * carbonIntensity;
+    const co2EstimateGrams = parseFloat(co2RawGrams.toFixed(4)) || 0;
+    const carbonScore = Math.round(100 * Math.exp(-SCORE_DECAY_COEFFICIENT * totalWeightMB));
+    const grade = calculateGrade(carbonScore);
+
+    return {
+        totalBytes: safeBytes,
+        pageWeightMB: totalWeightMB,
+        totalWeightGB,
+        energyUsedKWh: Number(energyUsedKWh.toFixed(8)),
+        carbonIntensity,
+        co2EstimateGrams,
+        co2EstimateGramsPrecise: Number(co2RawGrams.toFixed(6)),
+        carbonScore,
+        grade,
+        isGreenHost: green,
+        methodology: {
+            type: 'CALCULATED_ESTIMATE',
+            energyPerGBKWh: ENERGY_KWH_PER_GB,
+            carbonIntensityGPerKWh: carbonIntensity,
+            scoreFormula: 'round(100 * exp(-0.15 * pageWeightMB))',
+        },
+    };
+}
+
 /**
  * Checks if a host domain operates on renewable green energy grids
  */
 async function checkGreenHosting(url) {
     const domain = extractDomain(url);
+
+    if (isLocalOrPrivateHost(domain)) {
+        return false;
+    }
     
     // Debug log to see exactly what string is being thrown at the API socket
     console.log(`[Greencheck Vector] Querying clean hostname: "${domain}"`);
@@ -64,33 +133,28 @@ async function checkGreenHosting(url) {
  * @param {object} speedMetrics - speedMetrics from analyzeUrlPerformanceOnly()
  */
 async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}, options = {}) {
-    // 1. Convert raw bytes from Playwright into Gigabytes (GB)
     const totalBytes = Number(rawMetrics?.totalBytes) || 0;
-    const totalWeightMB = totalBytes / (1024 * 1024);
-    const totalWeightGB = totalBytes / (1024 * 1024 * 1024);
 
-    // 2. Green Web API hosting check (can be pre-fetched in parallel with the browser scan)
+    // Green Web API hosting check (can be pre-fetched in parallel with the browser scan)
     const isGreenHost =
         typeof options.isGreenHost === 'boolean'
             ? options.isGreenHost
             : await checkGreenHosting(url);
 
-    // 3. DAY 8 FORMULA: Calculate total energy based on the 0.06 kWh per GB constant
-    const energyPerGB = 0.06; 
-    const energyUsedKWh = totalWeightGB * energyPerGB;
-
-    // 4. CHOOSE GRID INTENSITY BASED ON GREEN WEB API RESULT
-    const carbonIntensity = isGreenHost ? 312 : 442;
-    
-    // 5. Calculate final grams of CO2
-    const co2EstimateGrams = (energyUsedKWh * carbonIntensity).toFixed(4);
+    const calc = calculateSustainabilityMetrics({ totalBytes, isGreenHost });
 
     return {
-        // Existing sustainability / page-weight metrics
-        pageWeightMB: totalWeightMB,
-        carbonScore: Math.round(100 * Math.exp(-0.15 * totalWeightMB)),
-        co2EstimateGrams: parseFloat(co2EstimateGrams) || 0,
-        isGreenHost: isGreenHost,
+        // Existing sustainability / page-weight metrics (100% backward-compatible)
+        pageWeightMB: calc.pageWeightMB,
+        carbonScore: calc.carbonScore,
+        co2EstimateGrams: calc.co2EstimateGrams,
+        isGreenHost: calc.isGreenHost,
+
+        // CarbonLens 2.0 additive calculated-estimate fields
+        energyUsedKWh: calc.energyUsedKWh,
+        carbonIntensity: calc.carbonIntensity,
+        co2EstimateGramsPrecise: calc.co2EstimateGramsPrecise,
+        grade: calc.grade,
 
         // Phase 3 Speed Metrics
         timeToFirstByteMs: Number(speedMetrics?.timeToFirstByteMs) || 0,
@@ -100,4 +164,14 @@ async function normalizeAnalysisData(url, rawMetrics, speedMetrics = {}, options
     };
 }
 
-module.exports = { normalizeAnalysisData, checkGreenHosting };
+module.exports = {
+    normalizeAnalysisData,
+    checkGreenHosting,
+    calculateSustainabilityMetrics,
+    calculateGrade,
+    extractDomain,
+    ENERGY_KWH_PER_GB,
+    CARBON_INTENSITY_GREEN,
+    CARBON_INTENSITY_STANDARD,
+    SCORE_DECAY_COEFFICIENT,
+};

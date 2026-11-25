@@ -1,0 +1,201 @@
+{
+  "generatedAt": "2026-11-25T18:37:11.095Z",
+  "filesystem": {
+    "original": {
+      "totalFiles": 14,
+      "totalBytes": 18256665,
+      "imageBytes": 17925665,
+      "imageCount": 7,
+      "javascriptBytes": 116808,
+      "javascriptCount": 3,
+      "cssBytes": 207398,
+      "cssCount": 3,
+      "htmlBytes": 6794,
+      "htmlCount": 1,
+      "otherBytes": 0,
+      "otherCount": 0,
+      "htmlAndOtherBytes": 6794,
+      "htmlAndOtherCount": 1,
+      "reconciled": true
+    },
+    "optimized": {
+      "totalFiles": 12,
+      "totalBytes": 170946,
+      "imageBytes": 156878,
+      "imageCount": 7,
+      "javascriptBytes": 3211,
+      "javascriptCount": 2,
+      "cssBytes": 4024,
+      "cssCount": 2,
+      "htmlBytes": 6833,
+      "htmlCount": 1,
+      "otherBytes": 0,
+      "otherCount": 0,
+      "htmlAndOtherBytes": 6833,
+      "htmlAndOtherCount": 1,
+      "reconciled": true
+    },
+    "comparison": {
+      "measurementSource": "filesystem_recursive_scan",
+      "measurementType": "MEASURED",
+      "reconciliationVerified": true,
+      "total": {
+        "originalBytes": 18256665,
+        "optimizedBytes": 170946,
+        "bytesSaved": 18085719,
+        "reductionPct": 99.06,
+        "originalFiles": 14,
+        "optimizedFiles": 12
+      },
+      "byCategory": {
+        "images": {
+          "originalBytes": 17925665,
+          "optimizedBytes": 156878,
+          "bytesSaved": 17768787,
+          "reductionPct": 99.12,
+          "originalCount": 7,
+          "optimizedCount": 7
+        },
+        "javascript": {
+          "originalBytes": 116808,
+          "optimizedBytes": 3211,
+          "bytesSaved": 113597,
+          "reductionPct": 97.25,
+          "originalCount": 3,
+          "optimizedCount": 2
+        },
+        "css": {
+          "originalBytes": 207398,
+          "optimizedBytes": 4024,
+          "bytesSaved": 203374,
+          "reductionPct": 98.06,
+          "originalCount": 3,
+          "optimizedCount": 2
+        },
+        "htmlAndOther": {
+          "originalBytes": 6794,
+          "optimizedBytes": 6833,
+          "bytesSaved": -39,
+          "reductionPct": -0.57,
+          "originalCount": 1,
+          "optimizedCount": 1
+        }
+      }
+    }
+  },
+  "browserMeasuredAndCalculated": {
+    "measurementTimestamp": "2026-11-25T18:36:55.411Z",
+    "measurementSource": "playwright_chromium_network_and_timing",
+    "original": {
+      "url": "http://127.0.0.1:5000/controlled-site/original/",
+      "measuredBrowser": {
+        "provenance": "MEASURED",
+        "totalBytes": 18256665,
+        "pageWeightMB": 17.4109,
+        "totalRequests": 14,
+        "thirdPartyRequests": 0,
+        "imageBytes": 17925665,
+        "imageCount": 7,
+        "scriptBytes": 116808,
+        "scriptCount": 3,
+        "styleBytes": 207398,
+        "styleCount": 3,
+        "fontBytes": 0,
+        "fontCount": 0,
+        "otherBytes": 6794,
+        "otherCount": 1,
+        "timeToFirstByteMs": 23,
+        "domContentLoadedMs": 1274,
+        "pageLoadTimeMs": 1700,
+        "failedRequests": 0
+      },
+      "calculatedEstimates": {
+        "provenance": "CALCULATED",
+        "energyUsedKWh": 0.00102017,
+        "co2EstimateGrams": 0.4509,
+        "co2EstimateGramsPrecise": 0.450915,
+        "carbonScore": 7,
+        "grade": "F",
+        "carbonIntensity": 442
+      },
+      "browserConfig": {
+        "browser": "chromium",
+        "browserVersion": "149.0.7827.55",
+        "headless": true,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "waitUntil": "load",
+        "settleMs": 600,
+        "disableCache": true
+      }
+    },
+    "optimized": {
+      "url": "http://127.0.0.1:5000/controlled-site/optimized/",
+      "measuredBrowser": {
+        "provenance": "MEASURED",
+        "totalBytes": 170946,
+        "pageWeightMB": 0.163,
+        "totalRequests": 12,
+        "thirdPartyRequests": 0,
+        "imageBytes": 156878,
+        "imageCount": 7,
+        "scriptBytes": 3211,
+        "scriptCount": 2,
+        "styleBytes": 4024,
+        "styleCount": 2,
+        "fontBytes": 0,
+        "fontCount": 0,
+        "otherBytes": 6833,
+        "otherCount": 1,
+        "timeToFirstByteMs": 29,
+        "domContentLoadedMs": 339,
+        "pageLoadTimeMs": 401,
+        "failedRequests": 0
+      },
+      "calculatedEstimates": {
+        "provenance": "CALCULATED",
+        "energyUsedKWh": 0.00000955,
+        "co2EstimateGrams": 0.0042,
+        "co2EstimateGramsPrecise": 0.004222,
+        "carbonScore": 98,
+        "grade": "A+",
+        "carbonIntensity": 442
+      },
+      "browserConfig": {
+        "browser": "chromium",
+        "browserVersion": "149.0.7827.55",
+        "headless": true,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "waitUntil": "load",
+        "settleMs": 600,
+        "disableCache": true
+      }
+    },
+    "comparison": {
+      "transferredBytesSaved": 18085719,
+      "transferredReductionPct": 99.06,
+      "requestsSaved": 2,
+      "energySavedKWh": 0.00101062,
+      "co2SavedGrams": 0.446693,
+      "scoreDelta": 91
+    }
+  },
+  "interactiveEstimatorAt10000Visits": {
+    "original": {
+      "measuredMb": 17.4149,
+      "sourceNotice": "Measured in browser Performance API: 17.4149 MB (18,260,865 bytes across 14 loaded resource(s))",
+      "output": "Estimated monthly transfer: 170.07 GB | Calculated energy estimate: 10.2040 kWh | Calculated CO2 estimate: 4.5102 kg CO2"
+    },
+    "optimized": {
+      "measuredMb": 0.1665,
+      "sourceNotice": "Measured in browser Performance API: 0.1665 MB (174,546 bytes across 12 loaded resource(s))",
+      "output": "Estimated monthly transfer: 1.63 GB | Calculated energy estimate: 0.0976 kWh | Calculated CO2 estimate: 0.0431 kg CO2"
+    }
+  },
+  "optimizationRunId": 15
+}

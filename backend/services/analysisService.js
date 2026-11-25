@@ -33,11 +33,36 @@ const SEO_MAX_METADATA_PAGES = Number(process.env.SEO_MAX_METADATA_PAGES) || 8;
 
 /**
  * METHOD 1: Lightning Fast Performance Profile Scan
+ * Backward-compatible with analyzeUrlPerformanceOnly(url).
+ * Optional second argument `options` enables reproducible controlled experiments:
+ *   - viewport: { width, height } (default { width: 1280, height: 720 })
+ *   - waitUntil: 'domcontentloaded' | 'load' (default 'domcontentloaded')
+ *   - settleMs: number (default PERFORMANCE_SETTLE_MS)
+ *   - disableCache: boolean (default true)
+ *   - captureAssetDetails: boolean (default false)
  */
-async function analyzeUrlPerformanceOnly(url) {
+async function analyzeUrlPerformanceOnly(url, options = {}) {
     const rootOrigin = new URL(url).origin;
+    const viewport = options.viewport || { width: 1280, height: 720 };
+    const waitUntil = options.waitUntil || 'domcontentloaded';
+    const settleMs = options.settleMs != null ? Number(options.settleMs) : PERFORMANCE_SETTLE_MS;
+    const disableCache = options.disableCache !== false;
+    const captureAssetDetails = Boolean(options.captureAssetDetails);
+
     const browser = await chromium.launch(CHROMIUM_LAUNCH_OPTIONS);
-    const page = await browser.newPage();
+    const context = await browser.newContext({
+        viewport,
+        bypassCSP: false,
+    });
+    const page = await context.newPage();
+
+    if (disableCache) {
+        try {
+            const cdp = await context.newCDPSession(page);
+            await cdp.send('Network.enable');
+            await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
+        } catch (_) {}
+    }
 
     let metrics = {
         totalBytes: 0,
@@ -50,34 +75,74 @@ async function analyzeUrlPerformanceOnly(url) {
         styleCount: 0,
         styleBytes: 0,
         fontCount: 0,
-        fontBytes: 0
+        fontBytes: 0,
+        otherCount: 0,
+        otherBytes: 0,
     };
 
+    const assetDetails = [];
+    const pendingSizeReads = [];
+
     page.on('response', (response) => {
-        try {
-            const headers = response.headers();
-            const len = headers['content-length'] ? parseInt(headers['content-length'], 10) : 0;
-            const resUrl = response.url();
-            const type = response.request().resourceType();
+        const task = (async () => {
+            try {
+                const headers = response.headers();
+                const resUrl = response.url();
+                const type = response.request().resourceType();
+                const status = response.status();
 
-            metrics.totalBytes += Number.isFinite(len) ? len : 0;
-            metrics.totalRequests += 1;
-            if (!resUrl.includes(rootOrigin)) metrics.thirdPartyRequests += 1;
+                let len = headers['content-length'] ? parseInt(headers['content-length'], 10) : NaN;
+                if (!Number.isFinite(len) || len < 0) {
+                    if (status >= 200 && status < 300) {
+                        try {
+                            const body = await response.body();
+                            len = body ? body.length : 0;
+                        } catch {
+                            len = 0;
+                        }
+                    } else {
+                        len = 0;
+                    }
+                }
 
-            if (type === 'image') {
-                metrics.imageCount += 1;
-                metrics.imageBytes += len || 0;
-            } else if (type === 'script') {
-                metrics.scriptCount += 1;
-                metrics.scriptBytes += len || 0;
-            } else if (type === 'stylesheet') {
-                metrics.styleCount += 1;
-                metrics.styleBytes += len || 0;
-            } else if (type === 'font') {
-                metrics.fontCount += 1;
-                metrics.fontBytes += len || 0;
-            }
-        } catch (_) {}
+                const safeLen = Number.isFinite(len) && len >= 0 ? len : 0;
+                metrics.totalBytes += safeLen;
+                metrics.totalRequests += 1;
+                const isThirdParty = !resUrl.startsWith(rootOrigin);
+                if (isThirdParty) metrics.thirdPartyRequests += 1;
+
+                if (type === 'image') {
+                    metrics.imageCount += 1;
+                    metrics.imageBytes += safeLen;
+                } else if (type === 'script') {
+                    metrics.scriptCount += 1;
+                    metrics.scriptBytes += safeLen;
+                } else if (type === 'stylesheet') {
+                    metrics.styleCount += 1;
+                    metrics.styleBytes += safeLen;
+                } else if (type === 'font') {
+                    metrics.fontCount += 1;
+                    metrics.fontBytes += safeLen;
+                } else {
+                    metrics.otherCount += 1;
+                    metrics.otherBytes += safeLen;
+                }
+
+                if (captureAssetDetails) {
+                    assetDetails.push({
+                        url: resUrl,
+                        resourceType: type,
+                        status,
+                        bytes: safeLen,
+                        contentType: headers['content-type'] || '',
+                        cacheControl: headers['cache-control'] || '',
+                        contentEncoding: headers['content-encoding'] || '',
+                        isThirdParty,
+                    });
+                }
+            } catch (_) {}
+        })();
+        pendingSizeReads.push(task);
     });
 
     // Skip heavy streams — they slow the scan without affecting carbon metrics much.
@@ -91,12 +156,13 @@ async function analyzeUrlPerformanceOnly(url) {
 
     try {
         await page.goto(url, {
-            waitUntil: 'domcontentloaded',
+            waitUntil,
             timeout: PERFORMANCE_GOTO_TIMEOUT_MS,
         });
 
-        // Short fixed settle — counts in-flight assets without waiting for full load/networkidle.
-        await new Promise((resolve) => setTimeout(resolve, PERFORMANCE_SETTLE_MS));
+        // Fixed settle window for in-flight assets
+        await new Promise((resolve) => setTimeout(resolve, settleMs));
+        await Promise.allSettled(pendingSizeReads);
 
         const timingMetrics = await page.evaluate(() => {
             const [entry] = performance.getEntriesByType('navigation');
@@ -104,8 +170,6 @@ async function analyzeUrlPerformanceOnly(url) {
 
             if (!timing) return null;
 
-            // For PerformanceNavigationTiming, values are already relative to navigation start
-            // For legacy performance.timing, subtract navigationStart
             const baseTime = entry ? 0 : timing.navigationStart;
 
             const ttfb = entry
@@ -127,9 +191,6 @@ async function analyzeUrlPerformanceOnly(url) {
             };
         });
 
-        // 3. Calculate estimated 4G latency from transferred bytes
-        // Baseline: 25 Mbps download = 3,276,800 bytes/sec
-        // Fixed RTT overhead = 40ms
         const totalBytes = metrics.totalBytes || 0;
         const speed4GBytesPerSec = (25 * 1024 * 1024) / 8; // 3,276,800 bytes/sec
         const networkRttOverheadMs = 40;
@@ -137,6 +198,8 @@ async function analyzeUrlPerformanceOnly(url) {
         const calculated4GLatencyMs = Math.round(
             ((totalBytes / speed4GBytesPerSec) * 1000) + networkRttOverheadMs
         );
+
+        const browserVersion = browser.version();
 
         return {
             networkMetrics: {
@@ -150,7 +213,9 @@ async function analyzeUrlPerformanceOnly(url) {
                 styleCount: metrics.styleCount,
                 styleBytes: metrics.styleBytes,
                 fontCount: metrics.fontCount,
-                fontBytes: metrics.fontBytes
+                fontBytes: metrics.fontBytes,
+                otherCount: metrics.otherCount,
+                otherBytes: metrics.otherBytes,
             },
             speedMetrics: {
                 timeToFirstByteMs: Math.round(timingMetrics?.ttfb || 0),
@@ -161,7 +226,17 @@ async function analyzeUrlPerformanceOnly(url) {
                         : timingMetrics?.domReady) || 0
                 ),
                 estimated4gLatencyMs: calculated4GLatencyMs
-            }
+            },
+            browserConfig: {
+                browser: 'chromium',
+                browserVersion,
+                headless: true,
+                viewport,
+                waitUntil,
+                settleMs,
+                disableCache,
+            },
+            ...(captureAssetDetails ? { assetDetails } : {}),
         };
     } finally {
         await browser.close();

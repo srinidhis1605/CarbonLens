@@ -6,6 +6,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AnalysisResult from "./pages/AnalysisResult";
+import AiAgentPage from "./pages/AiAgentPage";
+import SimulatorPage from "./pages/SimulatorPage";
+import OptimizationPage from "./pages/OptimizationPage";
 
 export default function App() {
   return (
@@ -37,6 +40,30 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AnalysisResult />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agent"
+            element={
+              <ProtectedRoute>
+                <AiAgentPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/simulator"
+            element={
+              <ProtectedRoute>
+                <SimulatorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/optimization"
+            element={
+              <ProtectedRoute>
+                <OptimizationPage />
               </ProtectedRoute>
             }
           />

@@ -233,7 +233,7 @@ export default function AnalysisResult() {
               Record ID: {String(analysisId)}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={handleSeoAudit}
               disabled={loading}
@@ -241,6 +241,18 @@ export default function AnalysisResult() {
             >
               {loading ? "Running..." : seo ? "Re-run SEO audit" : "Run SEO audit"}
             </button>
+            <Link
+              to={`/agent?analysisId=${analysisId}`}
+              className="px-3 py-2 rounded-md border border-brand/40 text-sm font-medium text-brand-dark hover:bg-brand/5"
+            >
+              AI Sustainability Agent
+            </Link>
+            <Link
+              to={`/simulator?analysisId=${analysisId}`}
+              className="px-3 py-2 rounded-md border border-slate-300 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              What-if Simulator
+            </Link>
             <Link
               to="/dashboard"
               className="px-4 py-2 rounded-md border border-slate-300 text-sm font-medium text-slate-700 hover:bg-slate-50"
